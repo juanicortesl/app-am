@@ -1,0 +1,39 @@
+.header {
+  min-height: 12vh;
+  padding: 10px;
+  font-family: Roboto;
+  .title {
+    font-weight: bold;
+    font-size: 2rem;
+    text-transform: uppercase;
+  }
+  .logo {
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  .button {
+    min-width: 150px !important;
+    min-height: 40px !important;
+    border-radius: 20px;
+    margin: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    &.log-in {
+      background-color: white;
+      border: 1px solid rgb(146, 187, 156);
+    }
+    &.sign-up {
+      background-color: rgb(146, 187, 156);
+      border: none;
+    }
+  }
+  .home {
+    font-size: 50px !important;
+  }
+}
+.main {
+  background-color: rgb(239, 241, 246);
+  height: 88vh !important;
+  padding: 5%;
+}
