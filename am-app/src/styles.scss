@@ -11,5 +11,19 @@
   font-size: 3rem;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  h1 {
+    font-weight: normal;
+    font-size: 3rem;
+  }
+  h2 {
+    font-weight: normal;
+    font-size: 2rem;
+  }
+}
