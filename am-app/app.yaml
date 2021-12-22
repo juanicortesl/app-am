@@ -1,0 +1,24 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+  - url: /
+    secure: always
+    static_files: dist/am-app/index.html
+    upload: dist/am-app/index.html
+
+  - url: /
+    static_dir: dist/am-app
+
+    #  Routing rules for resources, css, js, images etc. Any file with format filename.ext
+  - url: /(.*\.(.+))$
+    secure: always
+    static_files: dist/am-app/\1
+    upload: dist/am-app/(.*\.(.+))$
+
+  #  Routing rule for Angular Routing
+  - url: /(.*)
+    secure: always
+    static_files: dist/am-app/index.html
+    upload: dist/am-app/index.html
