@@ -7,9 +7,9 @@
   </div>
   <div class="col-2"></div>
 </div>
-<div class="row justify-content-md-center">
+<div class="row justify-content-md-center" *ngIf="step == 1">
   <div class="col-2"></div>
-  <div class="col-md-8 center profile-form" *ngIf="step == 1">
+  <div class="col-md-8 center profile-form">
     <form [formGroup]="profileForm" class="profile-form">
       <div class="row steps row-margin">Paso 1</div>
       <div class="row row-margin">
@@ -139,5 +139,121 @@
       </div>
     </form>
   </div>
+
+  <div class="col-2"></div>
+</div>
+<div class="row justify-content-md-center" *ngIf="step == 2">
+  <div class="col-1"></div>
+
+  <div class="col-md-10">
+    <div class="row steps row-margin">Paso 2</div>
+    <div class="row justify-content-md-center">
+      <div class="col-12 center mode-selection">
+        <h1>Elige un modo para comenzar</h1>
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-md-5 option-container">
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 option-title center align-middle">Busco</div>
+          <div class="col-sm-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 option-subtitle center align-middle">
+            (Requisito ser mayor de 55 años).
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 option-description align-middle">
+            Descripcion de general. Lorem ipsum dolor sit amet,
+            cotetueradipiscing elit, sed diam nnummy
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+      </div>
+      <div class="col-md-5 option-container">
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div
+            class="col-sm-10 option-title center align-middle"
+            (click)="nextStep()"
+          >
+            Ofrezco
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 option-subtitle center align-middle">
+            (Requisito ser mayor de 18 años).
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 option-description align-middle">
+            Descripciongeneral. Lorem ipsum dolor sit amet, cotetueradipiscing
+            elit, sed diam nnummy
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-1"></div>
+</div>
+<div class="row justify-content-md-center" *ngIf="step == 3">
+  <div class="col-2"></div>
+  <div class="col-md-8 center">
+    <div class="row steps row-margin">Paso 3</div>
+    <div class="row">
+      <div class="col interests-title">Elección áreas de interés</div>
+    </div>
+    <div class="row">
+      <div class="col interests-subtitle">
+        <p>Se pueden escoger todas las que quieras</p>
+        <p>Se puede editar esta información en tu perfil</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-chip-list>
+          <mat-chip
+            *ngFor="let item of interests"
+            [ngClass]="
+              !item.selected ? 'regular-chip' : 'regular-chip selected'
+            "
+            (click)="item.selected = !item.selected"
+          >
+            {{ item.name }} </mat-chip
+          ><input
+            type="text"
+            placeholder="OTROS"
+            [ngModel]="newInterest"
+            (keyup.enter)="addInterest()"
+            (change)="changeInterest($event)"
+          />
+        </mat-chip-list>
+      </div>
+    </div>
+    <div class="row justify-content-md-center row-margin">
+      <div class="col-8"></div>
+      <div class="col-2">
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="profileForm.invalid"
+          (click)="nextStep()"
+        >
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="col-2"></div>
 </div>
