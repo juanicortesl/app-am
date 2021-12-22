@@ -1,0 +1,143 @@
+<div class="row justify-content-md-center">
+  <div class="col-2 icon-big">
+    <i class="bi bi-arrow-left-circle-fill" [routerLink]="'/'"></i>
+  </div>
+  <div class="col-8 center">
+    <h2>Crear cuenta nueva</h2>
+  </div>
+  <div class="col-2"></div>
+</div>
+<div class="row justify-content-md-center">
+  <div class="col-2"></div>
+  <div class="col-md-8 center profile-form" *ngIf="step == 1">
+    <form [formGroup]="profileForm" class="profile-form">
+      <div class="row steps row-margin">Paso 1</div>
+      <div class="row row-margin">
+        Requisitos: Conexión internet – dispositivo con cámara y micrófono
+      </div>
+      <div class="row row-margin">
+        <div class="col-md-6">
+          <input
+            id="first-name"
+            type="text"
+            formControlName="firstName"
+            placeholder="Nombre"
+          />
+        </div>
+        <div class="col-md-6">
+          <input
+            id="last-name"
+            type="text"
+            formControlName="lastName"
+            placeholder="Apellido"
+          />
+        </div>
+      </div>
+      <div class="row row-margin">
+        <div class="col-md-12">
+          <input
+            id="adress"
+            type="text"
+            formControlName="address"
+            placeholder="Direccion"
+          />
+        </div>
+      </div>
+      <div class="row row-margin">
+        <div class="col-md-12">
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Correo electrónico"
+          />
+        </div>
+      </div>
+      <div class="row row-margin">
+        <div class="col-md-12">
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Contraseña"
+          />
+        </div>
+      </div>
+      <div class="row row-margin">
+        <div class="col-md-12">
+          <label for="birthDate">Fecha de nacimiento </label>
+        </div>
+      </div>
+      <div class="row row-margin">
+        <div class="col-md-12">
+          <input
+            id="password"
+            type="date"
+            formControlName="birthDate"
+            placeholder="Fecha de nacimiento"
+          />
+        </div>
+      </div>
+      <div class="row row-margin">
+        <div class="col-md-12">
+          <label for="sex">Sexo </label>
+        </div>
+      </div>
+      <div class="row row-margin">
+        <div class="col-md-12">
+          <mat-button-toggle-group
+            name="fontStyle"
+            aria-label="Font Style"
+            style="width: 100%"
+            formControlName="sex"
+          >
+            <mat-button-toggle
+              value="woman"
+              [ngClass]="
+                profileForm.controls['sex'].value === 'woman'
+                  ? 'button-toggle selected'
+                  : 'button-toggle'
+              "
+              >Mujer</mat-button-toggle
+            >
+            <mat-button-toggle
+              value="man"
+              [ngClass]="
+                profileForm.controls['sex'].value === 'man'
+                  ? 'button-toggle selected'
+                  : 'button-toggle'
+              "
+              >Hombre</mat-button-toggle
+            >
+            <mat-button-toggle
+              value="other"
+              [ngClass]="
+                profileForm.controls['sex'].value === 'other'
+                  ? 'button-toggle selected'
+                  : 'button-toggle'
+              "
+              >Otro</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+      </div>
+      <div class="row justify-content-md-center row-margin">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="row justify-content-md-center">
+            <button
+              type="button"
+              class="btn btn-primary"
+              [disabled]="profileForm.invalid"
+              (click)="nextStep()"
+            >
+              Continuar
+            </button>
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </form>
+  </div>
+  <div class="col-2"></div>
+</div>

@@ -1,0 +1,25 @@
+.steps {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: rgb(136, 160, 213);
+}
+.profile-form {
+  font-size: 1.5rem;
+  text-align: left;
+  input {
+    width: 100%;
+  }
+  .row-margin {
+    margin: 10px 0 10px 0;
+  }
+  .button-toggle {
+    width: 33%;
+    margin: 0 5px 0 5px;
+    border: 1px solid black;
+    &.selected {
+      background-color: rgb(136, 160, 213);
+      color: white;
+    }
+  }
+}
