@@ -7,6 +7,9 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
+  newDate: any;
+  newTime: any;
+  timeList: any[] = [];
   step = 1;
   newInterest = '';
   interests = [
@@ -95,5 +98,13 @@ export class SignUpComponent implements OnInit {
   }
   changeInterest(e: any) {
     this.newInterest = e.target.value;
+  }
+  addTime() {
+    console.log(typeof this.newDate);
+    console.log(typeof this.newTime);
+    if (this.newDate && this.newTime) {
+      console.log(this.newDate + this.newTime);
+      this.timeList.push(new Date(this.newDate + ' ' + this.newTime));
+    }
   }
 }

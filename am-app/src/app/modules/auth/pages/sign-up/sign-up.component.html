@@ -257,3 +257,75 @@
 
   <div class="col-2"></div>
 </div>
+<div class="row justify-content-md-center" *ngIf="step == 4">
+  <div class="col-2"></div>
+  <div class="col-md-8 center">
+    <div class="row steps row-margin">Paso 4</div>
+    <div class="row">
+      <div class="col interests-title">Horario y disponibilidad</div>
+    </div>
+    <div class="row">
+      <div class="col interests-subtitle">
+        <p>Agregar horarios</p>
+
+        <p>
+          Selecciona una fecha y hora. Luego haz click en + para agregar a tu
+          lista de horarios disponibles
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <input
+          id="newDate"
+          type="date"
+          placeholder="Nueva fecha"
+          [(ngModel)]="newDate"
+        />
+      </div>
+      <div class="col-sm-2">
+        <input
+          id="newHour"
+          type="time"
+          placeholder="Nueva hora"
+          [(ngModel)]="newTime"
+        />
+      </div>
+      <div class="col-sm-1 add-icon" (click)="addTime()">
+        <i class="bi bi-plus-circle-fill"></i>
+      </div>
+      <div class="row">
+        <div class="col interests-subtitle">
+          <p>Horarios agregados:</p>
+        </div>
+      </div>
+      <div class="row" *ngFor="let item of timeList; let i = index">
+        <div class="col-md-3">
+          <div class="date">
+            {{ item | date: "dd/MM/yyyy hh:mm" }}
+          </div>
+        </div>
+        <div
+          class="col-md-1 remove-icon align-middle"
+          (click)="timeList.splice(i, 1)"
+        >
+          <i class="bi bi-x-circle-fill"></i>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-md-center row-margin">
+      <div class="col-8"></div>
+      <div class="col-2">
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="profileForm.invalid"
+          (click)="nextStep()"
+        >
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-2"></div>
+</div>
