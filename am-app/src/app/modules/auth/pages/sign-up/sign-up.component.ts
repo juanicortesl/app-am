@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -87,10 +88,13 @@ export class SignUpComponent implements OnInit {
     birthDate: new FormControl(''),
     sex: new FormControl(''),
   });
-  constructor() {}
+  constructor(private router: Router) {}
   ngOnInit(): void {}
   nextStep() {
     this.step++;
+    if (this.step == 5) {
+      this.router.navigate(['dashboard/home']);
+    }
   }
   addInterest() {
     this.interests.push({ name: this.newInterest, selected: false });

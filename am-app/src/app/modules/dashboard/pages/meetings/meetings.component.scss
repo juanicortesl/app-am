@@ -1,0 +1,30 @@
+.meetings-container {
+  display: flex;
+  flex-direction: row;
+  max-height: 11rem;
+  overflow-x: scroll;
+  width: 100%;
+  background-color: transparent;
+  .meeting-card {
+    min-height: 8rem;
+    margin: 1rem;
+    border-radius: 30px;
+    min-width: 14rem;
+    background-color: rgb(65 65 239);
+    .name {
+      font-size: 1.2rem;
+      text-align: center;
+      width: 100%;
+      color: white;
+      text-transform: uppercase;
+      text-decoration: underline;
+    }
+    .date {
+      font-size: 1rem;
+      text-align: center;
+      width: 100%;
+      color: white;
+      text-transform: uppercase;
+    }
+  }
+}

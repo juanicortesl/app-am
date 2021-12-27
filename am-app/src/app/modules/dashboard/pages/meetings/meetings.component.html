@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col">
+    <div class="row pb-5">
+      <div class="page-title">Encuentros</div>
+    </div>
+    <div class="row">
+      <div class="section-title">Próximos</div>
+    </div>
+    <div class="meetings-container">
+      <div class="meeting-card pt-4" *ngFor="let item of nextMeetings">
+        <div class="name">
+          {{ item.name }}
+        </div>
+        <div class="date pt-2">
+          {{ item.date | date: "dd-MMM" }}
+        </div>
+        <div class="date">{{ item.date | date: "HH:mm" }} hrs.</div>
+      </div>
+    </div>
+  </div>
+</div>

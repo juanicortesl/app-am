@@ -1,0 +1,10 @@
+.tab {
+  text-align: center;
+  font-size: 1rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  &.selected {
+    border-radius: 10px;
+    border: 1px solid rgb(146, 187, 156);
+  }
+}
