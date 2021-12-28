@@ -11,9 +11,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule } from '@angular/forms';
+import { SignInComponent } from './pages/sign-in/sign-in.component';
 
 @NgModule({
-  declarations: [AuthComponent, HomeComponent, SignUpComponent],
+  declarations: [AuthComponent, HomeComponent, SignUpComponent, SignInComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,

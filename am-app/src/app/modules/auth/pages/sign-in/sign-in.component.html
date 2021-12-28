@@ -1,0 +1,49 @@
+<div class="row pt-5">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 form-container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <form [formGroup]="signInForm">
+          <div class="row pt-5">
+            <div class="page-title center">Iniciar Sesión</div>
+          </div>
+          <div class="row pt-3">
+            <div class="section-title center">¡Bienvenido de vuelta!</div>
+          </div>
+          <div class="row pt-5">
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="Correo electrónico"
+            />
+          </div>
+          <div class="row pt-2">
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              placeholder="Contraseña"
+            />
+          </div>
+          <div class="row justify-content-md-center pt-3">
+            <div class="col-6"></div>
+            <div class="col-5">
+              <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="signInForm.invalid"
+                (click)="signIn()"
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
