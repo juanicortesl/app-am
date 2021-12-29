@@ -31,7 +31,7 @@ body {
 //header
 
 .header {
-  min-height: 12vh;
+  height: 150px;
   padding: 10px;
   font-family: Roboto;
   .title {
@@ -70,8 +70,9 @@ body {
 }
 .main {
   background-color: rgb(239, 241, 246);
-  min-height: 88vh !important;
-  padding: 5vw 5vw 5vw 5vw !important;
+  height: calc(100vh - 150px) !important;
+  padding: 4vw 4vw 4vw 4vw !important;
+  overflow: hidden;
 }
 
 // general styles
@@ -83,4 +84,21 @@ body {
 .section-title {
   font-size: 1.5rem;
   text-align: left;
+}
+
+//tabs
+.tab {
+  text-align: center;
+  font-size: 1rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  &.selected {
+    border-radius: 10px;
+    border: 1px solid rgb(146, 187, 156);
+  }
+}
+
+// scrollable content keeping header
+.scroll-height {
+  height: calc(90vh - 150px) !important;
 }

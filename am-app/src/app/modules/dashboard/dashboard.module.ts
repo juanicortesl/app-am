@@ -5,13 +5,15 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
+import { SearchMeetingsComponent } from './pages/search-meetings/search-meetings.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     HomeComponent,
-    MeetingsComponent
+    MeetingsComponent,
+    SearchMeetingsComponent
   ],
   imports: [
     CommonModule,

@@ -16,7 +16,11 @@
         </div>
         <div class="date">{{ item.date | date: "HH:mm" }} hrs.</div>
       </div>
-      <div class="meeting-card new" *ngIf="searcherUser">
+      <div
+        class="meeting-card new"
+        *ngIf="searcherUser"
+        [routerLink]="'../search-meetings'"
+      >
         <div class="add-icon pt-4">
           <i class="bi bi-plus-lg"></i>
         </div>
