@@ -56,3 +56,25 @@
     }
   }
 }
+.green-pill {
+  .big {
+    text-align: center !important;
+    font-size: 1.8rem;
+    line-height: 2rem;
+    font-weight: 900;
+    color: rgb(16 19 38);
+  }
+  .small {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: rgb(16 19 38);
+    text-transform: capitalize;
+  }
+  .notification {
+    color: rgb(65 65 239);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+}

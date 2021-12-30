@@ -1,39 +1,200 @@
-<div class="row justify-between">
-  <div class="col-md-10 p-3">
-    <div class="page-title">Encuentra tu próxima experiencia</div>
-  </div>
-  <div class="col-md-1 p-3">
-    <div class="filter-button tab selected">Filtros</div>
-  </div>
-</div>
-<div class="row meetings-container scroll-height">
-  <div class="col-md-4 p-3" *ngFor="let item of availableMeetings">
-    <div class="meeting-card container">
-      <div class="row">
-        <div class="col-md-2 profile-icon">
-          <i class="bi bi-person-circle"></i>
-        </div>
-        <div class="col name">{{ item.name }}</div>
-      </div>
-      <div class="row pt-2 area-title">
-        <div class="col">Intereses</div>
-      </div>
-      <div class="tag-container">
-        <div *ngFor="let interest of item.interests" class="tag">
-          <div>{{ interest }}</div>
-        </div>
-      </div>
-      <div class="row pt-2 area-title">
-        <div class="col">Horario</div>
-      </div>
-      <div class="tag-container">
-        <div class="tag">
-          <div>{{ item.date | date: "dd-MMM-yyy HH:mm" }}</div>
-        </div>
-      </div>
-      <div class="button-container">
-        <div class="button">Solicitar Encuentro</div>
+<section *ngIf="!acceptedMeeting">
+  <div class="row justify-between">
+    <div class="col-md-10 p-3">
+      <div class="page-title">Encuentra tu próxima experiencia</div>
+    </div>
+    <div class="col-md-1 p-3">
+      <div class="filter-button tab selected" (click)="openFilters()">
+        Filtros
       </div>
     </div>
   </div>
-</div>
+  <div class="row meetings-container scroll-height">
+    <div class="col-md-4 p-3" *ngFor="let item of availableMeetings">
+      <div class="meeting-card container">
+        <div class="row">
+          <div class="col-md-2 profile-icon">
+            <i class="bi bi-person-circle"></i>
+          </div>
+          <div class="col name">{{ item.name }}</div>
+        </div>
+        <div class="row pt-2 area-title">
+          <div class="col">Intereses</div>
+        </div>
+        <div class="tag-container">
+          <div *ngFor="let interest of item.interests" class="tag">
+            <div>{{ interest }}</div>
+          </div>
+        </div>
+        <div class="row pt-2 area-title">
+          <div class="col">Horario</div>
+        </div>
+        <div class="tag-container">
+          <div class="tag">
+            <div>
+              {{ item.startTime | date: "dd-MMMM-yyy HH:mm" }}-{{
+                item.endTime | date: "HH:mm"
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="button" (click)="openPopup(item)">
+            Solicitar Encuentro <i class="bi bi-plus-circle-fill"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal accept meeting-->
+  <div
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: displayStyle }"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Encuentro con {{ selectedMeeting.name }} el
+            {{ selectedMeeting.startTime | date: "dd-MMM-YYY" }} a las
+            {{ selectedMeeting.startTime | date: "HH:mm" }} hrs.
+          </h4>
+        </div>
+        <div class="modal-body">
+          <p>¿Deseas confirmar?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="acceptMeeting()"
+          >
+            Aceptar
+          </button>
+          <button type="button" class="btn btn-danger" (click)="closePopup()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal apply filters-->
+  <div
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{ display: displayStyleFilter }"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title page-title">Aplica filtros de búsqueda</h4>
+        </div>
+        <div class="modal-body">
+          <label>Fecha inicio:</label>
+          <div class="input-group">
+            <input
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              name="dp"
+              [(ngModel)]="filterStartDate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary calendar"
+                (click)="d.toggle()"
+                type="button"
+              >
+                <i class="bi bi-calendar-date"></i>
+              </button>
+            </div>
+          </div>
+          <label class="pt-2">Fecha Fin:</label>
+          <div class="input-group">
+            <input
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              name="dp"
+              [(ngModel)]="filterStartDate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary calendar"
+                (click)="d.toggle()"
+                type="button"
+              >
+                <i class="bi bi-calendar-date"></i>
+              </button>
+            </div>
+          </div>
+          <label class="pt-2">Hora Inicio:</label>
+          <ngb-timepicker [(ngModel)]="startTimeFilter"></ngb-timepicker>
+          <label class="pt-2">Hora Fin:</label>
+          <ngb-timepicker [(ngModel)]="endTimeFilter"></ngb-timepicker>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="applyFilters()"
+          >
+            Aplicar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section *ngIf="acceptedMeeting">
+  <div class="row justify-between">
+    <div class="col-md-10 p-3">
+      <div class="page-title">Encuentros</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 green-pill">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="row pt-5">
+            <div class="big pt-5">¡ENCUENTRO PROGRAMADO!</div>
+          </div>
+          <div class="row pt-4">
+            <div class="big">con {{ selectedMeeting.name }}</div>
+          </div>
+          <div class="row pt-4">
+            <div class="small">
+              {{ selectedMeeting.startTime | date: "EEEE dd" }} de
+              {{ selectedMeeting.startTime | date: "MMMM HH:mm" }} -
+              {{ selectedMeeting.endTime | date: "HH:mm" }} hrs. (Hora de Chile)
+            </div>
+          </div>
+          <div class="row pt-2">
+            <div class="notification">
+              *Se te enviará una notificación previa al encuentro*
+            </div>
+          </div>
+          <div class="row justify-content-md-center pt-3">
+            <div class="col-6"></div>
+            <div class="col-5">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="continue()"
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
