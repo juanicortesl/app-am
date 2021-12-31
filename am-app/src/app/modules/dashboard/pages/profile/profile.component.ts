@@ -1,18 +1,11 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
 })
-export class SignUpComponent implements OnInit {
-  newDate: any;
-  newTime: any;
-  timeList: any[] = [];
-  step = 1;
-  newInterest = '';
+export class ProfileComponent implements OnInit {
   interests = [
     {
       name: 'idiomas',
@@ -79,23 +72,13 @@ export class SignUpComponent implements OnInit {
       selected: false,
     },
   ];
-  public profileForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    address: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
-    birthDate: new FormControl(''),
-    sex: new FormControl(''),
-  });
-  constructor(private router: Router) {}
+  newInterest = '';
+  newDate: any;
+  newTime: any;
+  timeList: any[] = [];
+  constructor() {}
+
   ngOnInit(): void {}
-  nextStep() {
-    this.step++;
-    if (this.step == 5) {
-      this.router.navigate(['dashboard/home']);
-    }
-  }
   addInterest() {
     this.interests.push({ name: this.newInterest, selected: false });
     this.newInterest = '';
@@ -105,8 +88,19 @@ export class SignUpComponent implements OnInit {
   }
   addTime() {
     if (this.newDate && this.newTime) {
-      console.log(this.newDate + this.newTime);
-      this.timeList.push(new Date(this.newDate + ' ' + this.newTime));
+      console.log(this.newTime);
+      console.log(
+        `${this.newDate.month}-${this.newDate.day}-${this.newDate.year} ${this.newTime.hour}:${this.newTime.minutes}`
+      );
+      this.timeList.push(
+        new Date(
+          this.newDate.year,
+          this.newDate.month - 1,
+          this.newDate.day,
+          this.newTime.hour,
+          this.newTime.minute
+        )
+      );
     }
   }
 }

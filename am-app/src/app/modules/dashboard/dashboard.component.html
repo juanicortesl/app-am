@@ -26,7 +26,13 @@
         >
           Encuentros
         </div>
-        <div class="col tab">Perfil</div>
+        <div
+          class="col tab"
+          [ngClass]="isSelected('profile') ? 'col tab selected' : 'col tab'"
+          (click)="goTo('profile')"
+        >
+          Perfil
+        </div>
       </div>
     </div>
   </div>

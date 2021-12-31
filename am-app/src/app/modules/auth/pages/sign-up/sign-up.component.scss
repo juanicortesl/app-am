@@ -54,30 +54,7 @@
     text-align: justify;
   }
 }
-.interests-title {
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  text-align: left;
-}
-.interests-subtitle {
-  margin: 5% 0 2% 0;
-  font-size: 1rem;
-  text-align: left;
-  p {
-    margin: 0;
-  }
-}
-.regular-chip {
-  margin: 5px !important;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-transform: capitalize;
-  border: 1px solid gray;
-  &.selected {
-    background-color: rgb(136, 160, 213);
-    color: white;
-  }
-}
+
 .add-icon {
   color: rgb(56, 189, 73);
   text-align: center;

@@ -10,7 +10,11 @@ export class DashboardComponent implements OnInit {
   page = 'home';
   constructor(private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.router.url.includes('profile')) this.page = 'profile';
+    else if (this.router.url.includes('home')) this.page = 'home';
+    else if (this.router.url.includes('meetings')) this.page = 'meetings';
+  }
 
   isSelected(tab: string) {
     return tab === this.page;
