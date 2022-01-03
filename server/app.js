@@ -22,5 +22,5 @@ app.get("*", (req, res) =>
 const port = 8000;
 app.set("port", port);
 const server = http.createServer(app);
-server.listen(port);
+server.listen(process.env.PORT || 8000);
 module.exports = app;
