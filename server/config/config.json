@@ -1,0 +1,37 @@
+{
+  "development": {
+    "username": "gunqlbhikltsaq",
+    "password": "f226fd7aaf22e9f44573f4808d6361c17d3ffb2d8b60aed9aafd1d3b76a01ccb",
+    "database": "desgte2finnsvq",
+    "host": "ec2-34-205-230-1.compute-1.amazonaws.com",
+    "port": 5432,
+    "dialect": "postgresql",
+    "dialectOptions": {
+      "ssl": { "rejectUnauthorized": false }
+    }
+  },
+  "test": {
+    "username": "gunqlbhikltsaq",
+    "password": "f226fd7aaf22e9f44573f4808d6361c17d3ffb2d8b60aed9aafd1d3b76a01ccb",
+    "database": "desgte2finnsvq",
+    "host": "ec2-34-205-230-1.compute-1.amazonaws.com",
+    "port": 5432,
+    "dialect": "postgresql",
+    "ssl": { "rejectUnauthorized": false },
+    "dialectOptions": {
+      "ssl": { "rejectUnauthorized": false }
+    }
+  },
+  "production": {
+    "username": "gunqlbhikltsaq",
+    "password": "f226fd7aaf22e9f44573f4808d6361c17d3ffb2d8b60aed9aafd1d3b76a01ccb",
+    "database": "desgte2finnsvq",
+    "host": "ec2-34-205-230-1.compute-1.amazonaws.com",
+    "port": 5432,
+    "dialect": "postgresql",
+    "ssl": { "rejectUnauthorized": false },
+    "dialectOptions": {
+      "ssl": { "rejectUnauthorized": false }
+    }
+  }
+}
