@@ -1,3 +1,4 @@
+import { ApiService } from './../../../../core/services/api.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -88,11 +89,24 @@ export class SignUpComponent implements OnInit {
     birthDate: new FormControl(''),
     sex: new FormControl(''),
   });
-  constructor(private router: Router) {}
+  constructor(private router: Router, private apiService: ApiService) {}
   ngOnInit(): void {}
   nextStep() {
-    this.step++;
-    if (this.step == 5) {
+    if (this.step == 1) {
+      let body = {
+        first_name: this.profileForm.get('firstName')!.value,
+        last_name: this.profileForm.get('lastName')!.value,
+        address: this.profileForm.get('address')!.value,
+        password: this.profileForm.get('password')!.value,
+      };
+      this.apiService.createUser(body).subscribe((data) => {
+        console.log(data);
+        this.step++;
+      });
+    } else if (this.step < 4) {
+      this.step++;
+    }
+    if (this.step == 4) {
       this.router.navigate(['dashboard/home']);
     }
   }
