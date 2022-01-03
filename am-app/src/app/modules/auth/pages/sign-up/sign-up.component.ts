@@ -97,7 +97,10 @@ export class SignUpComponent implements OnInit {
         first_name: this.profileForm.get('firstName')!.value,
         last_name: this.profileForm.get('lastName')!.value,
         address: this.profileForm.get('address')!.value,
+        email: this.profileForm.get('email')!.value,
         password: this.profileForm.get('password')!.value,
+        birth_date: this.profileForm.get('birthDate')!.value,
+        gender: this.profileForm.get('sex')!.value,
       };
       this.apiService.createUser(body).subscribe((data) => {
         console.log(data);
