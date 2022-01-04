@@ -91,7 +91,7 @@ export class SignUpComponent implements OnInit {
   });
   constructor(private router: Router, private apiService: ApiService) {}
   ngOnInit(): void {}
-  nextStep() {
+  nextStep(options: any = {}) {
     if (this.step == 1) {
       let body = {
         first_name: this.profileForm.get('firstName')!.value,
@@ -102,10 +102,20 @@ export class SignUpComponent implements OnInit {
         birth_date: this.profileForm.get('birthDate')!.value,
         gender: this.profileForm.get('sex')!.value,
       };
-      this.apiService.createUser(body).subscribe((data) => {
+      this.apiService.createUser(body).subscribe((data: any) => {
         console.log(data);
-        this.step++;
+        if (data) {
+          localStorage.setItem('token', data.token);
+          this.step++;
+        }
       });
+    } else if (this.step == 2) {
+      this.apiService
+        .setUserType({ type: options.type })
+        .subscribe((data: any) => {
+          console.log(data);
+          this.step++;
+        });
     } else if (this.step < 4) {
       this.step++;
     }

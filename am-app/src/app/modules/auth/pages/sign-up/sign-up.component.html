@@ -153,7 +153,10 @@
       </div>
     </div>
     <div class="row justify-content-md-center">
-      <div class="col-md-5 option-container">
+      <div
+        class="col-md-5 option-container"
+        (click)="nextStep({ type: 'searcher' })"
+      >
         <div class="row">
           <div class="col-sm-1"></div>
           <div class="col-sm-10 option-title center align-middle">Busco</div>
@@ -175,15 +178,13 @@
           <div class="col-sm-1"></div>
         </div>
       </div>
-      <div class="col-md-5 option-container">
+      <div
+        class="col-md-5 option-container"
+        (click)="nextStep({ type: 'offerer' })"
+      >
         <div class="row">
           <div class="col-sm-1"></div>
-          <div
-            class="col-sm-10 option-title center align-middle"
-            (click)="nextStep()"
-          >
-            Ofrezco
-          </div>
+          <div class="col-sm-10 option-title center align-middle">Ofrezco</div>
           <div class="col-sm-1"></div>
         </div>
         <div class="row">

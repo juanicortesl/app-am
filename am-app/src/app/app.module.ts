@@ -10,7 +10,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { registerLocaleData } from '@angular/common';
 import localeESCL from '@angular/common/locales/es-CL';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from './core/services/auth-interceptor.service';
 registerLocaleData(localeESCL);
 
 @NgModule({
@@ -24,7 +25,14 @@ registerLocaleData(localeESCL);
     MatDatepickerModule,
     NgbModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'es-CL' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es-CL' },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

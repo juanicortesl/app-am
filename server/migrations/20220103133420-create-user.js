@@ -11,6 +11,9 @@ module.exports = {
       type: {
         type: Sequelize.STRING,
       },
+      password: {
+        type: Sequelize.STRING,
+      },
       first_name: {
         type: Sequelize.STRING,
       },
@@ -32,6 +35,9 @@ module.exports = {
       },
       gender: {
         type: Sequelize.STRING,
+      },
+      interests: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
       },
       updatedAt: {
         allowNull: false,

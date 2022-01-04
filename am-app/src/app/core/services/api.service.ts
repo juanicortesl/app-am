@@ -4,8 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ApiService {
-  // apiUrl = 'http://localhost:8000/api';
-  apiUrl = 'https://arcane-island-14669.herokuapp.com/api';
+  apiUrl = 'http://localhost:8000/api';
+  // apiUrl = 'https://arcane-island-14669.herokuapp.com/api';
   constructor(private http: HttpClient) {}
 
   createUser(body: any) {
@@ -15,6 +15,16 @@ export class ApiService {
         'Content-Type': 'application/json',
       }),
     };
-    return this.http.post(`${this.apiUrl}/user/create`, body, httpOptions);
+    return this.http.post(`${this.apiUrl}/sign_up`, body, httpOptions);
+  }
+
+  setUserType(body: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post(`${this.apiUrl}/set_type`, body, httpOptions);
   }
 }
