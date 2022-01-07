@@ -21,6 +21,10 @@ export class ApiService {
     return this.genericPost(body, 'set_interests');
   }
 
+  addAvailableMeeting(body: any) {
+    return this.genericPost(body, 'add_meeting');
+  }
+
   genericPost(body: any, endpoint: string) {
     const httpOptions = {
       headers: new HttpHeaders({

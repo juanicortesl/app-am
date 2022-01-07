@@ -144,7 +144,15 @@ export class SignUpComponent implements OnInit {
   addTime() {
     if (this.newDate && this.newTime) {
       console.log(this.newDate + this.newTime);
-      this.timeList.push(new Date(this.newDate + ' ' + this.newTime));
+      let date = new Date(this.newDate);
+      date.setHours(this.newTime.split(':')[0]);
+      date.setMinutes(this.newTime.split(':')[1]);
+      this.apiService
+        .addAvailableMeeting({ date: date })
+        .subscribe((data: any) => {
+          console.log(data);
+          this.timeList.push(date);
+        });
     }
   }
 }
