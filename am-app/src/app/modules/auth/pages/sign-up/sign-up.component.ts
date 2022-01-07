@@ -114,7 +114,13 @@ export class SignUpComponent implements OnInit {
         .setUserType({ type: options.type })
         .subscribe((data: any) => {
           console.log(data);
-          this.step++;
+          localStorage.setItem('userType', options.type);
+          if (options.type === 'searcher') {
+            this.step = 1;
+            this.router.navigate(['dashboard/home']);
+          } else {
+            this.step++;
+          }
         });
     } else if (this.step == 3) {
       let selectedInterests = this.interests.filter(
@@ -131,6 +137,7 @@ export class SignUpComponent implements OnInit {
       this.step++;
     }
     if (this.step == 4) {
+      this.step = 1;
       this.router.navigate(['dashboard/home']);
     }
   }
