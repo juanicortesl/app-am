@@ -1,3 +1,4 @@
+import { ApiService } from './../../../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,16 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MeetingsComponent implements OnInit {
   public searcherUser: boolean = false;
-  nextMeetings = [
-    {
-      name: 'Sofia',
-      date: new Date('02/02/2021 13:00'),
-    },
-    {
-      name: 'Sofia',
-      date: new Date('02/02/2021 16:00'),
-    },
-  ];
+  nextMeetings: any[] = [];
 
   pastMeetings = [
     {
@@ -30,10 +22,16 @@ export class MeetingsComponent implements OnInit {
       review: 3,
     },
   ];
-  constructor() {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.searcherUser = localStorage.getItem('userType') === 'searcher';
-    console.log(this.searcherUser);
+    this.apiService.getRequestedMeetings().subscribe((data: any) => {
+      console.log(data);
+      this.nextMeetings = data.meetings;
+      this.nextMeetings.forEach((meeting) => {
+        meeting.other = this.searcherUser ? meeting.Offerer : meeting.Searcher;
+      });
+    });
   }
 }

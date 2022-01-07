@@ -16,13 +16,13 @@
           <div class="col-md-2 profile-icon">
             <i class="bi bi-person-circle"></i>
           </div>
-          <div class="col name">{{ item.name }}</div>
+          <div class="col name">{{ item.Offerer.first_name }}</div>
         </div>
         <div class="row pt-2 area-title">
           <div class="col">Intereses</div>
         </div>
         <div class="tag-container">
-          <div *ngFor="let interest of item.interests" class="tag">
+          <div *ngFor="let interest of item.Offerer.interests" class="tag">
             <div>{{ interest }}</div>
           </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="tag-container">
           <div class="tag">
             <div>
-              {{ item.startTime | date: "dd-MMMM-yyy HH:mm" }}-{{
+              {{ item.date | date: "dd-MMMM-yyy HH:mm" }}-{{
                 item.endTime | date: "HH:mm"
               }}
             </div>
@@ -52,14 +52,15 @@
     tabindex="-1"
     role="dialog"
     [ngStyle]="{ display: displayStyle }"
+    *ngIf="selectedMeeting"
   >
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-            Encuentro con {{ selectedMeeting.name }} el
-            {{ selectedMeeting.startTime | date: "dd-MMM-YYY" }} a las
-            {{ selectedMeeting.startTime | date: "HH:mm" }} hrs.
+            Encuentro con {{ selectedMeeting.Offerer.first_name }} el
+            {{ selectedMeeting.date | date: "dd-MMM-YYY" }} a las
+            {{ selectedMeeting.endTime | date: "HH:mm" }} hrs.
           </h4>
         </div>
         <div class="modal-body">
@@ -179,12 +180,12 @@
             <div class="big pt-5">¡ENCUENTRO PROGRAMADO!</div>
           </div>
           <div class="row pt-4">
-            <div class="big">con {{ selectedMeeting.name }}</div>
+            <div class="big">con {{ selectedMeeting.Offerer.first_name }}</div>
           </div>
           <div class="row pt-4">
             <div class="small">
-              {{ selectedMeeting.startTime | date: "EEEE dd" }} de
-              {{ selectedMeeting.startTime | date: "MMMM HH:mm" }} -
+              {{ selectedMeeting.date | date: "EEEE dd" }} de
+              {{ selectedMeeting.date | date: "MMMM HH:mm" }} -
               {{ selectedMeeting.endTime | date: "HH:mm" }} hrs. (Hora de Chile)
             </div>
           </div>

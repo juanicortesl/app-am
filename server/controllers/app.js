@@ -3,6 +3,14 @@ const User = require("../models").User;
 const Meeting = require("../models").Meeting;
 const utils = require("../utils/utils");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
+const zoomOptions = {
+  access_token:
+    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IlBCTTU1c2pDUmppVUNpTFlrS1lnZ3ciLCJleHAiOjE2NDIxOTIwNzQsImlhdCI6MTY0MTU4NzI3NX0.IubNXKZ1RZq9fkGioap-lClKoI_VyV5TUdXjOmokqwo",
+  token_type: "bearer",
+  expires_in: 3599,
+  scope: "meeting:read meeting:write",
+};
 // asscociations
 User.hasMany(Meeting, {
   as: "offeredMeetings",
@@ -128,5 +136,151 @@ module.exports = {
         console.log(error);
         res.status(400).send(error);
       });
+  },
+  getAvailableMeetings(req, res) {
+    Meeting.findAll({
+      where: {
+        status: "available",
+      },
+      include: [
+        {
+          association: "Offerer",
+          attributes: ["interests", "first_name"],
+        },
+      ],
+    })
+      .then((meetings) => {
+        res.status(200).send({ message: "got meetings", meetings: meetings });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      });
+  },
+  meetingRequest(req, res) {
+    Meeting.update(
+      { status: "requested", searcherId: req.user.id },
+      {
+        where: {
+          id: req.body.meetingId,
+        },
+        include: [
+          {
+            association: "Offerer",
+            attributes: ["interests", "first_name", "email"],
+          },
+          {
+            association: "Searcher",
+            attributes: ["interests", "first_name", "email"],
+          },
+        ],
+        returning: true,
+        plain: true,
+      }
+    )
+      .then(async (result) => {
+        const meeting = await Meeting.findOne({
+          where: {
+            id: req.body.meetingId,
+          },
+          include: [
+            {
+              association: "Offerer",
+              attributes: ["interests", "first_name", "email"],
+            },
+            {
+              association: "Searcher",
+              attributes: ["interests", "first_name", "email"],
+            },
+          ],
+        });
+        if (!meeting) {
+          throw Error(`no meeting`);
+        }
+        console.log(`Bearer ${zoomOptions.access_token}`);
+        let start_time = new Date(meeting.date).toISOString();
+        console.log(start_time, "TIME");
+        const headers = {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${zoomOptions.access_token}`,
+        };
+        axios
+          .post(
+            "https://api.zoom.us/v2/users/me/meetings",
+
+            {
+              topic: "string",
+              type: 2,
+              start_time: start_time,
+              duration: 45,
+              settings: {
+                join_before_host: true,
+                waiting_room: false,
+                meeting_invitees: [
+                  { email: meeting.Offerer.email },
+                  { email: meeting.Searcher.email },
+                ],
+                registrants_email_notification: true,
+              },
+            },
+            { headers: headers }
+          )
+          .then(async function (response) {
+            console.log(response.data);
+            meeting.meetingLink = response.data.join_url;
+            await meeting.save();
+            res.status(200).send({ message: "requested meeting" });
+          })
+          .catch(function (error) {
+            console.log(error);
+            throw Error(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      });
+  },
+  async getRequestedMeetings(req, res) {
+    const user = await User.findOne({
+      where: {
+        id: req.user.id,
+      },
+    });
+    console.log(user.type, "type");
+    if (user.type === "searcher")
+      Meeting.findAll({
+        where: { searcherId: req.user.id, status: "requested" },
+        include: [
+          {
+            association: "Offerer",
+            attributes: ["interests", "first_name", "email"],
+          },
+        ],
+      })
+        .then((meetings) =>
+          res.status(200).send({ message: "requested meeting", meetings })
+        )
+        .catch((error) => {
+          console.log(error);
+          res.status(400).send(error);
+        });
+    if (user.type === "offerer")
+      Meeting.findAll({
+        where: { offererId: req.user.id, status: "requested" },
+        include: [
+          {
+            association: "Searcher",
+            attributes: ["interests", "first_name", "email"],
+          },
+        ],
+      })
+        .then((meetings) =>
+          res.status(200).send({ message: "requested meeting", meetings })
+        )
+        .catch((error) => {
+          console.log(error);
+          res.status(400).send(error);
+        });
   },
 };

@@ -17,5 +17,8 @@ module.exports = (app) => {
   router.post("/api/set_type", appController.setType);
   router.post("/api/set_interests", appController.setInterests);
   router.post("/api/add_meeting", appController.addAvailableMeeting);
+  router.post("/api/meetings/available", appController.getAvailableMeetings);
+  router.post("/api/meetings/request", appController.meetingRequest);
+  router.get("/api/meetings/get_requested", appController.getRequestedMeetings);
   app.use("/", router);
 };

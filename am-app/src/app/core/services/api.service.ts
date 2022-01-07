@@ -29,7 +29,23 @@ export class ApiService {
     return this.genericPost(body, 'add_meeting');
   }
 
-  genericPost(body: any, endpoint: string) {
+  getAvailableMeetings(body: any) {
+    return this.genericPost(body, 'meetings/available');
+  }
+  requestMeeting(body: any) {
+    return this.genericPost(body, 'meetings/request');
+  }
+  getRequestedMeetings() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.get(`${this.apiUrl}/meetings/get_requested`, httpOptions);
+  }
+
+  genericPost(body: any = {}, endpoint: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         Accept: '*/*',

@@ -9,12 +9,13 @@
     <div class="meetings-container">
       <div class="meeting-card pt-5" *ngFor="let item of nextMeetings">
         <div class="name">
-          {{ item.name }}
+          {{ item.other.first_name }}
         </div>
         <div class="date pt-2">
           {{ item.date | date: "dd-MMM" }}
         </div>
         <div class="date">{{ item.date | date: "HH:mm" }} hrs.</div>
+        <div class="date"><a [href]="item.meetingLink">link zoom</a></div>
       </div>
       <div
         class="meeting-card new"
