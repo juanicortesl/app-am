@@ -116,6 +116,17 @@ export class SignUpComponent implements OnInit {
           console.log(data);
           this.step++;
         });
+    } else if (this.step == 3) {
+      let selectedInterests = this.interests.filter(
+        (interest) => interest.selected
+      );
+      let interests = selectedInterests.map((interest) => interest.name);
+      this.apiService
+        .setInterests({ interests: interests })
+        .subscribe((data: any) => {
+          console.log(data);
+          this.step++;
+        });
     } else if (this.step < 4) {
       this.step++;
     }

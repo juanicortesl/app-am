@@ -47,4 +47,19 @@ module.exports = {
       })
       .catch((error) => res.status(400).send(error));
   },
+  setInterests(req, res) {
+    const user = User.update(
+      {
+        interests: req.body.interests ? req.body.interests : undefined,
+      },
+      {
+        returning: true,
+        where: { id: req.user.id },
+      }
+    )
+      .then((user) => {
+        res.status(200).send({ message: "SET INTERESTS" });
+      })
+      .catch((error) => res.status(400).send(error));
+  },
 };
