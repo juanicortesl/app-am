@@ -13,6 +13,7 @@ module.exports = (app) => {
     })
   );
   app.post("/api/sign_up", appController.signUp);
+  app.post("/api/sign_in", appController.signIn);
   router.post("/api/set_type", appController.setType);
   router.post("/api/set_interests", appController.setInterests);
   router.post("/api/add_meeting", appController.addAvailableMeeting);

@@ -57,6 +57,33 @@ module.exports = {
         res.status(400).send(error);
       });
   },
+  signIn(req, res) {
+    User.findOne({
+      where: {
+        email: req.body.email,
+      },
+    })
+      .then((user) => {
+        let checkPass = utils.checkPassword(req.body.password, user.password);
+        if (checkPass) {
+          let token = jwt.sign(
+            {
+              user: {
+                id: user.id,
+              },
+            },
+            process.env.SEED,
+            { expiresIn: process.env.TIME_TOKEN }
+          );
+          res
+            .status(200)
+            .send({ userEmail: user.email, token: token, userType: user.type });
+        } else {
+          return res.status(403).send({ message: "wrong password" });
+        }
+      })
+      .catch((error) => res.status(400).send(error));
+  },
   setType(req, res) {
     allowedTypes = ["searcher", "offerer"];
     const user = User.update(

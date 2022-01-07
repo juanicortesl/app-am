@@ -5,12 +5,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ApiService {
   devMode = true;
-  apiUrl = 'http://localhost:8000/api';
-  // apiUrl = 'https://arcane-island-14669.herokuapp.com/api';
+  // apiUrl = 'http://localhost:8000/api';
+  apiUrl = 'https://arcane-island-14669.herokuapp.com/api';
   constructor(private http: HttpClient) {}
 
   createUser(body: any) {
     return this.genericPost(body, 'sign_up');
+  }
+
+  signIn(body: any) {
+    return this.genericPost(body, 'sign_in');
   }
 
   setUserType(body: any) {
