@@ -3,6 +3,31 @@
     <div class="row pb-5">
       <div class="page-title">Encuentros</div>
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col scroll-height">
+    <div class="row">
+      <div class="section-title">Ofrecidos</div>
+    </div>
+    <div class="meetings-container">
+      <div
+        class="meeting-card pt-5 offered"
+        *ngFor="let item of offeredMeetings"
+      >
+        <div class="name">
+          {{ item.date | date: "dd" }} de
+          {{ item.date | date: "MMMM" }}
+        </div>
+        <div class="date pt-2">{{ item.date | date: "HH:mm" }} hrs</div>
+      </div>
+      <div class="meeting-card new" (click)="openNewMeeting()">
+        <div class="add-icon pt-4">
+          <i class="bi bi-plus-lg"></i>
+        </div>
+        <div class="pt-1 center">Ofrecer encuentro</div>
+      </div>
+    </div>
     <div class="row">
       <div class="section-title">Próximos</div>
     </div>
@@ -17,11 +42,7 @@
         <div class="date">{{ item.date | date: "HH:mm" }} hrs.</div>
         <div class="date"><a [href]="item.meetingLink">link zoom</a></div>
       </div>
-      <div
-        class="meeting-card new"
-        *ngIf="searcherUser"
-        [routerLink]="'../search-meetings'"
-      >
+      <div class="meeting-card new" [routerLink]="'../search-meetings'">
         <div class="add-icon pt-4">
           <i class="bi bi-plus-lg"></i>
         </div>
@@ -47,6 +68,78 @@
             <i class="bi bi-star-fill"></i>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal new meeting-->
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{ display: displayNewMeeting }"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title page-title">
+          Ofrece un nuevo horario para un encuentro
+        </h4>
+      </div>
+      <div class="modal-body container-fluid">
+        <div class="row">
+          <div class="col">
+            <label>Fecha:</label>
+            <div class="input-group">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="dp"
+                [(ngModel)]="newMeetingDate"
+                ngbDatepicker
+                #d="ngbDatepicker"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary calendar"
+                  (click)="d.toggle()"
+                  type="button"
+                >
+                  <i class="bi bi-calendar-date"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-2">
+          <div class="col">
+            <label class="pt-2">Hora:</label>
+            <ngb-timepicker
+              [(ngModel)]="newMeetingTime"
+              [minuteStep]="15"
+            ></ngb-timepicker>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="closeNewMeeting()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="createNewMeeting()"
+          [disabled]="
+            newMeetingDate.day == undefined || newMeetingTime.hour == undefined
+          "
+        >
+          Ofrecer
+        </button>
       </div>
     </div>
   </div>

@@ -39,6 +39,15 @@
         text-align: center;
       }
     }
+    &.offered {
+      background-color: rgb(178 243 175);
+      .name {
+        color: rgb(16 19 38);
+      }
+      .date {
+        color: rgb(16 19 38);
+      }
+    }
     &.past {
       background-color: rgb(16 19 38);
     }

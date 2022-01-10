@@ -7,11 +7,19 @@
   </div>
   <div class="col-2"></div>
 </div>
-<div class="row justify-content-md-center" *ngIf="step == 1">
+<div *ngIf="loading" class="row justify-content-md-center scroll-height">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div
+  class="row justify-content-md-center scroll-height"
+  *ngIf="step == 1 && !loading"
+>
   <div class="col-2"></div>
   <div class="col-md-8 center profile-form">
     <form [formGroup]="profileForm" class="profile-form">
-      <div class="row steps row-margin">Paso 1</div>
+      <div class="row steps row-margin">Paso 1 de 2</div>
       <div class="row row-margin">
         Requisitos: Conexión internet – dispositivo con cámara y micrófono
       </div>
@@ -128,7 +136,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              [disabled]="profileForm.invalid"
+              [disabled]="profileForm.invalid || loading"
               (click)="nextStep()"
             >
               Continuar
@@ -142,7 +150,7 @@
 
   <div class="col-2"></div>
 </div>
-<div class="row justify-content-md-center" *ngIf="step == 2">
+<!-- <div class="row justify-content-md-center" *ngIf="step == 2">
   <div class="col-1"></div>
 
   <div class="col-md-10">
@@ -206,11 +214,14 @@
     </div>
   </div>
   <div class="col-1"></div>
-</div>
-<div class="row justify-content-md-center" *ngIf="step == 3">
+</div> -->
+<div
+  class="row justify-content-md-center scroll-height"
+  *ngIf="step == 2 && !loading"
+>
   <div class="col-2"></div>
   <div class="col-md-8 center">
-    <div class="row steps row-margin">Paso 3</div>
+    <div class="row steps row-margin">Paso 2 de 2</div>
     <div class="row">
       <div class="col interests-title">Elección áreas de interés</div>
     </div>
@@ -247,8 +258,8 @@
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="profileForm.invalid"
           (click)="nextStep()"
+          [disabled]="loading"
         >
           Continuar
         </button>
@@ -258,7 +269,7 @@
 
   <div class="col-2"></div>
 </div>
-<div class="row justify-content-md-center" *ngIf="step == 4">
+<!-- <div class="row justify-content-md-center" *ngIf="step == 4">
   <div class="col-2"></div>
   <div class="col-md-8 center">
     <div class="row steps row-margin">Paso 4</div>
@@ -329,4 +340,31 @@
     </div>
   </div>
   <div class="col-2"></div>
+</div> -->
+<!-- Sign up error dialog -->
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{ display: errorPopup }"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ errorTitle }}</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{ errorMessage }}</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="closeErrorPopup()"
+        >
+          Ok
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

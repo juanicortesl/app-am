@@ -5,8 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ApiService {
   devMode = true;
-  // apiUrl = 'http://localhost:8000/api';
-  apiUrl = 'https://arcane-island-14669.herokuapp.com/api';
+  apiUrl = 'http://localhost:8000/api';
+  // apiUrl = 'https://arcane-island-14669.herokuapp.com/api';
   constructor(private http: HttpClient) {}
 
   createUser(body: any) {
@@ -36,13 +36,11 @@ export class ApiService {
     return this.genericPost(body, 'meetings/request');
   }
   getRequestedMeetings() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Accept: '*/*',
-        'Content-Type': 'application/json',
-      }),
-    };
-    return this.http.get(`${this.apiUrl}/meetings/get_requested`, httpOptions);
+    return this.genericGet('meetings/get_requested');
+  }
+
+  getOfferedMeetings() {
+    return this.genericGet('meetings/offered');
   }
 
   genericPost(body: any = {}, endpoint: string) {
@@ -53,5 +51,15 @@ export class ApiService {
       }),
     };
     return this.http.post(`${this.apiUrl}/${endpoint}`, body, httpOptions);
+  }
+
+  genericGet(endpoint: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.get(`${this.apiUrl}/${endpoint}`, httpOptions);
   }
 }

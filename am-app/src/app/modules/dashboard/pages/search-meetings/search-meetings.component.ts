@@ -8,49 +8,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchMeetingsComponent implements OnInit {
   availableMeetings: any[] = [];
-  // {
-  //   name: 'Roberto',
-  //   interests: ['Idiomas', 'marketing', 'redes sociales', 'cocina'],
-  //   endTime: new Date('02/12/2021 15:00'),
-  //   startTime: new Date('02/12/2021 14:00'),
-  // },
-  // {
-  //   name: 'Roberto',
-  //   interests: ['Idiomas', 'marketing', 'redes sociales'],
-  //   startTime: new Date('02/12/2021 14:00'),
-  //   endTime: new Date('02/12/2021 15:00'),
-  // },
-  // {
-  //   name: 'Roberto',
-  //   interests: ['Idiomas', 'marketing', 'redes sociales'],
-  //   startTime: new Date('02/12/2021 14:00'),
-  //   endTime: new Date('02/12/2021 15:00'),
-  // },
-  // {
-  //   name: 'Roberto',
-  //   interests: ['Idiomas', 'marketing', 'redes sociales'],
-  //   endTime: new Date('02/12/2021 15:00'),
-  //   startTime: new Date('02/12/2021 14:00'),
-  // },
-  // {
-  //   name: 'Roberto',
-  //   interests: ['Idiomas', 'marketing', 'redes sociales'],
-  //   endTime: new Date('02/12/2021 15:00'),
-  //   startTime: new Date('02/12/2021 14:00'),
-  // },
-  // {
-  //   name: 'Roberto',
-  //   interests: ['Idiomas', 'marketing', 'redes sociales'],
-  //   endTime: new Date('02/12/2021 15:00'),
-  //   startTime: new Date('02/12/2021 14:00'),
-  // },
-  // {
-  //   name: 'Roberto',
-  //   interests: ['Idiomas', 'marketing', 'redes sociales'],
-  //   endTime: new Date('02/12/2021 15:00'),
-  //   startTime: new Date('02/12/2021 14:00'),
-  // },
-  // ];
   displayStyle = 'none';
   displayStyleFilter = 'none';
   selectedMeeting: any = this.availableMeetings[0];

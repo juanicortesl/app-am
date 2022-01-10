@@ -38,12 +38,15 @@ Meeting.belongsTo(User, {
 });
 module.exports = {
   signUp(req, res) {
+    console.log(req.body);
     return User.create({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       email: req.body.email,
       address: req.body.address,
+      gender: req.body.gender,
       birth_date: req.body.birth_date,
+      type: "user",
       password: utils.hashPassword(req.body.password),
     })
       .then((user) => {
@@ -236,6 +239,21 @@ module.exports = {
             throw Error(error);
           });
       })
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      });
+  },
+  async getOfferedMeetings(req, res) {
+    Meeting.findAll({
+      where: {
+        offererId: req.user.id,
+      },
+      attributes: ["date"],
+    })
+      .then((meetings) =>
+        res.status(200).send({ message: "offered meetinngs", meetings })
+      )
       .catch((error) => {
         console.log(error);
         res.status(400).send(error);

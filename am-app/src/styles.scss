@@ -104,6 +104,7 @@ body {
 // scrollable content keeping header
 .scroll-height {
   height: calc(90vh - 150px) !important;
+  overflow-y: scroll;
   padding-bottom: 10%;
 }
 
@@ -144,6 +145,12 @@ body {
     background-color: rgb(136, 160, 213);
     color: white;
   }
+}
+
+// loading spinner
+.spinner-border {
+  width: 100px !important;
+  height: 100px !important;
 }
 
 /* Importing Bootstrap SCSS file. */
