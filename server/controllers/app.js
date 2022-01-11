@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
 const User = require("../models").User;
 const Meeting = require("../models").Meeting;
 const utils = require("../utils/utils");
@@ -144,11 +144,14 @@ module.exports = {
     Meeting.findAll({
       where: {
         status: "available",
+        offererId: {
+          [Op.ne]: req.user.id,
+        },
       },
       include: [
         {
           association: "Offerer",
-          attributes: ["interests", "first_name"],
+          attributes: ["interests", "first_name", "id", "last_name"],
         },
       ],
     })
@@ -260,45 +263,49 @@ module.exports = {
       });
   },
   async getRequestedMeetings(req, res) {
-    const user = await User.findOne({
+    // const user = await User.findOne({
+    //   where: {
+    //     id: req.user.id,
+    //   },
+    // });
+    // console.log(user.type, "type");
+    // if (user.type === "user")
+    console.log(req.user.id, "ID");
+    Meeting.findAll({
       where: {
-        id: req.user.id,
+        [Op.or]: {
+          searcherId: req.user.id,
+          offererId: req.user.id,
+        },
+        status: "requested",
       },
-    });
-    console.log(user.type, "type");
-    if (user.type === "searcher")
-      Meeting.findAll({
-        where: { searcherId: req.user.id, status: "requested" },
-        include: [
-          {
-            association: "Offerer",
-            attributes: ["interests", "first_name", "email"],
-          },
-        ],
-      })
-        .then((meetings) =>
-          res.status(200).send({ message: "requested meeting", meetings })
-        )
-        .catch((error) => {
-          console.log(error);
-          res.status(400).send(error);
+      attributes: ["date", "meetingLink", "offererId"],
+      include: [
+        {
+          association: "Offerer",
+          attributes: ["interests", "first_name"],
+        },
+        {
+          association: "Searcher",
+          attributes: ["interests", "first_name"],
+        },
+      ],
+    })
+      .then((meetings) => {
+        meetings.forEach((meeting) => {
+          console.log(meeting.dataValues.offererId, "OFFID");
+          if (meeting.dataValues.offererId == req.user.id) {
+            meeting.dataValues.other = meeting.dataValues.Searcher;
+          } else {
+            meeting.dataValues.other = meeting.dataValues.Offerer;
+          }
+          meeting.dataValues.offererId = null;
         });
-    if (user.type === "offerer")
-      Meeting.findAll({
-        where: { offererId: req.user.id, status: "requested" },
-        include: [
-          {
-            association: "Searcher",
-            attributes: ["interests", "first_name", "email"],
-          },
-        ],
+        res.status(200).send({ message: "requested meetings", meetings });
       })
-        .then((meetings) =>
-          res.status(200).send({ message: "requested meeting", meetings })
-        )
-        .catch((error) => {
-          console.log(error);
-          res.status(400).send(error);
-        });
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      });
   },
 };

@@ -65,9 +65,9 @@ export class MeetingsComponent implements OnInit {
     this.apiService.getRequestedMeetings().subscribe((data: any) => {
       console.log(data);
       this.nextMeetings = data.meetings;
-      this.nextMeetings.forEach((meeting) => {
-        meeting.other = this.searcherUser ? meeting.Offerer : meeting.Searcher;
-      });
+      // this.nextMeetings.forEach((meeting) => {
+      //   meeting.other = meeting.offerer ? meeting.Offerer : meeting.Searcher;
+      // });
     });
     this.apiService.getOfferedMeetings().subscribe((data: any) => {
       console.log(data);
