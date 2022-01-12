@@ -34,6 +34,8 @@ Meeting.belongsTo(User, {
     name: "searcherId",
   },
 });
+// set job schedules
+utils.scheduleJobsOnInit();
 const createMeetingLink = (start_time, meeting) => {
   console.log(start_time, "TIME");
   const headers = {
@@ -235,6 +237,12 @@ module.exports = {
           .then(async function (response) {
             // console.log(response.data);
             await utils.sendConfirmationEmailSearcher(
+              meeting.Offerer,
+              meeting.Searcher,
+              start_time,
+              response.data.join_url
+            );
+            await utils.sendConfirmationEmailOfferer(
               meeting.Offerer,
               meeting.Searcher,
               start_time,

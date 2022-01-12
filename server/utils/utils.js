@@ -4,6 +4,10 @@ const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
+const User = require("../models").User;
+const Meeting = require("../models").Meeting;
+const { meetingRequest } = require("../controllers/app");
+const meeting = require("../models/meeting");
 const CLIENT_ID =
   "426308237351-emj2g05ff5vb0qsdhnn0g4fkvca1n8vl.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
@@ -40,15 +44,6 @@ const transport = nodemailer.createTransport({
     accessToken: myAccessToken, //access token variable we defined earlier
   },
 });
-
-var date = new Date();
-date.setSeconds(date.getSeconds() + 10);
-var j = schedule.scheduleJob(date, function () {
-  try {
-    sendReminderEmail({ email: "jicortes6@uc.cl" }, {}, date, "");
-  } catch {}
-});
-console.log(schedule.scheduledJobs);
 
 const sendReminderEmail = (user, other, start_time, link) => {
   console.log("sending reminder email");
@@ -104,9 +99,116 @@ module.exports = {
         if (err) {
           reject("Couldn't send email");
         } else {
-          // set email reminder
+          try {
+            console.log("setting reminder");
+            // set reminder 30 minutes before meeting
+            let reminderDate = new Date(date).setMinutes(
+              date.getMinutes() - 30
+            );
+            // set email reminder
+            var j = schedule.scheduleJob(reminderDate, function () {
+              try {
+                sendReminderEmail(searcher, offerer, start_time, link);
+              } catch {}
+            });
+            resolve("Email sent");
+          } catch (err) {
+            reject(err);
+          }
+        }
+      });
+    });
+  },
+  sendConfirmationEmailOfferer(offerer, searcher, start_time, link) {
+    let date = new Date(start_time);
+    console.log(date, "DATE");
+    const mailOptions = {
+      from: `Skolton <${MAIL_USER}>`, // sender
+      to: offerer.email, // receiver
+      subject: "Nuevo encuentro programado", // Subject
+      html: `<h2>Hola ${offerer.first_name},</h2>
+      <p>${
+        searcher.first_name
+      } aceptó tu encuentro y quedó programado el ${date.toLocaleDateString(
+        "es-CL",
+        dateOptions
+      )}. El link de acceso a la reunión es: <a href="${link}">${link}</a></p>`, // html body
+    };
 
-          resolve("Email sent");
+    return new Promise((resolve, reject) => {
+      transport.sendMail(mailOptions, function (err, result) {
+        if (err) {
+          reject("Couldn't send email");
+        } else {
+          try {
+            console.log("setting reminder");
+            // set reminder 30 minutes before meeting
+            let reminderDate = new Date(date).setMinutes(
+              date.getMinutes() - 30
+            );
+            // set email reminder
+            var j = schedule.scheduleJob(reminderDate, function () {
+              try {
+                sendReminderEmail(offerer, searcher, start_time, link);
+              } catch {}
+            });
+            resolve("Email sent");
+          } catch (err) {
+            reject(err);
+          }
+        }
+      });
+    });
+  },
+  scheduleJobsOnInit() {
+    let date = new Date();
+    Meeting.findAll({
+      where: {
+        status: "requested",
+      },
+      include: [
+        {
+          association: "Offerer",
+          attributes: ["interests", "first_name", "email"],
+        },
+        {
+          association: "Searcher",
+          attributes: ["interests", "first_name", "email"],
+        },
+      ],
+    }).then((meetings) => {
+      meetings.forEach((meeting) => {
+        let meetingDate = new Date(meeting.dataValues.date);
+        console.log(meetingDate);
+        // if meeting hasn't happened, set reminder email
+        if (meetingDate.getTime() > date.getTime()) {
+          // set reminder 30 minutes before meeting
+          let reminderDate = new Date(meetingDate).setMinutes(
+            meetingDate.getMinutes() - 30
+          );
+          var j = schedule.scheduleJob(reminderDate, function () {
+            try {
+              sendReminderEmail(
+                meeting.dataValues.Searcher.dataValues,
+                meeting.dataValues.Offerer.dataValues,
+                meetingDate,
+                meeting.dataValues.meetingLink
+              );
+              sendReminderEmail(
+                meeting.dataValues.Offerer.dataValues,
+                meeting.dataValues.Searcher.dataValues,
+                meetingDate,
+                meeting.dataValues.meetingLink
+              );
+            } catch {}
+          });
+        }
+        // in other case, set meeting as finished
+        else {
+          try {
+            meeting.update({ status: "finished" });
+            meeting.save();
+          } catch {}
         }
       });
     });
