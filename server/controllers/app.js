@@ -266,6 +266,7 @@ module.exports = {
     Meeting.findAll({
       where: {
         offererId: req.user.id,
+        status: "available",
       },
       attributes: ["date"],
     })
