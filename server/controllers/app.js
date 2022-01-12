@@ -6,12 +6,10 @@ const jwt = require("jsonwebtoken");
 const axios = require("axios");
 const zoomOptions = {
   access_token:
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6IlBCTTU1c2pDUmppVUNpTFlrS1lnZ3ciLCJleHAiOjE2NDIxOTIwNzQsImlhdCI6MTY0MTU4NzI3NX0.IubNXKZ1RZq9fkGioap-lClKoI_VyV5TUdXjOmokqwo",
-  token_type: "bearer",
-  expires_in: 3599,
-  scope: "meeting:read meeting:write",
+    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Ii1LMlZtTTI4UjJPb3dLWVJEcEg2b1EiLCJleHAiOjE3MzQwMTc0MDAsImlhdCI6MTY0MTkyOTA2OH0.4cdmylY7ABQXH4ZjgaCzyz99qTW5k_ZH1KVxXeIfyY4",
 };
-// asscociations
+
+// associations
 User.hasMany(Meeting, {
   as: "offeredMeetings",
   foreignKey: {
@@ -36,6 +34,34 @@ Meeting.belongsTo(User, {
     name: "searcherId",
   },
 });
+const createMeetingLink = (start_time, meeting) => {
+  console.log(start_time, "TIME");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${zoomOptions.access_token}`,
+  };
+  return axios.post(
+    "https://api.zoom.us/v2/users/me/meetings",
+
+    {
+      topic: "string",
+      type: 2,
+      start_time: start_time,
+      duration: 45,
+      settings: {
+        join_before_host: true,
+        waiting_room: false,
+        meeting_invitees: [
+          { email: meeting.Offerer.email },
+          { email: meeting.Searcher.email },
+        ],
+        registrants_email_notification: true,
+        jbh_time: 10,
+      },
+    },
+    { headers: headers }
+  );
+};
 module.exports = {
   signUp(req, res) {
     console.log(req.body);
@@ -165,7 +191,7 @@ module.exports = {
   },
   meetingRequest(req, res) {
     Meeting.update(
-      { status: "requested", searcherId: req.user.id },
+      { status: "available", searcherId: req.user.id },
       {
         where: {
           id: req.body.meetingId,
@@ -205,34 +231,15 @@ module.exports = {
         }
         console.log(`Bearer ${zoomOptions.access_token}`);
         let start_time = new Date(meeting.date).toISOString();
-        console.log(start_time, "TIME");
-        const headers = {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${zoomOptions.access_token}`,
-        };
-        axios
-          .post(
-            "https://api.zoom.us/v2/users/me/meetings",
-
-            {
-              topic: "string",
-              type: 2,
-              start_time: start_time,
-              duration: 45,
-              settings: {
-                join_before_host: true,
-                waiting_room: false,
-                meeting_invitees: [
-                  { email: meeting.Offerer.email },
-                  { email: meeting.Searcher.email },
-                ],
-                registrants_email_notification: true,
-              },
-            },
-            { headers: headers }
-          )
+        createMeetingLink(start_time, meeting)
           .then(async function (response) {
-            console.log(response.data);
+            // console.log(response.data);
+            await utils.sendConfirmationEmailSearcher(
+              meeting.Offerer,
+              meeting.Searcher,
+              start_time,
+              response.data.join_url
+            );
             meeting.meetingLink = response.data.join_url;
             await meeting.save();
             res.status(200).send({ message: "requested meeting" });

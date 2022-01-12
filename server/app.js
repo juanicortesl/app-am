@@ -26,27 +26,5 @@ const port = 8000;
 app.set("port", port);
 const server = http.createServer(app);
 server.listen(process.env.PORT || 8000);
-// var request = require("request");
 
-// let your_app_client_id = "cUTZWT6nRdKEagbfEYu6dg";
-// let your_app_client_secret = "kPZluEhXfn4Mo9uFhV7hwGuR29lvxCKm";
-// var options = {
-//   method: "POST",
-//   url: "https://zoom.us/oauth/token?grant_type=code",
-//   headers: {
-//     /**The credential below is a sample base64 encoded credential. Replace it with "Authorization: 'Basic ' + Buffer.from(your_app_client_id + ':' + your_app_client_secret).toString('base64')"
-//      **/
-//     Authorization:
-//       "Basic " +
-//       Buffer.from(your_app_client_id + ":" + your_app_client_secret).toString(
-//         "base64"
-//       ),
-//   },
-// };
-
-// request(options, function (error, response, body) {
-//   if (error) throw new Error(error);
-
-//   console.log(body);
-// });
 module.exports = app;

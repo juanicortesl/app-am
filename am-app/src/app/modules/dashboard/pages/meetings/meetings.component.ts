@@ -39,7 +39,7 @@ export class MeetingsComponent implements OnInit {
     try {
       let newDate = new Date(
         this.newMeetingDate.year,
-        this.newMeetingDate.month,
+        this.newMeetingDate.month - 1,
         this.newMeetingDate.day,
         this.newMeetingTime.hour,
         this.newMeetingTime.minute
