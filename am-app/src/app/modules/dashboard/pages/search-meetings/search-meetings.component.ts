@@ -15,18 +15,11 @@ export class SearchMeetingsComponent implements OnInit {
   filterStartDate = '';
   startTimeFilter = { hour: 13, minute: 0 };
   endTimeFilter = { hour: 14, minute: 0 };
+  loadingRequest = false;
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.apiService.getAvailableMeetings({}).subscribe((data: any) => {
-      this.availableMeetings = data.meetings;
-      this.availableMeetings.forEach((meeting) => {
-        let date = new Date(meeting.date);
-        date.setMinutes(date.getMinutes() + 45);
-        meeting.endTime = date;
-      });
-      console.log(data);
-    });
+    this.getAvailableMeetings();
   }
   openPopup(meeting: {}) {
     this.selectedMeeting = meeting;
@@ -36,10 +29,12 @@ export class SearchMeetingsComponent implements OnInit {
     this.displayStyle = 'none';
   }
   acceptMeeting() {
+    this.loadingRequest = true;
     this.apiService
       .requestMeeting({ meetingId: this.selectedMeeting.id })
       .subscribe((data) => {
         console.log(data);
+        this.loadingRequest = false;
         this.displayStyle = 'none';
         this.acceptedMeeting = true;
       });
@@ -52,5 +47,16 @@ export class SearchMeetingsComponent implements OnInit {
   }
   applyFilters() {
     this.displayStyleFilter = 'none';
+  }
+  getAvailableMeetings() {
+    this.apiService.getAvailableMeetings({}).subscribe((data: any) => {
+      this.availableMeetings = data.meetings;
+      this.availableMeetings.forEach((meeting) => {
+        let date = new Date(meeting.date);
+        date.setMinutes(date.getMinutes() + 45);
+        meeting.endTime = date;
+      });
+      console.log(data);
+    });
   }
 }
