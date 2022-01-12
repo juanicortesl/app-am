@@ -35,6 +35,7 @@ export class SearchMeetingsComponent implements OnInit {
       .subscribe((data) => {
         console.log(data);
         this.loadingRequest = false;
+        this.getAvailableMeetings();
         this.displayStyle = 'none';
         this.acceptedMeeting = true;
       });

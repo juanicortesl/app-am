@@ -193,7 +193,7 @@ module.exports = {
   },
   meetingRequest(req, res) {
     Meeting.update(
-      { status: "available", searcherId: req.user.id },
+      { status: "requested", searcherId: req.user.id },
       {
         where: {
           id: req.body.meetingId,
