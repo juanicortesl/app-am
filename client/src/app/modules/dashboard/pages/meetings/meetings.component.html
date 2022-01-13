@@ -55,16 +55,16 @@
     <div class="meetings-container">
       <div class="meeting-card past pt-5" *ngFor="let item of pastMeetings">
         <div class="name">
-          {{ item.name }}
+          {{ item.other.first_name }}
+        </div>
+        <div class="date pt-2">
+          {{ item.date | date: "dd-MMM" }}
         </div>
         <div class="star-container pt-2">
-          <div *ngFor="let item of [].constructor(item.review)" class="filled">
+          <div *ngFor="let item of [].constructor(2)" class="filled">
             <i class="bi bi-star-fill"></i>
           </div>
-          <div
-            *ngFor="let item of [].constructor(5 - item.review)"
-            class="unfilled"
-          >
+          <div *ngFor="let item of [].constructor(5 - 2)" class="unfilled">
             <i class="bi bi-star-fill"></i>
           </div>
         </div>

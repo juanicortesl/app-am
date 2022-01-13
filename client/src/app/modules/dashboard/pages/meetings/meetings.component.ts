@@ -14,18 +14,7 @@ export class MeetingsComponent implements OnInit {
   displayNewMeeting = 'none';
   newMeetingDate: any = {};
   newMeetingTime = { hour: 12, minute: 0 };
-  pastMeetings = [
-    {
-      name: 'Roberto',
-      date: new Date('02/02/2021 13:00'),
-      review: 5,
-    },
-    {
-      name: 'Catalina',
-      date: new Date('02/02/2021 16:00'),
-      review: 3,
-    },
-  ];
+  pastMeetings: any[] = [];
   public today: Date = new Date();
   constructor(private apiService: ApiService) {}
 
@@ -74,6 +63,10 @@ export class MeetingsComponent implements OnInit {
     this.apiService.getOfferedMeetings().subscribe((data: any) => {
       console.log(data);
       this.offeredMeetings = data.meetings;
+    });
+    this.apiService.getPastMeetings().subscribe((data: any) => {
+      console.log(data);
+      this.pastMeetings = data.meetings;
     });
   }
 }

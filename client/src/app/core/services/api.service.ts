@@ -43,6 +43,10 @@ export class ApiService {
     return this.genericGet('meetings/offered');
   }
 
+  getPastMeetings() {
+    return this.genericGet('meetings/past');
+  }
+
   genericPost(body: any = {}, endpoint: string) {
     const httpOptions = {
       headers: new HttpHeaders({

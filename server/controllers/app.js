@@ -338,8 +338,8 @@ module.exports = {
       ],
     })
       .then((meetings) => {
+        // get other user besides currentUser that will attend meeting
         meetings.forEach((meeting) => {
-          console.log(meeting.dataValues.offererId, "OFFID");
           if (meeting.dataValues.offererId == req.user.id) {
             meeting.dataValues.other = meeting.dataValues.Searcher;
           } else {
@@ -348,6 +348,43 @@ module.exports = {
           meeting.dataValues.offererId = null;
         });
         res.status(200).send({ message: "requested meetings", meetings });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      });
+  },
+  getPastMeetings(req, res) {
+    Meeting.findAll({
+      where: {
+        [Op.or]: {
+          searcherId: req.user.id,
+          offererId: req.user.id,
+        },
+        status: "finished",
+      },
+      attributes: ["date", "meetingLink", "offererId"],
+      include: [
+        {
+          association: "Offerer",
+          attributes: ["interests", "first_name"],
+        },
+        {
+          association: "Searcher",
+          attributes: ["interests", "first_name"],
+        },
+      ],
+    })
+      .then((meetings) => {
+        meetings.forEach((meeting) => {
+          if (meeting.dataValues.offererId == req.user.id) {
+            meeting.dataValues.other = meeting.dataValues.Searcher;
+          } else {
+            meeting.dataValues.other = meeting.dataValues.Offerer;
+          }
+          meeting.dataValues.offererId = null;
+        });
+        res.status(200).send({ message: "past meetings", meetings });
       })
       .catch((error) => {
         console.log(error);
