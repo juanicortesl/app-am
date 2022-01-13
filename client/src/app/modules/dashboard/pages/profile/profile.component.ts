@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -76,7 +77,7 @@ export class ProfileComponent implements OnInit {
   newDate: any;
   newTime: any;
   timeList: any[] = [];
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
   addInterest() {
@@ -102,5 +103,9 @@ export class ProfileComponent implements OnInit {
         )
       );
     }
+  }
+  logOut() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/']);
   }
 }

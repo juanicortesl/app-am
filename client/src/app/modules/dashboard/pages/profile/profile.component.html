@@ -1,7 +1,12 @@
 <div class="row">
   <div class="col">
-    <div class="row pb-5">
-      <div class="page-title">Perfil</div>
+    <div class="row pb-5 justify-between">
+      <div class="col-md-10">
+        <div class="page-title">Perfil</div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn-logout" (click)="logOut()">Cerrar sesión</button>
+      </div>
     </div>
     <div class="row px-5 scroll-height profile-container">
       <div class="col-md profile-info">
