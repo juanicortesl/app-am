@@ -3,7 +3,8 @@ const User = require("../models").User;
 const Meeting = require("../models").Meeting;
 const utils = require("../utils/utils");
 const jwt = require("jsonwebtoken");
-const axios = require("axios");
+const moment = require("moment");
+
 const zoomOptions = {
   access_token:
     "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Ii1LMlZtTTI4UjJPb3dLWVJEcEg2b1EiLCJleHAiOjE3MzQwMTc0MDAsImlhdCI6MTY0MTkyOTA2OH0.4cdmylY7ABQXH4ZjgaCzyz99qTW5k_ZH1KVxXeIfyY4",
@@ -179,11 +180,40 @@ module.exports = {
       include: [
         {
           association: "Offerer",
-          attributes: ["interests", "first_name", "id", "last_name"],
+          attributes: [
+            "interests",
+            "first_name",
+            "id",
+            "last_name",
+            "birth_date",
+          ],
         },
       ],
     })
-      .then((meetings) => {
+      .then(async (meetings) => {
+        const user = await User.findOne({
+          where: {
+            id: req.user.id,
+          },
+        });
+        const today = new moment();
+        const birthDate = new moment(user.dataValues.birth_date);
+        const age = today.diff(birthDate, "years");
+        const ageThreshold = 55;
+        // if user is less than 55 y.o. show only meetings of users older than 55
+        if (age < ageThreshold) {
+          console.log("FILTERING");
+          meetings = meetings.filter((meeting) => {
+            console.log(meeting.dataValues.Offerer);
+            let offererBirthDate = new moment(
+              meeting.dataValues.Offerer.dataValues.birth_date
+            );
+            let offererAge = today.diff(offererBirthDate, "years");
+            console.log("OFFERER AGE", offererAge);
+            return offererAge >= ageThreshold;
+          });
+        }
+
         res.status(200).send({ message: "got meetings", meetings: meetings });
       })
       .catch((error) => {
