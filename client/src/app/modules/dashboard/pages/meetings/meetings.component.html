@@ -25,7 +25,7 @@
         <div class="add-icon pt-4">
           <i class="bi bi-plus-lg"></i>
         </div>
-        <div class="pt-1 center">Ofrecer encuentro</div>
+        <div class="pt-1 center">Ofrecer</div>
       </div>
     </div>
     <div class="row">
@@ -46,7 +46,7 @@
         <div class="add-icon pt-4">
           <i class="bi bi-plus-lg"></i>
         </div>
-        <div class="pt-1 center">Buscar encuentros</div>
+        <div class="pt-1 center">Buscar</div>
       </div>
     </div>
     <div class="row">
@@ -97,6 +97,11 @@
                 placeholder="yyyy-mm-dd"
                 name="dp"
                 [(ngModel)]="newMeetingDate"
+                [minDate]="{
+                  year: today.getFullYear(),
+                  month: today.getMonth() + 1,
+                  day: today.getDate()
+                }"
                 ngbDatepicker
                 #d="ngbDatepicker"
               />

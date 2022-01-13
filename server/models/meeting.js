@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class meeting extends Model {
     /**
@@ -13,7 +14,19 @@ module.exports = (sequelize, DataTypes) => {
   }
   meeting.init(
     {
-      date: { type: DataTypes.DATE, allowNull: false },
+      date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+          isAfterToday(value) {
+            let today = new Date();
+            let date = new Date(value);
+            if (today.getTime() > date.getTime()) {
+              throw new Error("BAD DATE");
+            }
+          },
+        },
+      },
       offererId: DataTypes.INTEGER,
       searcherId: DataTypes.INTEGER,
       status: DataTypes.STRING,

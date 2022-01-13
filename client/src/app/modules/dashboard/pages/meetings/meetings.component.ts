@@ -1,5 +1,6 @@
 import { ApiService } from '../../../../core/services/api.service';
 import { Component, OnInit } from '@angular/core';
+import { dateInputsHaveChanged } from '@angular/material/datepicker/datepicker-input-base';
 
 @Component({
   selector: 'app-meetings',
@@ -25,6 +26,7 @@ export class MeetingsComponent implements OnInit {
       review: 3,
     },
   ];
+  public today: Date = new Date();
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
