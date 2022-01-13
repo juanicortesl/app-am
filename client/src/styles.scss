@@ -104,8 +104,10 @@ body {
 // scrollable content keeping header
 .scroll-height {
   height: calc(90vh - 150px) !important;
+  min-height: 400px !important;
   overflow-y: scroll;
   padding-bottom: 10%;
+  margin-bottom: 10%;
 }
 
 // green pill container

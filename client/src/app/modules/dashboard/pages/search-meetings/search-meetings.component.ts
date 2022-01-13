@@ -8,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchMeetingsComponent implements OnInit {
   availableMeetings: any[] = [];
+  filteredMeetings: any[] = [];
   displayStyle = 'none';
   displayStyleFilter = 'none';
   selectedMeeting: any = this.availableMeetings[0];
   acceptedMeeting = false;
-  filterStartDate = '';
+  filterStartDate: any = {};
+  filterEndDate: any = {};
   startTimeFilter = { hour: 13, minute: 0 };
   endTimeFilter = { hour: 14, minute: 0 };
   loadingRequest = false;
@@ -47,6 +49,34 @@ export class SearchMeetingsComponent implements OnInit {
     this.displayStyleFilter = 'block';
   }
   applyFilters() {
+    let filterStartDate = new Date(
+      this.filterStartDate.year,
+      this.filterStartDate.month - 1,
+      this.filterStartDate.day
+    );
+    let filterEndDate = new Date(
+      this.filterEndDate.year,
+      this.filterEndDate.month - 1,
+      this.filterEndDate.day
+    );
+    this.filteredMeetings = this.availableMeetings.filter((meeting) => {
+      let meetingDate = new Date(meeting.date);
+      console.log(meetingDate);
+      let isStartDateOk = this.filterStartDate.day
+        ? filterStartDate.getTime() <= meetingDate.getTime()
+        : true;
+
+      let isEndDateOk = this.filterEndDate.day
+        ? filterEndDate.getTime() >= meetingDate.getTime()
+        : true;
+
+      let isStartHourOk =
+        this.startTimeFilter.hour <= meetingDate.getHours() ? true : false;
+
+      let isEndHourOk =
+        this.endTimeFilter.hour >= meetingDate.getHours() ? true : false;
+      return isStartDateOk && isEndDateOk && isStartHourOk && isEndHourOk;
+    });
     this.displayStyleFilter = 'none';
   }
   getAvailableMeetings() {
@@ -57,7 +87,7 @@ export class SearchMeetingsComponent implements OnInit {
         date.setMinutes(date.getMinutes() + 45);
         meeting.endTime = date;
       });
-      console.log(data);
+      this.filteredMeetings = this.availableMeetings;
     });
   }
 }
