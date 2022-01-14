@@ -31,6 +31,11 @@ const dateOptions = {
   hour: "numeric",
   minute: "numeric",
 };
+const dateFormatter = new Intl.DateTimeFormat("es-CL", {
+  timeZone: "America/Santiago",
+  dateStyle: "full",
+  timeStyle: "short",
+});
 
 const myAccessToken = myOAuth2Client.getAccessToken();
 const transport = nodemailer.createTransport({
@@ -56,10 +61,9 @@ const sendReminderEmail = (user, other, start_time, link) => {
     html: `<h2>Hola ${user.first_name},</h2> 
     <p>Recuerda que tienes tu encuentro con ${
       other.first_name
-    }  el ${date.toLocaleDateString(
-      "es-CL",
-      dateOptions
-    )}. El link de acceso a la reunión es: <a href="${link}">${link}</a></p>`, // html body
+    }  con fecha ${dateFormatter.format(
+      date
+    )}(Hora de Chile). El link de acceso a la reunión es: <a href="${link}">${link}</a></p>`, // html body
   };
   return new Promise((resolve, reject) => {
     transport.sendMail(mailOptions, function (err, result) {
@@ -88,10 +92,9 @@ module.exports = {
       html: `<h2>Hola ${searcher.first_name},</h2> 
       <p>tu encuentro con ${
         offerer.first_name
-      } quedó programado el ${date.toLocaleDateString(
-        "es-CL",
-        dateOptions
-      )}. El link de acceso a la reunión es: <a href="${link}">${link}</a></p>`, // html body
+      } quedó programado el ${dateFormatter.format(
+        date
+      )} (Hora de Chile). El link de acceso a la reunión es: <a href="${link}">${link}</a></p>`, // html body
     };
 
     return new Promise((resolve, reject) => {
@@ -129,10 +132,9 @@ module.exports = {
       html: `<h2>Hola ${offerer.first_name},</h2>
       <p>${
         searcher.first_name
-      } aceptó tu encuentro y quedó programado el ${date.toLocaleDateString(
-        "es-CL",
-        dateOptions
-      )}. El link de acceso a la reunión es: <a href="${link}">${link}</a></p>`, // html body
+      } aceptó tu encuentro y quedó programado el ${dateFormatter.format(
+        date
+      )} (Hora de Chile). El link de acceso a la reunión es: <a href="${link}">${link}</a></p>`, // html body
     };
 
     return new Promise((resolve, reject) => {
@@ -143,9 +145,8 @@ module.exports = {
           try {
             console.log("setting reminder");
             // set reminder 30 minutes before meeting
-            let reminderDate = new Date(date).setMinutes(
-              date.getMinutes() - 30
-            );
+            let reminderDate = new Date(date);
+            reminderDate.setMinutes(date.getMinutes() - 30);
             // set email reminder
             var j = schedule.scheduleJob(reminderDate, function () {
               try {
@@ -179,13 +180,13 @@ module.exports = {
     }).then((meetings) => {
       meetings.forEach((meeting) => {
         let meetingDate = new Date(meeting.dataValues.date);
-        console.log(meetingDate);
+        console.log(meetingDate, "MEETINGDATE");
         // if meeting hasn't happened, set reminder email
         if (meetingDate.getTime() > date.getTime()) {
           // set reminder 30 minutes before meeting
-          let reminderDate = new Date(meetingDate).setMinutes(
-            meetingDate.getMinutes() - 30
-          );
+          let reminderDate = new Date(meetingDate);
+          reminderDate.setMinutes(meetingDate.getMinutes() - 30);
+          console.log(reminderDate, "REMINDERDATE");
           var j = schedule.scheduleJob(reminderDate, function () {
             try {
               sendReminderEmail(

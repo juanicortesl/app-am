@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   meeting.init(
     {
       date: {
-        type: DataTypes.DATE,
+        type: "TIMESTAMP",
         allowNull: false,
         validate: {
           isAfterToday(value) {

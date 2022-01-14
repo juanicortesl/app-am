@@ -4,6 +4,7 @@ const Meeting = require("../models").Meeting;
 const utils = require("../utils/utils");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
+const axios = require("axios");
 
 const zoomOptions = {
   access_token:
@@ -265,7 +266,9 @@ module.exports = {
         let start_time = new Date(meeting.date).toISOString();
         createMeetingLink(start_time, meeting)
           .then(async function (response) {
-            // console.log(response.data);
+            console.log(response.data);
+            meeting.meetingLink = response.data.join_url;
+            await meeting.save();
             await utils.sendConfirmationEmailSearcher(
               meeting.Offerer,
               meeting.Searcher,
@@ -278,8 +281,6 @@ module.exports = {
               start_time,
               response.data.join_url
             );
-            meeting.meetingLink = response.data.join_url;
-            await meeting.save();
             res.status(200).send({ message: "requested meeting" });
           })
           .catch(function (error) {
