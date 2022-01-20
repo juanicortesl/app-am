@@ -1,6 +1,7 @@
 const express = require("express");
 /* Controllers */
 const appController = require("../controllers/app");
+const cronController = require("../controllers/cron");
 // middleware
 const middleware = require("../middleware/auth");
 const router = express.Router();
@@ -14,13 +15,15 @@ module.exports = (app) => {
   );
   app.post("/api/sign_up", appController.signUp);
   app.post("/api/sign_in", appController.signIn);
-  router.post("/api/set_type", appController.setType);
-  router.post("/api/set_interests", appController.setInterests);
-  router.post("/api/add_meeting", appController.addAvailableMeeting);
-  router.post("/api/meetings/available", appController.getAvailableMeetings);
-  router.post("/api/meetings/request", appController.meetingRequest);
-  router.get("/api/meetings/get_requested", appController.getRequestedMeetings);
-  router.get("/api/meetings/past", appController.getPastMeetings);
-  router.get("/api/meetings/offered", appController.getOfferedMeetings);
-  app.use("/", router);
+  router.post("/set_type", appController.setType);
+  router.post("/set_interests", appController.setInterests);
+  router.post("/add_meeting", appController.addAvailableMeeting);
+  router.post("/meetings/available", appController.getAvailableMeetings);
+  router.post("/meetings/request", appController.meetingRequest);
+  router.get("/meetings/get_requested", appController.getRequestedMeetings);
+  router.get("/meetings/past", appController.getPastMeetings);
+  router.get("/meetings/offered", appController.getOfferedMeetings);
+  app.post("/cron/reminder_emails", cronController.sendReminderEmails);
+
+  app.use("/api/", router);
 };

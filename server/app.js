@@ -17,6 +17,8 @@ app.use(cors());
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// user routes
+require("./routes")(app);
 // Angular stuff
 const staticRoot = "./public/";
 app.use(function (req, res, next) {
@@ -33,7 +35,7 @@ app.use(function (req, res, next) {
 
 app.use("/", express.static(staticRoot));
 // Setup a default catch-all route that sends back a welcome message in JSON format.
-require("./routes")(app);
+
 app.get("*", (req, res) =>
   res.status(200).send({
     message: "Welcome to the beginning of nothingness.",

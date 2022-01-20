@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div class="row justify-content-between header">
+  <div class="row justify-content-between sk-header">
     <div class="col-sm-4">
       <div class="row">
         <div class="col-sm">
@@ -14,21 +14,25 @@
     <div class="col-md-4">
       <div class="row align-items-center h-100">
         <div
-          [ngClass]="isSelected('home') ? 'col tab selected' : 'col tab'"
+          [ngClass]="isSelected('home') ? 'col sk-tab selected' : 'col sk-tab'"
           (click)="goTo('home')"
         >
           Información
         </div>
-        <div class="col tab">Ahorros</div>
+        <div class="col sk-tab">Ahorros</div>
         <div
-          [ngClass]="isSelected('meetings') ? 'col tab selected' : 'col tab'"
+          [ngClass]="
+            isSelected('meetings') ? 'col sk-tab selected' : 'col sk-tab'
+          "
           (click)="goTo('meetings')"
         >
           Encuentros
         </div>
         <div
-          class="col tab"
-          [ngClass]="isSelected('profile') ? 'col tab selected' : 'col tab'"
+          class="col sk-tab"
+          [ngClass]="
+            isSelected('profile') ? 'col sk-tab selected' : 'col sk-tab'
+          "
           (click)="goTo('profile')"
         >
           Perfil
@@ -37,6 +41,6 @@
     </div>
   </div>
 </div>
-<div class="container-fluid main">
+<div class="container-fluid sk-main">
   <router-outlet></router-outlet>
 </div>

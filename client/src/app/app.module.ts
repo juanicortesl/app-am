@@ -11,7 +11,8 @@ import { registerLocaleData } from '@angular/common';
 import localeESCL from '@angular/common/locales/es-CL';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptorService } from './core/services/auth-interceptor.service';
+import { AuthInterceptorService } from './core/interceptors/auth-interceptor.service';
+import { SharedModule } from './shared/shared.module';
 registerLocaleData(localeESCL);
 
 @NgModule({
@@ -24,6 +25,7 @@ registerLocaleData(localeESCL);
     BrowserAnimationsModule,
     MatDatepickerModule,
     NgbModule,
+    SharedModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CL' },

@@ -2,13 +2,13 @@
   <div class="col">
     <div class="row pb-5 justify-between">
       <div class="col-md-10">
-        <div class="page-title">Perfil</div>
+        <div class="sk-page-title">Perfil</div>
       </div>
       <div class="col-md-2">
         <button class="btn-logout" (click)="logOut()">Cerrar sesión</button>
       </div>
     </div>
-    <div class="row px-5 scroll-height profile-container">
+    <div class="row px-5 sk-scroll-height profile-container">
       <div class="col-md profile-info">
         <div class="row">
           <div>Nombre:</div>
@@ -25,7 +25,9 @@
               <mat-chip
                 *ngFor="let item of interests"
                 [ngClass]="
-                  !item.selected ? 'regular-chip' : 'regular-chip selected'
+                  !item.selected
+                    ? 'sk-regular-chip'
+                    : 'sk-regular-chip selected'
                 "
                 (click)="item.selected = !item.selected"
               >
@@ -73,7 +75,7 @@
           </div>
 
           <div class="row">
-            <div class="col interests-subtitle">
+            <div class="col sk-interests-subtitle">
               <p>Horarios agregados:</p>
             </div>
           </div>

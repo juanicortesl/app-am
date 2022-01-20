@@ -6,7 +6,6 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const User = require("../models").User;
 const Meeting = require("../models").Meeting;
-const { meetingRequest } = require("../controllers/app");
 const meeting = require("../models/meeting");
 const CLIENT_ID =
   "426308237351-emj2g05ff5vb0qsdhnn0g4fkvca1n8vl.apps.googleusercontent.com";
@@ -14,6 +13,10 @@ const CLIENT_SECRET = "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";
 const REFRESH_TOKEN =
   "1//04GS14sJU4Z6uCgYIARAAGAQSNwF-L9IrklpV1p4zZ0LlkyTdnw4apw1DWtpb-kIiMDPbElmDYPTL1I0FQFslsDVLDDyV9dv5CXU";
 const MAIL_USER = "condor.softdev@gmail.com";
+const zoomOptions = {
+  access_token:
+    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Ii1LMlZtTTI4UjJPb3dLWVJEcEg2b1EiLCJleHAiOjE3MzQwMTc0MDAsImlhdCI6MTY0MTkyOTA2OH0.4cdmylY7ABQXH4ZjgaCzyz99qTW5k_ZH1KVxXeIfyY4",
+};
 
 const myOAuth2Client = new OAuth2(
   CLIENT_ID,
@@ -109,11 +112,11 @@ module.exports = {
               date.getMinutes() - 30
             );
             // set email reminder
-            var j = schedule.scheduleJob(reminderDate, function () {
-              try {
-                sendReminderEmail(searcher, offerer, start_time, link);
-              } catch {}
-            });
+            // var j = schedule.scheduleJob(reminderDate, function () {
+            //   try {
+            //     sendReminderEmail(searcher, offerer, start_time, link);
+            //   } catch {}
+            // });
             resolve("Email sent");
           } catch (err) {
             reject(err);
@@ -148,11 +151,11 @@ module.exports = {
             let reminderDate = new Date(date);
             reminderDate.setMinutes(date.getMinutes() - 30);
             // set email reminder
-            var j = schedule.scheduleJob(reminderDate, function () {
-              try {
-                sendReminderEmail(offerer, searcher, start_time, link);
-              } catch {}
-            });
+            // var j = schedule.scheduleJob(reminderDate, function () {
+            //   try {
+            //     sendReminderEmail(offerer, searcher, start_time, link);
+            //   } catch {}
+            // });
             resolve("Email sent");
           } catch (err) {
             reject(err);
@@ -213,5 +216,33 @@ module.exports = {
         }
       });
     });
+  },
+  createMeetingLink(start_time, meeting) {
+    console.log(start_time, "TIME");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${zoomOptions.access_token}`,
+    };
+    return axios.post(
+      "https://api.zoom.us/v2/users/me/meetings",
+
+      {
+        topic: "string",
+        type: 2,
+        start_time: start_time,
+        duration: 45,
+        settings: {
+          join_before_host: true,
+          waiting_room: false,
+          meeting_invitees: [
+            { email: meeting.Offerer.email },
+            { email: meeting.Searcher.email },
+          ],
+          registrants_email_notification: true,
+          jbh_time: 10,
+        },
+      },
+      { headers: headers }
+    );
   },
 };
