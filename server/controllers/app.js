@@ -7,30 +7,7 @@ const moment = require("moment");
 const axios = require("axios");
 
 // associations
-User.hasMany(Meeting, {
-  as: "offeredMeetings",
-  foreignKey: {
-    name: "offererId",
-  },
-});
-User.hasMany(Meeting, {
-  as: "acceptedMeetings",
-  foreignKey: {
-    name: "searcherId",
-  },
-});
-Meeting.belongsTo(User, {
-  as: "Offerer",
-  foreignKey: {
-    name: "offererId",
-  },
-});
-Meeting.belongsTo(User, {
-  as: "Searcher",
-  foreignKey: {
-    name: "searcherId",
-  },
-});
+
 // set job schedules
 // utils.scheduleJobsOnInit();
 
