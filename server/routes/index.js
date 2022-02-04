@@ -1,10 +1,13 @@
 const express = require("express");
 /* Controllers */
-const appController = require("../controllers/app");
-const cronController = require("../controllers/cron");
+const appController = require("../controllers/app.ctrl");
+const cronController = require("../controllers/cron.ctrl");
+const { ModelsController } = require("../controllers/models.ctrl");
+const controllers = [new ModelsController()];
 // middleware
 const middleware = require("../middleware/auth");
 const router = express.Router();
+
 router.use(middleware.checkToken);
 module.exports = (app) => {
   app.get("/api", (req, res) =>
@@ -24,6 +27,9 @@ module.exports = (app) => {
   router.get("/meetings/past", appController.getPastMeetings);
   router.get("/meetings/offered", appController.getOfferedMeetings);
   app.post("/cron/reminder_emails", cronController.sendReminderEmails);
-
+  // initialize controllers
+  controllers.forEach((controller) =>
+    router.use(controller.path, controller.router)
+  );
   app.use("/api/", router);
 };

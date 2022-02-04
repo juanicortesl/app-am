@@ -26,25 +26,25 @@ export class ApiService {
   }
 
   addAvailableMeeting(body: any) {
-    return this.genericPost(body, 'add_meeting');
+    return this.genericPost(body, `models/meetings/`);
   }
 
   getAvailableMeetings(body: any) {
-    return this.genericPost(body, 'meetings/available');
+    return this.genericGet('models/meetings/available');
   }
   requestMeeting(body: any) {
     return this.genericPost(body, 'meetings/request');
   }
-  getRequestedMeetings() {
-    return this.genericGet('meetings/get_requested');
+  getNextMeetings() {
+    return this.genericGet('models/meetings/next');
   }
 
   getOfferedMeetings() {
-    return this.genericGet('meetings/offered');
+    return this.genericGet('models/meetings/offered');
   }
 
   getPastMeetings() {
-    return this.genericGet('meetings/past');
+    return this.genericGet('models/meetings/past');
   }
 
   genericPost(body: any = {}, endpoint: string) {

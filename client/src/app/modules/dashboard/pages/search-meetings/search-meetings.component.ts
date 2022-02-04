@@ -88,7 +88,9 @@ export class SearchMeetingsComponent implements OnInit {
   }
   getAvailableMeetings() {
     this.apiService.getAvailableMeetings({}).subscribe((data: any) => {
-      this.availableMeetings = data.meetings;
+      if (data.result) {
+        this.availableMeetings = data.data.model;
+      }
       this.availableMeetings.forEach((meeting) => {
         let date = new Date(meeting.date);
         date.setMinutes(date.getMinutes() + 45);

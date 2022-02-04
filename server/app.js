@@ -11,14 +11,18 @@ loadConfig();
 const http = require("http");
 // Set up the express app
 const app = express();
+// import controllers
+const { ModelsController } = require("./controllers/models.ctrl");
 // Log requests to the console.
 app.use(logger("dev"));
 app.use(cors());
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 // user routes
 require("./routes")(app);
+
 // Angular stuff
 const staticRoot = "./public/";
 app.use(function (req, res, next) {

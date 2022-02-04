@@ -53,20 +53,26 @@ export class MeetingsComponent implements OnInit {
     this.displayNewMeeting = 'none';
   }
   loadMeetings() {
-    this.apiService.getRequestedMeetings().subscribe((data: any) => {
+    this.apiService.getNextMeetings().subscribe((data: any) => {
       console.log(data);
-      this.nextMeetings = data.meetings;
+      if (data.result) {
+        this.nextMeetings = data.data.model;
+      }
       // this.nextMeetings.forEach((meeting) => {
       //   meeting.other = meeting.offerer ? meeting.Offerer : meeting.Searcher;
       // });
     });
     this.apiService.getOfferedMeetings().subscribe((data: any) => {
       console.log(data);
-      this.offeredMeetings = data.meetings;
+      if (data.result) {
+        this.offeredMeetings = data.data.model;
+      }
     });
     this.apiService.getPastMeetings().subscribe((data: any) => {
       console.log(data);
-      this.pastMeetings = data.meetings;
+      if (data.result) {
+        this.pastMeetings = data.data.model;
+      }
     });
   }
 }
