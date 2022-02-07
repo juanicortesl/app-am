@@ -32,22 +32,20 @@ export class SearchMeetingsComponent implements OnInit {
   }
   acceptMeeting() {
     this.loadingRequest = true;
-    this.apiService
-      .requestMeeting({ meetingId: this.selectedMeeting.id })
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-          this.loadingRequest = false;
-          this.getAvailableMeetings();
-          this.displayStyle = 'none';
-          this.acceptedMeeting = true;
-        },
-        error: (error) => {
-          console.log(error);
-          this.loadingRequest = false;
-          this.displayStyle = 'none';
-        },
-      });
+    this.apiService.requestMeeting(this.selectedMeeting.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.loadingRequest = false;
+        this.getAvailableMeetings();
+        this.displayStyle = 'none';
+        this.acceptedMeeting = true;
+      },
+      error: (error) => {
+        console.log(error);
+        this.loadingRequest = false;
+        this.displayStyle = 'none';
+      },
+    });
   }
   continue() {
     this.acceptedMeeting = false;

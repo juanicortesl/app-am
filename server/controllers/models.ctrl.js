@@ -2,6 +2,7 @@
 
 const express = require("express");
 const Models = require("../models");
+const utils = require("../utils/utils");
 
 class ModelsController {
   path = "/models";
@@ -20,7 +21,8 @@ class ModelsController {
     this.router.get("/:model/:status", this.getAll);
     this.router.get("/:model/:id/:mode", this.getById);
     this.router.post("/:model/", this.add);
-    this.router.patch("/:model/:id", this.updateById);
+    this.router.put("/:model/:id", this.updateById);
+    this.router.put("/:model/:id/:mode", this.updateByIdCustom);
     this.router.delete("/:model/:id", this.deleteById);
   }
 
@@ -211,6 +213,130 @@ class ModelsController {
         },
       });
     } catch (error) {
+      if (error.name === "SequelizeUniqueConstraintError") {
+        const value = error.errors[0].value;
+        const param = error.errors[0].path;
+        const name = param[0].toUpperCase() + param.slice(1);
+
+        res.status(200).send({
+          result: false,
+          message: "Something went wrong, please check the error section",
+          errors: [
+            {
+              value: value,
+              msg: name + " already in use",
+              param: param,
+              location: "body",
+            },
+          ],
+        });
+
+        return;
+      }
+
+      res.status(500).send({
+        result: false,
+        message: "Troubles in backend, API Error",
+      });
+    }
+  };
+
+  updateByIdCustom = async (req, res) => {
+    const model = req.params.model;
+    const id = req.params.id;
+    const mode = req.params.mode;
+    const attributesToUpdate = req.body;
+    let updatedRows;
+    let queryResults;
+    if (Object.keys(attributesToUpdate).length === 0) {
+      res.status(200).send({
+        result: false,
+        message: "Something went wrong, please check the error section",
+        errors: [{ msg: "Nothing to update", location: "body" }],
+      });
+
+      return;
+    }
+
+    try {
+      const user = await Models.User.getById(req.user.id);
+      if (mode === "request" && model === "meetings") {
+        /* request meeting and generate zoom link */
+        const meeting = await this.models[model].model.getByIdWithFull(
+          req.params.id
+        );
+        // check if meeting exists and is available
+        if (!meeting || meeting.dataValues.status !== "available") {
+          res.status(200).send({
+            result: false,
+            message: "Something went wrong, please check the error section",
+            errors: [
+              {
+                value: id,
+                msg: "Meeting is not available",
+                param: "id",
+                location: "params",
+              },
+            ],
+          });
+          return;
+        }
+        // get meeting link
+        const meetingObject = await utils.createMeetingLink(meeting);
+        const meetingLink = meetingObject.data.join_url;
+        // update meeting status
+        const newMeetingAttributes = {
+          searcherId: req.user.id,
+          status: "requested",
+          meetingLink: meetingLink,
+        };
+        [updatedRows, queryResults] = await this.models[model].model.updateById(
+          id,
+          newMeetingAttributes
+        );
+        // send emails
+        await utils.sendConfirmationEmailSearcher(
+          meeting.Offerer,
+          user.dataValues,
+          meeting.dataValues.date,
+          meetingLink
+        );
+        await utils.sendConfirmationEmailOfferer(
+          meeting.Offerer,
+          user.dataValues,
+          meeting.dataValues.date,
+          meetingLink
+        );
+      } else {
+        [updatedRows, queryResults] = await this.models[model].model.updateById(
+          id,
+          attributesToUpdate
+        );
+      }
+
+      if (updatedRows === 0) {
+        res.status(200).send({
+          result: false,
+          message: "Something went wrong, please check the error section",
+          errors: [
+            { value: id, msg: "ID not found", param: "id", location: "params" },
+          ],
+        });
+
+        return;
+      }
+
+      const queryResult = queryResults[0];
+
+      res.status(200).send({
+        result: true,
+        message: this.models[model].name + " by ID successfully updated",
+        data: {
+          model: queryResult,
+        },
+      });
+    } catch (error) {
+      console.log(error);
       if (error.name === "SequelizeUniqueConstraintError") {
         const value = error.errors[0].value;
         const param = error.errors[0].path;

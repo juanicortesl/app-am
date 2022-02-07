@@ -32,8 +32,11 @@ export class ApiService {
   getAvailableMeetings(body: any) {
     return this.genericGet('models/meetings/available');
   }
-  requestMeeting(body: any) {
-    return this.genericPost(body, 'meetings/request');
+  requestMeeting(meetingId: number) {
+    return this.genericPut(
+      { status: 'requested' },
+      `models/meetings/${meetingId}/request`
+    );
   }
   getNextMeetings() {
     return this.genericGet('models/meetings/next');
@@ -55,6 +58,16 @@ export class ApiService {
       }),
     };
     return this.http.post(`${this.apiUrl}/${endpoint}`, body, httpOptions);
+  }
+
+  genericPut(body: any = {}, endpoint: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.put(`${this.apiUrl}/${endpoint}`, body, httpOptions);
   }
 
   genericGet(endpoint: string) {

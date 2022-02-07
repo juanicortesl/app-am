@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
+const axios = require("axios");
 const User = require("../models").User;
 const Meeting = require("../models").Meeting;
 const meeting = require("../models/meeting");
@@ -103,6 +104,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       transport.sendMail(mailOptions, function (err, result) {
         if (err) {
+          console.log(err);
           reject("Couldn't send email");
         } else {
           try {
@@ -143,6 +145,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       transport.sendMail(mailOptions, function (err, result) {
         if (err) {
+          console.log(err);
           reject("Couldn't send email");
         } else {
           try {
@@ -217,7 +220,8 @@ module.exports = {
       });
     });
   },
-  createMeetingLink(start_time, meeting) {
+  createMeetingLink(meeting) {
+    let start_time = new Date(meeting.date).toISOString();
     console.log(start_time, "TIME");
     const headers = {
       "Content-Type": "application/json",
@@ -234,10 +238,7 @@ module.exports = {
         settings: {
           join_before_host: true,
           waiting_room: false,
-          meeting_invitees: [
-            { email: meeting.Offerer.email },
-            { email: meeting.Searcher.email },
-          ],
+          meeting_invitees: [{ email: meeting.Offerer.email }],
           registrants_email_notification: true,
           jbh_time: 10,
         },

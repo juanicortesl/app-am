@@ -22,6 +22,82 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
+    static add = async (attributesToCreate) => {
+      const response = await User.create(attributesToCreate);
+      return response;
+    };
+
+    static getAll = async () => {
+      const response = await User.findAll({});
+
+      return response;
+    };
+
+    static getAllWithFull = async () => {
+      const response = await User.findAll({
+        include: [
+          {
+            association: "offeredMeetings",
+          },
+          {
+            association: "acceptedMeetings",
+          },
+        ],
+        nest: true,
+      });
+
+      return response;
+    };
+
+    static getById = async (id) => {
+      const response = await User.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      return response;
+    };
+
+    static getByIdWithFull = async (id) => {
+      const response = await User.findOne({
+        where: {
+          id: id,
+        },
+        include: [
+          {
+            association: "offeredMeetings",
+          },
+          {
+            association: "acceptedMeetings",
+          },
+        ],
+        nest: true,
+      });
+
+      return response;
+    };
+
+    static deleteById = async (id) => {
+      const response = await User.destroy({
+        where: {
+          id: id,
+        },
+      });
+
+      return response;
+    };
+
+    static updateById = async (id, attributesToUpdate) => {
+      const response = await User.update(attributesToUpdate, {
+        where: {
+          id: id,
+        },
+        returning: true,
+      });
+
+      return response;
+    };
   }
   User.init(
     {
