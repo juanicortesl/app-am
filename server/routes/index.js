@@ -3,6 +3,10 @@ const express = require("express");
 const appController = require("../controllers/app.ctrl");
 const cronController = require("../controllers/cron.ctrl");
 const { ModelsController } = require("../controllers/models.ctrl");
+const {
+  AuthenticationController,
+} = require("../controllers/authentication.ctrl");
+const authController = new AuthenticationController();
 const controllers = [new ModelsController()];
 // middleware
 const middleware = require("../middleware/auth");
@@ -31,5 +35,6 @@ module.exports = (app) => {
   controllers.forEach((controller) =>
     router.use(controller.path, controller.router)
   );
+  app.use(authController.path, authController.router);
   app.use("/api/", router);
 };

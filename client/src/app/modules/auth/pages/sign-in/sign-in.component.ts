@@ -1,4 +1,4 @@
-import { ApiService } from '../../../../core/http/api.service';
+import { AuthService } from './../../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -13,21 +13,22 @@ export class SignInComponent implements OnInit {
     email: new FormControl(''),
     password: new FormControl(''),
   });
-  constructor(private router: Router, private apiService: ApiService) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {}
 
   signIn() {
     if (this.signInForm.value.email && this.signInForm.value.password) {
-      this.apiService
+      this.authService
         .signIn({
           email: this.signInForm.value.email,
           password: this.signInForm.value.password,
         })
         .subscribe((data: any) => {
-          localStorage.setItem('userType', data.userType);
-          localStorage.setItem('token', data.token);
-          this.router.navigate(['dashboard/home']);
+          if (data.result) {
+            localStorage.setItem('token', data.data.token);
+            this.router.navigate(['dashboard/home']);
+          }
         });
       // if (this.signInForm.value.email.toLowerCase() === 'ofrezco@gmail.com') {
       //   localStorage.setItem('userType', 'offerer');

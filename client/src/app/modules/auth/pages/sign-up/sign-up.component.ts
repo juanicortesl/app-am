@@ -1,4 +1,5 @@
-import { ApiService } from '../../../../core/http/api.service';
+import { ApiService } from './../../../../core/http/api.service';
+import { AuthService } from './../../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -45,7 +46,11 @@ export class SignUpComponent implements OnInit {
     birthDate: new FormControl('', [Validators.required]),
     sex: new FormControl('', [Validators.required]),
   });
-  constructor(private router: Router, private apiService: ApiService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private apiService: ApiService
+  ) {}
   ngOnInit(): void {}
   nextStep(options: any = {}) {
     if (this.step == 1) {
@@ -59,12 +64,12 @@ export class SignUpComponent implements OnInit {
         birth_date: this.profileForm.get('birthDate')!.value,
         gender: this.profileForm.get('sex')!.value,
       };
-      this.apiService.createUser(body).subscribe({
+      this.authService.createUser(body).subscribe({
         next: (data: any) => {
           this.loading = false;
           console.log(data);
-          if (data) {
-            localStorage.setItem('token', data.token);
+          if (data.result) {
+            localStorage.setItem('token', data.data.token);
             this.step++;
           }
         },

@@ -49,6 +49,16 @@ module.exports = (sequelize, DataTypes) => {
       return response;
     };
 
+    static getByEmail = async (email) => {
+      const response = await User.findOne({
+        where: {
+          email: email,
+        },
+      });
+
+      return response;
+    };
+
     static getById = async (id) => {
       const response = await User.findOne({
         where: {
