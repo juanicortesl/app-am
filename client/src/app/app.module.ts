@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptorService } from './core/interceptors/auth-interceptor.service';
 import { SharedModule } from './shared/shared.module';
+
 registerLocaleData(localeESCL);
 
 @NgModule({
