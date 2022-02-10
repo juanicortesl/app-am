@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SwiperOptions } from 'swiper';
+import {
+  SwiperComponent,
+  SwiperDirective,
+  SwiperConfigInterface,
+  SwiperPaginationInterface,
+} from 'ngx-swiper-wrapper';
 
 @Component({
   selector: 'app-home',
@@ -7,34 +13,21 @@ import { SwiperOptions } from 'swiper';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  config: SwiperOptions = {
-    pagination: { el: '.swiper-pagination', clickable: true },
-    autoHeight: true,
-    allowTouchMove: true,
-    autoplay: {
-      delay: 6000,
-      disableOnInteraction: true,
-    },
-    breakpoints: {
-      1024: {
-        slidesPerView: 4,
-      },
-      500: {
-        slidesPerView: 3,
-      },
-      400: {
-        slidesPerView: 2,
-      },
-      300: {
-        slidesPerView: 1,
-      },
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    loop: true,
+  private pagination: SwiperPaginationInterface = {
+    el: '.swiper-pagination',
+    clickable: true,
+    hideOnClick: false,
   };
+  public config: SwiperConfigInterface = {
+    direction: 'horizontal',
+    slidesPerView: 1,
+    keyboard: true,
+    mousewheel: true,
+    scrollbar: false,
+    navigation: true,
+    pagination: this.pagination,
+  };
+
   constructor() {}
 
   ngOnInit(): void {}

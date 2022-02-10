@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;800&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css");
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
@@ -15,13 +15,13 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   h1 {
-    font-weight: 400 !important;
+    font-weight: 300 !important;
     font-size: 3rem !important;
     margin: 0 !important;
     line-height: 3.1rem !important;
   }
   h2 {
-    font-weight: 400 !important;
+    font-weight: 300 !important;
     font-size: 2.5rem !important;
     line-height: 2.6rem !important;
     margin: 0 !important;
@@ -59,7 +59,7 @@ body {
     width: 100%;
   }
   .title {
-    font-weight: bold;
+    font-weight: 400;
     font-size: 1.5rem;
     text-transform: uppercase;
   }
@@ -202,4 +202,31 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+// respsponsive content
+@media (min-width: 600px) {
+  .sk-mobile-content {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .sk-desktop-content {
+    display: none;
+  }
+}
+
+.sk-mobile-content {
+  h1 {
+    font-size: 2rem !important;
+  }
+  h2 {
+    font-size: 1.8rem !important;
+  }
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  h4 {
+    font-size: 1rem !important;
+  }
 }
