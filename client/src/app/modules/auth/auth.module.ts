@@ -16,6 +16,7 @@ import { NgbModule, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { CodeInputModule } from 'angular-code-input';
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   direction: 'horizontal',
 };
@@ -37,6 +38,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     FormsModule,
     NgbModule,
     SwiperModule,
+    CodeInputModule,
   ],
   providers: [
     {

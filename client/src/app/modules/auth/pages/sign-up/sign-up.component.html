@@ -1,370 +1,474 @@
-<div class="row justify-content-md-center">
-  <div class="col-2 sk-icon-big">
-    <i class="bi bi-arrow-left-circle-fill" [routerLink]="'/'"></i>
-  </div>
-  <div class="col-8 center">
-    <h2>Crear cuenta nueva</h2>
-  </div>
-  <div class="col-2"></div>
-</div>
-<div *ngIf="loading" class="row justify-content-md-center sk-scroll-height">
-  <div class="sk-spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-</div>
-<div
-  class="row justify-content-md-center sk-scroll-height"
-  *ngIf="step == 1 && !loading"
->
-  <div class="col-2"></div>
-  <div class="col-md-8 center profile-form">
-    <form [formGroup]="profileForm" class="profile-form">
-      <div class="row steps row-margin">Paso 1 de 2</div>
-      <div class="row row-margin">
-        Requisitos: Conexión internet – dispositivo con cámara y micrófono
+<section class="sk-desktop-content">
+  <div class="row pt-2 justify-content-center">
+    <!-- step 1 begins -->
+    <div class="col-md-5 center" [formGroup]="profileForm" *ngIf="step === 1">
+      <h2>Crear cuenta</h2>
+      <div class="p-2">
+        <input
+          type="text"
+          class="form-control"
+          id="inputName"
+          aria-describedby="nameHelp"
+          placeholder="Nombre"
+          formControlName="firstName"
+        />
+        <p id="nameHelp" class="form-text text-muted">
+          Así aparecerá en la app
+        </p>
       </div>
-      <div class="row row-margin">
-        <div class="col-md-6">
-          <input
-            id="first-name"
-            type="text"
-            formControlName="firstName"
-            placeholder="Nombre"
-          />
-        </div>
-        <div class="col-md-6">
-          <input
-            id="last-name"
-            type="text"
-            formControlName="lastName"
-            placeholder="Apellido"
-          />
-        </div>
+      <div class="p-2">
+        <input
+          type="email"
+          class="form-control"
+          id="inputEmail"
+          aria-describedby="emailHelp"
+          placeholder="Correo electrónico"
+          formControlName="email"
+        />
+        <p id="emailHelp" class="form-text text-muted">
+          Te servirá para entrar a tu cuenta y para recuperar tu contraseña si
+          la olvidas
+        </p>
       </div>
-      <div class="row row-margin">
-        <div class="col-md-12">
-          <input
-            id="adress"
-            type="text"
-            formControlName="address"
-            placeholder="Direccion"
-          />
-        </div>
+      <div class="p-2">
+        <h4>Contraseña</h4>
+        <code-input
+          [isCodeHidden]="false"
+          [codeLength]="4"
+          (codeCompleted)="changePassword($event)"
+        ></code-input>
+
+        <p id="passwordHelp" class="form-text text-muted">
+          Debe ser de 4 dígitos
+        </p>
       </div>
-      <div class="row row-margin">
-        <div class="col-md-12">
-          <input
-            id="email"
-            type="email"
-            formControlName="email"
-            placeholder="Correo electrónico"
-          />
-        </div>
+      <div class="p-2">
+        <button
+          class="sk-button sign-up"
+          [disabled]="profileForm.invalid || loading"
+          (click)="nextStep()"
+        >
+          Continuar
+        </button>
       </div>
-      <div class="row row-margin">
-        <div class="col-md-12">
-          <input
-            id="password"
-            type="password"
-            formControlName="password"
-            placeholder="Contraseña"
-          />
-        </div>
+    </div>
+    <!-- step 1 ends -->
+    <!-- step 2 begins -->
+    <div class="col-md-7 center" *ngIf="this.step === 2">
+      <h2>Ya eres parte de comunidad!</h2>
+      <div class="pt-4">
+        <h4>
+          Para ayudarte en el uso de esta web necesitamos que respondas tres
+          simple preguntas
+        </h4>
       </div>
-      <div class="row row-margin">
-        <div class="col-md-12">
-          <label for="birthDate">Fecha de nacimiento </label>
-        </div>
+      <div class="p-4">
+        <button class="sk-button sign-up" (click)="nextStep()">
+          Continuar
+        </button>
       </div>
-      <div class="row row-margin">
-        <div class="col-md-12">
+    </div>
+    <!-- step 2 ends -->
+    <!-- step 3 begins -->
+    <div
+      class="col-md-6 center"
+      *ngIf="this.step === 3"
+      [formGroup]="otherInfoForm"
+    >
+      <h2>Algunos datos básicos</h2>
+      <div class="pt-4">
+        <h4>¿Cuál es tu fecha de cumpleaños?</h4>
+      </div>
+      <div class="pt-2">
+        <div class="input-group">
           <input
-            id="password"
-            type="date"
             formControlName="birthDate"
-            placeholder="Fecha de nacimiento"
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="dp"
+            ngbDatepicker
+            #d="ngbDatepicker"
           />
-        </div>
-      </div>
-      <div class="row row-margin">
-        <div class="col-md-12">
-          <label for="sex">Sexo </label>
-        </div>
-      </div>
-      <div class="row row-margin">
-        <div class="col-md-12">
-          <mat-button-toggle-group
-            name="fontStyle"
-            aria-label="Font Style"
-            style="width: 100%"
-            formControlName="sex"
-          >
-            <mat-button-toggle
-              value="woman"
-              [ngClass]="
-                profileForm.controls['sex'].value === 'woman'
-                  ? 'button-toggle selected'
-                  : 'button-toggle'
-              "
-              >Mujer</mat-button-toggle
-            >
-            <mat-button-toggle
-              value="man"
-              [ngClass]="
-                profileForm.controls['sex'].value === 'man'
-                  ? 'button-toggle selected'
-                  : 'button-toggle'
-              "
-              >Hombre</mat-button-toggle
-            >
-            <mat-button-toggle
-              value="other"
-              [ngClass]="
-                profileForm.controls['sex'].value === 'other'
-                  ? 'button-toggle selected'
-                  : 'button-toggle'
-              "
-              >Otro</mat-button-toggle
-            >
-          </mat-button-toggle-group>
-        </div>
-      </div>
-      <div class="row justify-content-md-center row-margin">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <div class="row justify-content-md-center">
+          <div class="input-group-append">
             <button
+              class="btn btn-outline-secondary calendar"
+              (click)="d.toggle()"
               type="button"
-              class="btn btn-primary"
-              [disabled]="profileForm.invalid || loading"
-              (click)="nextStep()"
             >
-              Continuar
+              <i class="bi bi-calendar-date"></i>
             </button>
           </div>
         </div>
-        <div class="col-2"></div>
       </div>
-    </form>
-  </div>
-
-  <div class="col-2"></div>
-</div>
-<!-- <div class="row justify-content-md-center" *ngIf="step == 2">
-  <div class="col-1"></div>
-
-  <div class="col-md-10">
-    <div class="row steps row-margin">Paso 2</div>
-    <div class="row justify-content-md-center">
-      <div class="col-12 center mode-selection">
-        <h2>Elige un modo para comenzar</h2>
+      <div class="pt-4">
+        <h4>Soy</h4>
       </div>
-    </div>
-    <div class="row justify-content-md-center">
-      <div
-        class="col-md-5 option-container"
-        (click)="nextStep({ type: 'searcher' })"
-      >
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-10 option-title center align-middle">Busco</div>
-          <div class="col-sm-1"></div>
-        </div>
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-10 option-subtitle center align-middle">
-            (Requisito ser mayor de 55 años).
-          </div>
-          <div class="col-sm-1"></div>
-        </div>
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-10 option-description align-middle">
-            Descripcion de general. Lorem ipsum dolor sit amet,
-            cotetueradipiscing elit, sed diam nnummy
-          </div>
-          <div class="col-sm-1"></div>
-        </div>
+      <div class="pt-2">
+        <table style="width: 50%; margin-left: 25%; text-align: left">
+          <tr>
+            <td>
+              <input type="radio" value="femal" formControlName="gender" />
+            </td>
+            <td>
+              <p>Mujer</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" value="male" formControlName="gender" />
+            </td>
+            <td>
+              <p>Hombre</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" value="other" formControlName="gender" />
+            </td>
+            <td>
+              <p>Prefiero no decirlo</p>
+            </td>
+          </tr>
+        </table>
       </div>
-      <div
-        class="col-md-5 option-container"
-        (click)="nextStep({ type: 'offerer' })"
-      >
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-10 option-title center align-middle">Ofrezco</div>
-          <div class="col-sm-1"></div>
-        </div>
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-10 option-subtitle center align-middle">
-            (Requisito ser mayor de 18 años).
-          </div>
-          <div class="col-sm-1"></div>
-        </div>
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-10 option-description align-middle">
-            Descripciongeneral. Lorem ipsum dolor sit amet, cotetueradipiscing
-            elit, sed diam nnummy
-          </div>
-          <div class="col-sm-1"></div>
-        </div>
+      <div class="pt-4">
+        <h4>¿En qué comuna vives?</h4>
       </div>
-    </div>
-  </div>
-  <div class="col-1"></div>
-</div> -->
-<div
-  class="row justify-content-md-center sk-scroll-height"
-  *ngIf="step == 2 && !loading"
->
-  <div class="col-2"></div>
-  <div class="col-md-8 center">
-    <div class="row steps row-margin">Paso 2 de 2</div>
-    <div class="row">
-      <div class="col sk-interests-title">Elección áreas de interés</div>
-    </div>
-    <div class="row">
-      <div class="col sk-interests-subtitle">
-        <p>Se pueden escoger todas las que quieras</p>
-        <p>Se puede editar esta información en tu perfil</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <mat-chip-list>
-          <mat-chip
-            *ngFor="let item of interests"
-            [ngClass]="
-              !item.selected ? 'sk-regular-chip' : 'sk-regular-chip selected'
-            "
-            (click)="item.selected = !item.selected"
+      <div class="pt-2">
+        <select
+          id="inputState"
+          class="form-control"
+          [(ngModel)]="selectedRegion"
+          [ngModelOptions]="{ standalone: true }"
+        >
           >
-            {{ item.name }} </mat-chip
-          ><input
-            type="text"
-            placeholder="OTROS"
-            [ngModel]="newInterest"
-            (keyup.enter)="addInterest()"
-            (change)="changeInterest($event)"
-          />
-        </mat-chip-list>
+          <option selected>Region</option>
+          <option *ngFor="let region of regions; let i = index" [value]="i">
+            {{ region.NombreRegion }}
+          </option>
+        </select>
       </div>
-    </div>
-    <div class="row justify-content-md-center row-margin">
-      <div class="col-8"></div>
-      <div class="col-2">
+      <div class="pt-2">
+        <select
+          id="inputState"
+          class="form-control pt-2"
+          *ngIf="selectedRegion && regions[selectedRegion]"
+          formControlName="address"
+        >
+          <option selected>Comuna</option>
+          <option *ngFor="let commune of regions[selectedRegion].comunas">
+            {{ commune }}
+          </option>
+        </select>
+      </div>
+
+      <div class="p-4">
         <button
-          type="button"
-          class="btn btn-primary"
+          class="sk-button sign-up"
+          [disabled]="otherInfoForm.invalid || loading"
           (click)="nextStep()"
-          [disabled]="loading"
         >
           Continuar
         </button>
       </div>
     </div>
-  </div>
-
-  <div class="col-2"></div>
-</div>
-<!-- <div class="row justify-content-md-center" *ngIf="step == 4">
-  <div class="col-2"></div>
-  <div class="col-md-8 center">
-    <div class="row steps row-margin">Paso 4</div>
-    <div class="row">
-      <div class="col sk-interests-title">Horario y disponibilidad</div>
+    <!-- step 3 ends -->
+    <!-- step 4 begins -->
+    <div class="col-md-7 center" *ngIf="this.step === 4">
+      <div class="pt-4">
+        <h2>¿Cuáles con tus intereses?</h2>
+      </div>
+      <div class="pt-2">
+        <h4>
+          Elige todos los que quieras y te mantendremos actualizado sobre tus
+          intereses a través de las notificaciones
+        </h4>
+      </div>
+      <div class="row pt-3">
+        <div class="col md-3" *ngFor="let interest of interests">
+          <div
+            class="interest-card"
+            [ngClass]="
+              !interest.selected ? 'interest-card' : 'interest-card selected'
+            "
+            (click)="interest.selected = !interest.selected"
+          >
+            <table>
+              <tr>
+                <td>
+                  <h4>{{ interest.name }}</h4>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="p-4">
+        <button class="sk-button sign-up" (click)="nextStep()">
+          Continuar
+        </button>
+      </div>
     </div>
-    <div class="row">
-      <div class="col sk-interests-subtitle">
-        <p>Agregar horarios</p>
+    <!-- step 4 ends -->
+    <!-- step 5 begins -->
+    <div class="col-md-7 center" *ngIf="this.step === 5">
+      <div class="pt-4">
+        <h2>Descríbete para que la comunidad pueda conocerte</h2>
+      </div>
+      <div class="pt-4">
+        <div class="comment-container">
+          <textarea name="comment">Descripción: </textarea>
+        </div>
+      </div>
+      <div class="pt-2">
+        <h4>
+          Si no deseas cambiar tu descripción ahora puedes hacerlo en Datos
+          personales en el menú principal
+        </h4>
+      </div>
+      <div class="p-4">
+        <button class="sk-button sign-up" (click)="nextStep()">
+          Continuar
+        </button>
+      </div>
+    </div>
 
-        <p>
-          Selecciona una fecha y hora. Luego haz click en + para agregar a tu
-          lista de horarios disponibles
+    <!-- step 5 ends -->
+  </div>
+</section>
+<section class="sk-mobile-content">
+  <div class="row pt-2 justify-content-center">
+    <!-- step 1 begins -->
+    <div class="col-md-5 center" [formGroup]="profileForm" *ngIf="step === 1">
+      <h2>Crear cuenta</h2>
+      <div class="p-2">
+        <input
+          type="text"
+          class="form-control"
+          id="inputName"
+          aria-describedby="nameHelp"
+          placeholder="Nombre"
+          formControlName="firstName"
+        />
+        <p id="nameHelp" class="form-text text-muted">
+          Así aparecerá en la app
         </p>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">
+      <div class="p-2">
         <input
-          id="newDate"
-          type="date"
-          placeholder="Nueva fecha"
-          [(ngModel)]="newDate"
+          type="email"
+          class="form-control"
+          id="inputEmail"
+          aria-describedby="emailHelp"
+          placeholder="Correo electrónico"
+          formControlName="email"
         />
+        <p id="emailHelp" class="form-text text-muted">
+          Te servirá para entrar a tu cuenta y para recuperar tu contraseña si
+          la olvidas
+        </p>
       </div>
-      <div class="col-sm-2">
-        <input
-          id="newHour"
-          type="time"
-          placeholder="Nueva hora"
-          [(ngModel)]="newTime"
-        />
+      <div class="p-2">
+        <h4>Contraseña</h4>
+        <code-input
+          [isCodeHidden]="false"
+          [codeLength]="4"
+          (codeCompleted)="changePassword($event)"
+        ></code-input>
+
+        <p id="passwordHelp" class="form-text text-muted">
+          Debe ser de 4 dígitos
+        </p>
       </div>
-      <div class="col-sm-1 add-icon" (click)="addTime()">
-        <i class="bi bi-plus-circle-fill"></i>
-      </div>
-      <div class="row">
-        <div class="col sk-interests-subtitle">
-          <p>Horarios agregados:</p>
-        </div>
-      </div>
-      <div class="row" *ngFor="let item of timeList; let i = index">
-        <div class="col-md-3">
-          <div class="date">
-            {{ item | date: "dd/MM/yyyy hh:mm" }}
-          </div>
-        </div>
-        <div
-          class="col-md-1 remove-icon align-middle"
-          (click)="timeList.splice(i, 1)"
-        >
-          <i class="bi bi-x-circle-fill"></i>
-        </div>
-      </div>
-    </div>
-    <div class="row justify-content-md-center row-margin">
-      <div class="col-8"></div>
-      <div class="col-2">
+      <div class="p-2">
         <button
-          type="button"
-          class="btn btn-primary"
-          [disabled]="profileForm.invalid"
+          class="sk-button sign-up"
+          [disabled]="profileForm.invalid || loading"
           (click)="nextStep()"
         >
           Continuar
         </button>
       </div>
     </div>
-  </div>
-  <div class="col-2"></div>
-</div> -->
-<!-- Sign up error dialog -->
-<div
-  class="modal"
-  tabindex="-1"
-  role="dialog"
-  [ngStyle]="{ display: errorPopup }"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">{{ errorTitle }}</h4>
+    <!-- step 1 ends -->
+    <!-- step 2 begins -->
+    <div class="col-md-7 center" *ngIf="this.step === 2">
+      <h2>Ya eres parte de comunidad!</h2>
+      <div class="pt-4">
+        <h4>
+          Para ayudarte en el uso de esta web necesitamos que respondas tres
+          simple preguntas
+        </h4>
       </div>
-      <div class="modal-body">
-        <p>{{ errorMessage }}</p>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-danger"
-          (click)="closeErrorPopup()"
-        >
-          Ok
+      <div class="p-4">
+        <button class="sk-button sign-up" (click)="nextStep()">
+          Continuar
         </button>
       </div>
     </div>
+    <!-- step 2 ends -->
+    <!-- step 3 begins -->
+    <div
+      class="col-md-6 center"
+      *ngIf="this.step === 3"
+      [formGroup]="otherInfoForm"
+    >
+      <h2>Algunos datos básicos</h2>
+      <div class="pt-4">
+        <h4>¿Cuál es tu fecha de cumpleaños?</h4>
+      </div>
+      <div class="pt-2">
+        <div class="input-group">
+          <input
+            formControlName="birthDate"
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="dp"
+            ngbDatepicker
+            #d="ngbDatepicker"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary calendar"
+              (click)="d.toggle()"
+              type="button"
+            >
+              <i class="bi bi-calendar-date"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="pt-4">
+        <h4>Soy</h4>
+      </div>
+      <div class="pt-2">
+        <table style="width: 50%; margin-left: 25%; text-align: left">
+          <tr>
+            <td>
+              <input type="radio" value="femal" formControlName="gender" />
+            </td>
+            <td>
+              <p>Mujer</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" value="male" formControlName="gender" />
+            </td>
+            <td>
+              <p>Hombre</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" value="other" formControlName="gender" />
+            </td>
+            <td>
+              <p>Prefiero no decirlo</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="pt-4">
+        <h4>¿En qué comuna vives?</h4>
+      </div>
+      <div class="pt-2">
+        <select
+          id="inputState"
+          class="form-control"
+          [(ngModel)]="selectedRegion"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          >
+          <option selected>Region</option>
+          <option *ngFor="let region of regions; let i = index" [value]="i">
+            {{ region.NombreRegion }}
+          </option>
+        </select>
+      </div>
+      <div class="pt-2">
+        <select
+          id="inputState"
+          class="form-control pt-2"
+          *ngIf="selectedRegion && regions[selectedRegion]"
+          formControlName="address"
+        >
+          <option selected>Comuna</option>
+          <option *ngFor="let commune of regions[selectedRegion].comunas">
+            {{ commune }}
+          </option>
+        </select>
+      </div>
+
+      <div class="p-4">
+        <button
+          class="sk-button sign-up"
+          [disabled]="otherInfoForm.invalid || loading"
+          (click)="nextStep()"
+        >
+          Continuar
+        </button>
+      </div>
+    </div>
+    <!-- step 3 ends -->
+    <!-- step 4 begins -->
+    <div class="col-md-7 center" *ngIf="this.step === 4">
+      <div class="pt-4">
+        <h2>¿Cuáles con tus intereses?</h2>
+      </div>
+      <div class="pt-2">
+        <h4>
+          Elige todos los que quieras y te mantendremos actualizado sobre tus
+          intereses a través de las notificaciones
+        </h4>
+      </div>
+      <div class="row pt-2" *ngFor="let interest of interests">
+        <div
+          class="interest-card"
+          [ngClass]="
+            !interest.selected ? 'interest-card' : 'interest-card selected'
+          "
+          (click)="interest.selected = !interest.selected"
+        >
+          <table>
+            <tr>
+              <td>
+                <h4>{{ interest.name }}</h4>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="p-4">
+        <button class="sk-button sign-up" (click)="nextStep()">
+          Continuar
+        </button>
+      </div>
+    </div>
+    <!-- step 4 ends -->
+    <!-- step 5 begins -->
+    <div class="col-md-7 center" *ngIf="this.step === 5">
+      <div class="pt-4">
+        <h2>Descríbete para que la comunidad pueda conocerte</h2>
+      </div>
+      <div class="pt-4">
+        <div class="comment-container">
+          <textarea name="comment">Descripción: </textarea>
+        </div>
+      </div>
+      <div class="pt-2">
+        <h4>
+          Si no deseas cambiar tu descripción ahora puedes hacerlo en Datos
+          personales en el menú principal
+        </h4>
+      </div>
+      <div class="p-4">
+        <button class="sk-button sign-up" (click)="nextStep()">
+          Continuar
+        </button>
+      </div>
+    </div>
+
+    <!-- step 5 ends -->
   </div>
-</div>
+</section>

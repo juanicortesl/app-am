@@ -38,6 +38,12 @@ body {
     line-height: 1.6rem !important;
     margin: 0 !important;
   }
+  p {
+    font-weight: 100 !important;
+    font-size: 1rem !important;
+    line-height: 1rem !important;
+    margin: 0.2rem !important;
+  }
 }
 
 // Global styles
@@ -94,6 +100,8 @@ body {
   font-weight: 400;
   text-align: center;
   line-height: 40px;
+  border: none;
+  box-shadow: none;
 
   &.log-in {
     background-color: white;
@@ -104,6 +112,10 @@ body {
     border: none;
     color: white;
   }
+}
+.sk-button :disabled,
+.sk-button[disabled] {
+  background-color: rgb(68, 68, 68);
 }
 .sk-page-title {
   font-size: 1.5rem;
