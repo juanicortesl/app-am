@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   devMode = true;
-  apiUrl = 'http://localhost:8000/api';
-  authUrl = 'http://localhost:8000/authentication';
-  // authUrl = 'https://skolton-338519.rj.r.appspot.com/authentication';
-  // apiUrl = 'https://skolton-338519.rj.r.appspot.com/api';
+  apiUrl = environment.apiUrl;
+  authUrl = environment.authUrl;
   constructor(private http: HttpClient) {}
 
   setUserType(body: any) {

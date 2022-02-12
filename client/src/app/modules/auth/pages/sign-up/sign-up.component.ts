@@ -11,7 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
-  step = 5;
+  step = 1;
   loading = false;
   newInterest = '';
   errorPopup = 'none';

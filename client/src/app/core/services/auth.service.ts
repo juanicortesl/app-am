@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  authUrl = 'http://localhost:8000/authentication';
-  // authUrl = 'https://skolton-338519.rj.r.appspot.com/authentication';
+  apiUrl = environment.apiUrl;
+  authUrl = environment.authUrl;
   constructor(private http: HttpClient) {}
   createUser(body: any) {
     const httpOptions = {
