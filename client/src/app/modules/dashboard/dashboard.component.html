@@ -1,46 +1,240 @@
-<div class="container-fluid">
-  <div class="row justify-content-between sk-header">
-    <div class="col-sm-4">
-      <div class="row">
-        <div class="col-sm">
-          <div class="title">Prototipo</div>
-          <div class="logo">Logo</div>
-        </div>
-        <div class="col">
-          <i class="bi bi-house-door-fill home"></i>
-        </div>
+<section class="sk-desktop-content" *ngIf="innerWidth >= 800">
+  <div class="container-fluid sk-header">
+    <div class="row justify-content-between">
+      <div class="col-sm-4">
+        <table>
+          <tr>
+            <td>
+              <img
+                src="assets/icons/skolton-logo.png"
+                class="logo"
+                routerLink="/auth/home"
+              />
+            </td>
+            <td>
+              <div class="title">Skolton comunidad</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-2">
+        <table>
+          <tr>
+            <td>
+              <h4>Buscador</h4>
+            </td>
+            <td class="search-bar"><i class="bi bi-search"></i></td>
+          </tr>
+        </table>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="row align-items-center h-100">
-        <div
-          [ngClass]="isSelected('home') ? 'col sk-tab selected' : 'col sk-tab'"
-          (click)="goTo('home')"
-        >
-          Información
-        </div>
-        <div class="col sk-tab">Ahorros</div>
-        <div
-          [ngClass]="
-            isSelected('meetings') ? 'col sk-tab selected' : 'col sk-tab'
-          "
-          (click)="goTo('meetings')"
-        >
-          Encuentros
-        </div>
-        <div
-          class="col sk-tab"
-          [ngClass]="
-            isSelected('profile') ? 'col sk-tab selected' : 'col sk-tab'
-          "
-          (click)="goTo('profile')"
-        >
-          Perfil
+    <div class="row justify-content-between p-2">
+      <div class="col-md-12">
+        <div class="row justify-content-center h-100">
+          <div
+            [ngClass]="
+              isSelected('home')
+                ? 'col-md-2 sk-tab selected'
+                : 'col-md-2 sk-tab'
+            "
+            (click)="goTo('home')"
+          >
+            <table>
+              <tr>
+                <td>
+                  <i class="bi bi-house-door" *ngIf="!isSelected('home')"></i>
+                  <i
+                    class="bi bi-house-door-fill"
+                    *ngIf="isSelected('home')"
+                  ></i>
+                </td>
+                <td>Información</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-2 sk-tab">
+            <table>
+              <tr>
+                <td>
+                  <i
+                    class="bi bi-plus-circle"
+                    *ngIf="!isSelected('events')"
+                  ></i>
+                  <i
+                    class="bi bi-plus-circle-fill"
+                    *ngIf="isSelected('events')"
+                  ></i>
+                </td>
+                <td>Crear evento</td>
+              </tr>
+            </table>
+          </div>
+          <div
+            [ngClass]="
+              isSelected('calendar')
+                ? 'col-md-2 sk-tab selected'
+                : 'col-md-2 sk-tab'
+            "
+            (click)="goTo('home')"
+          >
+            <table>
+              <tr>
+                <td>
+                  <i
+                    class="bi bi-calendar-date"
+                    *ngIf="!isSelected('calendar')"
+                  ></i>
+                  <i
+                    class="bi bi-calendar-date-fill"
+                    *ngIf="isSelected('calendar')"
+                  ></i>
+                </td>
+                <td>Calendario</td>
+              </tr>
+            </table>
+          </div>
+          <div
+            class="col sk-tab"
+            [ngClass]="
+              isSelected('profile')
+                ? 'col-md-2 sk-tab selected'
+                : 'col-md-2 sk-tab'
+            "
+            (click)="goTo('profile')"
+          >
+            <table>
+              <tr>
+                <td>
+                  <i class="bi bi-person" *ngIf="!isSelected('profile')"></i>
+                  <i
+                    class="bi bi-person-fill"
+                    *ngIf="isSelected('profile')"
+                  ></i>
+                </td>
+                <td>Perfil</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="container-fluid sk-main">
-  <router-outlet></router-outlet>
-</div>
+  <div class="container-fluid sk-main">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+
+<section class="sk-mobile-content" *ngIf="innerWidth < 800">
+  <div class="container-fluid sk-header">
+    <div class="row">
+      <div class="col-10">
+        <table>
+          <tr>
+            <td>
+              <img
+                src="assets/icons/skolton-logo.png"
+                class="logo"
+                routerLink="/auth/home"
+              />
+            </td>
+            <td>
+              <h2>SKOLTON</h2>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-2">
+        <table>
+          <tr>
+            <td></td>
+            <td class="search-bar"><i class="bi bi-search"></i></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid sk-main">
+    <router-outlet *ngIf="innerWidth < 800"></router-outlet>
+  </div>
+  <div class="container-fluid sk-footer">
+    <div class="row justify-content-center h-100">
+      <div
+        [ngClass]="
+          isSelected('home') ? 'col-3 sk-tab selected' : 'col-3 sk-tab'
+        "
+        (click)="goTo('home')"
+      >
+        <table>
+          <tr>
+            <td>
+              <i class="bi bi-house-door" *ngIf="!isSelected('home')"></i>
+              <i class="bi bi-house-door-fill" *ngIf="isSelected('home')"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>Información</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-3 sk-tab">
+        <table>
+          <tr>
+            <td>
+              <i class="bi bi-plus-circle" *ngIf="!isSelected('events')"></i>
+              <i
+                class="bi bi-plus-circle-fill"
+                *ngIf="isSelected('events')"
+              ></i>
+            </td>
+          </tr>
+          <tr>
+            <td>Crear evento</td>
+          </tr>
+        </table>
+      </div>
+      <div
+        [ngClass]="
+          isSelected('calendar') ? 'col-3 sk-tab selected' : 'col-3 sk-tab'
+        "
+        (click)="goTo('home')"
+      >
+        <table>
+          <tr>
+            <td>
+              <i
+                class="bi bi-calendar-date"
+                *ngIf="!isSelected('calendar')"
+              ></i>
+              <i
+                class="bi bi-calendar-date-fill"
+                *ngIf="isSelected('calendar')"
+              ></i>
+            </td>
+          </tr>
+          <tr>
+            <td>Calendario</td>
+          </tr>
+        </table>
+      </div>
+      <div
+        class="col sk-tab"
+        [ngClass]="
+          isSelected('profile') ? 'col-3 sk-tab selected' : 'col-3 sk-tab'
+        "
+        (click)="goTo('profile')"
+      >
+        <table>
+          <tr>
+            <td>
+              <i class="bi bi-person" *ngIf="!isSelected('profile')"></i>
+              <i class="bi bi-person-fill" *ngIf="isSelected('profile')"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>Perfil</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
