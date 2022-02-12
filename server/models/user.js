@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
     static add = async (attributesToCreate) => {
+      console.log("ATTRIBIUTE", attributesToCreate);
       const response = await User.create(attributesToCreate);
       return response;
     };
@@ -99,6 +100,8 @@ module.exports = (sequelize, DataTypes) => {
     };
 
     static updateById = async (id, attributesToUpdate) => {
+      console.log("ID", id);
+      console.log("ATTRIBUTES", attributesToUpdate);
       const response = await User.update(attributesToUpdate, {
         where: {
           id: id,
@@ -120,6 +123,7 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       birth_date: DataTypes.DATE,
       gender: DataTypes.STRING,
+      description: DataTypes.STRING,
       interests: DataTypes.ARRAY(DataTypes.STRING),
     },
     {

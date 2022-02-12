@@ -5,10 +5,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ApiService {
   devMode = true;
-  // apiUrl = 'http://localhost:8000/api';
-  // authUrl = 'http://localhost:8000/authentication';
-  authUrl = 'https://skolton-338519.rj.r.appspot.com/authentication';
-  apiUrl = 'https://skolton-338519.rj.r.appspot.com/api';
+  apiUrl = 'http://localhost:8000/api';
+  authUrl = 'http://localhost:8000/authentication';
+  // authUrl = 'https://skolton-338519.rj.r.appspot.com/authentication';
+  // apiUrl = 'https://skolton-338519.rj.r.appspot.com/api';
   constructor(private http: HttpClient) {}
 
   setUserType(body: any) {
@@ -42,6 +42,12 @@ export class ApiService {
 
   getPastMeetings() {
     return this.genericGet('models/meetings/past');
+  }
+
+  updateUser(body: any) {
+    let id = localStorage.getItem('userId');
+    console.log(body, 'body');
+    return this.genericPut(body, `models/users/${id}`);
   }
 
   genericPost(body: any = {}, endpoint: string) {

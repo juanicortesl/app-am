@@ -11,7 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
-  step = 1;
+  step = 5;
   loading = false;
   newInterest = '';
   errorPopup = 'none';
@@ -55,6 +55,9 @@ export class SignUpComponent implements OnInit {
     gender: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
   });
+  public descriptionForm = new FormGroup({
+    description: new FormControl('Descripción: ', [Validators.required]),
+  });
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -81,6 +84,7 @@ export class SignUpComponent implements OnInit {
           console.log(data);
           if (data.result) {
             localStorage.setItem('token', data.data.token);
+            localStorage.setItem('userId', data.data.user.id);
             this.step++;
           }
         },
@@ -96,11 +100,50 @@ export class SignUpComponent implements OnInit {
     } else if (this.step == 2) {
       this.step++;
     } else if (this.step == 3) {
-      this.step++;
+      this.loading = true;
+      let body = {
+        birth_date: this.otherInfoForm.get('birthDate')!.value,
+        gender: this.otherInfoForm.get('gender')!.value,
+        address: this.otherInfoForm.get('address')!.value,
+      };
+      this.apiService.updateUser(body).subscribe((data: any) => {
+        console.log(data);
+        if (data.result) {
+          this.step++;
+        }
+        this.loading = false;
+      });
     } else if (this.step == 4) {
-      this.step++;
+      this.loading = true;
+      let selectedInterests: any = this.interests.filter(
+        (interest) => interest.selected
+      );
+      selectedInterests = selectedInterests.map(
+        (interest: { name: any }) => interest.name
+      );
+      console.log(selectedInterests);
+      let body = {
+        interests: selectedInterests,
+      };
+      this.apiService.updateUser(body).subscribe((data: any) => {
+        console.log(data);
+        if (data.result) {
+          this.step++;
+        }
+        this.loading = false;
+      });
     } else if (this.step == 5) {
-      this.router.navigate(['dashboard/home']);
+      this.loading = true;
+      let body = {
+        description: this.descriptionForm.get('description')!.value,
+      };
+      this.apiService.updateUser(body).subscribe((data: any) => {
+        console.log(data);
+        this.loading = false;
+        if (data.result) {
+          this.router.navigate(['dashboard/home']);
+        }
+      });
     }
   }
   addInterest() {

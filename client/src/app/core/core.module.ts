@@ -5,8 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+
 @NgModule({
   imports: [CommonModule, HttpClientModule, ReactiveFormsModule, FormsModule],
+  exports: [],
   providers: [HttpClient],
 })
 export class CoreModule {}

@@ -10,7 +10,7 @@ class ModelsController {
 
   models = {
     meetings: { model: Models.Meeting, name: "Meeting" },
-    // users: { model: Models.User, name: "User" },
+    users: { model: Models.User, name: "User" },
   };
 
   constructor() {
@@ -32,6 +32,15 @@ class ModelsController {
     console.log("getting all", status);
     try {
       let queryResult;
+      // users logic
+      if (model === "users") {
+        res.status(200).send({
+          result: false,
+          message: "Something went wrong, please check the error section",
+          errors: [{ msg: "Endpoint not available", location: "url" }],
+        });
+        return;
+      }
       // meetings logic
       if (model === "meetings") {
         if (status === "offered") {
@@ -86,7 +95,15 @@ class ModelsController {
 
     try {
       let queryResult;
-
+      // users logic
+      if (model === "users") {
+        res.status(200).send({
+          result: false,
+          message: "Something went wrong, please check the error section",
+          errors: [{ msg: "Endpoint not available", location: "url" }],
+        });
+        return;
+      }
       if (mode === "simple") {
         queryResult = await this.models[model].model.getById(id);
       } else if (mode === "full") {
@@ -124,6 +141,15 @@ class ModelsController {
     const model = req.params.model;
     const attributesToCreate = req.body;
     try {
+      // users logic
+      if (model === "users") {
+        res.status(200).send({
+          result: false,
+          message: "Something went wrong, please check the error section",
+          errors: [{ msg: "Endpoint not available", location: "url" }],
+        });
+        return;
+      }
       // new meeting logic
       if (model === "meetings") {
         attributesToCreate.offererId = req.user.id;
@@ -173,7 +199,7 @@ class ModelsController {
 
   updateById = async (req, res) => {
     const model = req.params.model;
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
     const attributesToUpdate = req.body;
 
     if (Object.keys(attributesToUpdate).length === 0) {
@@ -187,6 +213,20 @@ class ModelsController {
     }
 
     try {
+      // users logic
+      if (model === "users") {
+        // check that id is the same of token
+        if (id !== req.user.id) {
+          console.log(req.user.id, "ID");
+          console.log(id, "ID");
+          res.status(200).send({
+            result: false,
+            message: "Something went wrong, please check the error section",
+            errors: [{ msg: "Cannot update other user", location: "url" }],
+          });
+          return;
+        }
+      }
       const [updatedRows, queryResults] = await this.models[
         model
       ].model.updateById(id, attributesToUpdate);
@@ -213,6 +253,7 @@ class ModelsController {
         },
       });
     } catch (error) {
+      console.log(error);
       if (error.name === "SequelizeUniqueConstraintError") {
         const value = error.errors[0].value;
         const param = error.errors[0].path;
@@ -259,6 +300,15 @@ class ModelsController {
     }
 
     try {
+      // users logic
+      if (model === "users") {
+        res.status(200).send({
+          result: false,
+          message: "Something went wrong, please check the error section",
+          errors: [{ msg: "Endpoint not available", location: "url" }],
+        });
+        return;
+      }
       const user = await Models.User.getById(req.user.id);
       if (mode === "request" && model === "meetings") {
         /* request meeting and generate zoom link */
@@ -370,6 +420,15 @@ class ModelsController {
     const id = req.params.id;
 
     try {
+      // users logic
+      if (model === "users") {
+        res.status(200).send({
+          result: false,
+          message: "Something went wrong, please check the error section",
+          errors: [{ msg: "Endpoint not available", location: "url" }],
+        });
+        return;
+      }
       const destroyedRows = await this.models[model].model.deleteById(id);
 
       if (destroyedRows === 0) {

@@ -80,25 +80,25 @@
         <h4>¿Cuál es tu fecha de cumpleaños?</h4>
       </div>
       <div class="pt-2">
-        <div class="input-group">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Elige una fecha</mat-label>
           <input
+            matInput
+            [matDatepicker]="picker"
             formControlName="birthDate"
-            class="form-control"
-            placeholder="yyyy-mm-dd"
-            name="dp"
-            ngbDatepicker
-            #d="ngbDatepicker"
+            [disabled]="true"
           />
-          <div class="input-group-append">
-            <button
-              class="btn btn-outline-secondary calendar"
-              (click)="d.toggle()"
-              type="button"
-            >
-              <i class="bi bi-calendar-date"></i>
-            </button>
-          </div>
-        </div>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker
+            touchUi
+            #picker
+            startAt="1960"
+            [disabled]="false"
+          ></mat-datepicker>
+        </mat-form-field>
       </div>
       <div class="pt-4">
         <h4>Soy</h4>
@@ -107,7 +107,7 @@
         <table style="width: 50%; margin-left: 25%; text-align: left">
           <tr>
             <td>
-              <input type="radio" value="femal" formControlName="gender" />
+              <input type="radio" value="female" formControlName="gender" />
             </td>
             <td>
               <p>Mujer</p>
@@ -211,13 +211,19 @@
     </div>
     <!-- step 4 ends -->
     <!-- step 5 begins -->
-    <div class="col-md-7 center" *ngIf="this.step === 5">
+    <div
+      class="col-md-7 center"
+      *ngIf="this.step === 5"
+      [formGroup]="descriptionForm"
+    >
       <div class="pt-4">
         <h2>Descríbete para que la comunidad pueda conocerte</h2>
       </div>
       <div class="pt-4">
         <div class="comment-container">
-          <textarea name="comment">Descripción: </textarea>
+          <textarea name="comment" formControlName="description">
+Descripción: </textarea
+          >
         </div>
       </div>
       <div class="pt-2">
@@ -318,25 +324,25 @@
         <h4>¿Cuál es tu fecha de cumpleaños?</h4>
       </div>
       <div class="pt-2">
-        <div class="input-group">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Elige una fecha</mat-label>
           <input
+            matInput
+            [matDatepicker]="picker"
             formControlName="birthDate"
-            class="form-control"
-            placeholder="yyyy-mm-dd"
-            name="dp"
-            ngbDatepicker
-            #d="ngbDatepicker"
+            [disabled]="true"
           />
-          <div class="input-group-append">
-            <button
-              class="btn btn-outline-secondary calendar"
-              (click)="d.toggle()"
-              type="button"
-            >
-              <i class="bi bi-calendar-date"></i>
-            </button>
-          </div>
-        </div>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker
+            touchUi
+            #picker
+            startAt="1960"
+            [disabled]="false"
+          ></mat-datepicker>
+        </mat-form-field>
       </div>
       <div class="pt-4">
         <h4>Soy</h4>
@@ -447,13 +453,19 @@
     </div>
     <!-- step 4 ends -->
     <!-- step 5 begins -->
-    <div class="col-md-7 center" *ngIf="this.step === 5">
+    <div
+      class="col-md-7 center"
+      *ngIf="this.step === 5"
+      [formGroup]="descriptionForm"
+    >
       <div class="pt-4">
         <h2>Descríbete para que la comunidad pueda conocerte</h2>
       </div>
       <div class="pt-4">
         <div class="comment-container">
-          <textarea name="comment">Descripción: </textarea>
+          <textarea name="comment" formControlName="description">
+Descripción: </textarea
+          >
         </div>
       </div>
       <div class="pt-2">

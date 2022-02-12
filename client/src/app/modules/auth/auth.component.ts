@@ -10,8 +10,8 @@ export class AuthComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem('token')) {
-      this.router.navigate(['dashboard/home']);
-    }
+    // if (localStorage.getItem('token')) {
+    //   this.router.navigate(['dashboard/home']);
+    // }
   }
 }

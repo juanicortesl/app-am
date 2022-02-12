@@ -27,8 +27,7 @@ class AuthenticationController {
     const type = req.params.type;
     const attributesToCreate = req.body;
 
-    attributesToCreate.passwordHash = hashPassword(attributesToCreate.password);
-    delete attributesToCreate.password;
+    attributesToCreate.password = hashPassword(attributesToCreate.password);
 
     try {
       const user = await this.users[type].model.add(attributesToCreate);
