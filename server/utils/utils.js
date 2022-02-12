@@ -8,24 +8,13 @@ const axios = require("axios");
 const User = require("../models").User;
 const Meeting = require("../models").Meeting;
 const meeting = require("../models/meeting");
-const CLIENT_ID =
-  "426308237351-emj2g05ff5vb0qsdhnn0g4fkvca1n8vl.apps.googleusercontent.com";
-const CLIENT_SECRET = "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";
-const REFRESH_TOKEN =
-  "1//04GS14sJU4Z6uCgYIARAAGAQSNwF-L9IrklpV1p4zZ0LlkyTdnw4apw1DWtpb-kIiMDPbElmDYPTL1I0FQFslsDVLDDyV9dv5CXU";
-const MAIL_USER = "condor.softdev@gmail.com";
-const zoomOptions = {
-  access_token:
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6Ii1LMlZtTTI4UjJPb3dLWVJEcEg2b1EiLCJleHAiOjE3MzQwMTc0MDAsImlhdCI6MTY0MTkyOTA2OH0.4cdmylY7ABQXH4ZjgaCzyz99qTW5k_ZH1KVxXeIfyY4",
-};
-
 const myOAuth2Client = new OAuth2(
-  CLIENT_ID,
-  CLIENT_SECRET,
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
   "https://developers.google.com/oauthplayground"
 );
 myOAuth2Client.setCredentials({
-  refresh_token: REFRESH_TOKEN,
+  refresh_token: process.env.REFRESH_TOKEN,
 });
 const dateOptions = {
   weekday: "long",
@@ -46,10 +35,10 @@ const transport = nodemailer.createTransport({
   service: "gmail",
   auth: {
     type: "OAuth2",
-    user: MAIL_USER, //your gmail account you used to set the project up in google cloud console"
-    clientId: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-    refreshToken: REFRESH_TOKEN,
+    user: process.env.MAIL_USER, //your gmail account you used to set the project up in google cloud console"
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN,
     accessToken: myAccessToken, //access token variable we defined earlier
   },
 });

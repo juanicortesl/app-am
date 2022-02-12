@@ -12,9 +12,7 @@
           placeholder="Nombre"
           formControlName="firstName"
         />
-        <p id="nameHelp" class="form-text text-muted">
-          Así aparecerá en la app
-        </p>
+        <p id="nameHelp">Así aparecerá en la app</p>
       </div>
       <div class="p-2">
         <input
@@ -25,7 +23,7 @@
           placeholder="Correo electrónico"
           formControlName="email"
         />
-        <p id="emailHelp" class="form-text text-muted">
+        <p id="emailHelp">
           Te servirá para entrar a tu cuenta y para recuperar tu contraseña si
           la olvidas
         </p>
@@ -36,11 +34,11 @@
           [isCodeHidden]="false"
           [codeLength]="4"
           (codeCompleted)="changePassword($event)"
+          (codeChanged)="changePassword($event)"
+          class="code-input"
         ></code-input>
 
-        <p id="passwordHelp" class="form-text text-muted">
-          Debe ser de 4 dígitos
-        </p>
+        <p id="passwordHelp">Debe ser de 4 dígitos</p>
       </div>
       <div class="p-2">
         <button
@@ -256,9 +254,7 @@ Descripción: </textarea
           placeholder="Nombre"
           formControlName="firstName"
         />
-        <p id="nameHelp" class="form-text text-muted">
-          Así aparecerá en la app
-        </p>
+        <p id="nameHelp">Así aparecerá en la app</p>
       </div>
       <div class="p-2">
         <input
@@ -269,7 +265,7 @@ Descripción: </textarea
           placeholder="Correo electrónico"
           formControlName="email"
         />
-        <p id="emailHelp" class="form-text text-muted">
+        <p id="emailHelp">
           Te servirá para entrar a tu cuenta y para recuperar tu contraseña si
           la olvidas
         </p>
@@ -280,11 +276,11 @@ Descripción: </textarea
           [isCodeHidden]="false"
           [codeLength]="4"
           (codeCompleted)="changePassword($event)"
+          (codeChanged)="changePassword($event)"
+          class="code-input"
         ></code-input>
 
-        <p id="passwordHelp" class="form-text text-muted">
-          Debe ser de 4 dígitos
-        </p>
+        <p id="passwordHelp">Debe ser de 4 dígitos</p>
       </div>
       <div class="p-2">
         <button
@@ -351,7 +347,7 @@ Descripción: </textarea
         <table style="width: 50%; margin-left: 25%; text-align: left">
           <tr>
             <td>
-              <input type="radio" value="femal" formControlName="gender" />
+              <input type="radio" value="female" formControlName="gender" />
             </td>
             <td>
               <p>Mujer</p>

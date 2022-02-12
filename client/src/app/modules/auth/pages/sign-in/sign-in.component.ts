@@ -9,6 +9,8 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
+  loading = false;
+  signInError = false;
   public signInForm = new FormGroup({
     email: new FormControl(''),
     password: new FormControl(''),
@@ -19,16 +21,23 @@ export class SignInComponent implements OnInit {
 
   signIn() {
     if (this.signInForm.value.email && this.signInForm.value.password) {
+      this.loading = true;
+      this.signInError = false;
       this.authService
         .signIn({
           email: this.signInForm.value.email,
           password: this.signInForm.value.password,
         })
         .subscribe((data: any) => {
+          console.log(data);
           if (data.result) {
             localStorage.setItem('token', data.data.token);
+            localStorage.setItem('userId', data.data.user.id);
             this.router.navigate(['dashboard/home']);
+          } else {
+            this.signInError = true;
           }
+          this.loading = false;
         });
       // if (this.signInForm.value.email.toLowerCase() === 'ofrezco@gmail.com') {
       //   localStorage.setItem('userType', 'offerer');
@@ -39,5 +48,9 @@ export class SignInComponent implements OnInit {
       //   this.router.navigate(['dashboard/home']);
       // }
     }
+  }
+  changePassword(event: any) {
+    console.log(event);
+    this.signInForm.controls['password'].setValue(event);
   }
 }

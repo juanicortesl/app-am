@@ -1,49 +1,44 @@
-<div class="row pt-5">
-  <div class="col-md-2"></div>
-  <div class="col-md-8 sk-green-pill">
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <form [formGroup]="signInForm">
-          <div class="row pt-5">
-            <div class="sk-page-title center">Iniciar Sesión</div>
-          </div>
-          <div class="row pt-3">
-            <div class="sk-section-title center">¡Bienvenido de vuelta!</div>
-          </div>
-          <div class="row pt-5">
-            <input
-              id="email"
-              type="email"
-              formControlName="email"
-              placeholder="Correo electrónico"
-            />
-          </div>
-          <div class="row pt-2">
-            <input
-              id="password"
-              type="password"
-              formControlName="password"
-              placeholder="Contraseña"
-            />
-          </div>
-          <div class="row justify-content-md-center pt-3">
-            <div class="col-6"></div>
-            <div class="col-5">
-              <button
-                type="button"
-                class="btn btn-primary"
-                [disabled]="signInForm.invalid"
-                (click)="signIn()"
-              >
-                Continuar
-              </button>
-            </div>
-          </div>
-        </form>
+<section class="sk-desktop-content">
+  <div class="row pt-2 justify-content-center">
+    <div class="col-md-5 center" [formGroup]="signInForm">
+      <h2>Ingresar a tu cuenta</h2>
+      <div class="pt-4">
+        <input
+          type="email"
+          class="form-control"
+          id="inputEmail"
+          aria-describedby="emailHelp"
+          placeholder="Correo electrónico"
+          formControlName="email"
+        />
       </div>
-      <div class="col-md-2"></div>
+      <div class="pt-4">
+        <h4>Contraseña</h4>
+        <code-input
+          [isCodeHidden]="false"
+          [codeLength]="4"
+          (codeCompleted)="changePassword($event)"
+          (codeChanged)="changePassword($event)"
+          class="code-input"
+        ></code-input>
+      </div>
+      <div class="p-2">
+        <button
+          class="sk-button sign-up"
+          [disabled]="signInForm.invalid || loading"
+          (click)="signIn()"
+        >
+          Continuar
+        </button>
+      </div>
+      <div class="row justify-content-center p-1">
+        <a [routerLink]="'../sign-up'">Crear cuenta</a>
+      </div>
+      <div class="p-2 sk-danger" *ngIf="signInError">
+        <p class="sk-danger">
+          Error al iniciar sesión. Revisa los datos ingresados.
+        </p>
+      </div>
     </div>
   </div>
-  <div class="col-md-2"></div>
-</div>
+</section>

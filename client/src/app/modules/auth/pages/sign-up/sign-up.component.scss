@@ -76,9 +76,7 @@
   font-size: 1.5rem;
   margin: 5px;
 }
-code-input {
-  --item-background: white;
-}
+
 .interest-card {
   border: 1px solid rgb(18 57 199);
   border-radius: 10px;
@@ -120,4 +118,25 @@ code-input {
 }
 .e-datepicker {
   background-color: white;
+}
+.form-text {
+  color: rgb(102, 102, 102);
+}
+
+::ng-deep .mat-form-field-flex {
+  background-color: white !important;
+}
+::ng-deep .mat-input-element {
+  color: #555 !important;
+}
+select {
+  width: 60%;
+  margin-left: 20%;
+  .form-control {
+    color: #555 !important;
+    font-weight: 100;
+  }
+}
+.code-input {
+  --item-background: white;
 }
