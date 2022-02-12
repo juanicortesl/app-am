@@ -218,12 +218,12 @@ body {
 }
 
 // respsponsive content
-@media (min-width: 600px) {
+@media (min-width: 800px) {
   .sk-mobile-content {
     display: none;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .sk-desktop-content {
     display: none;
   }

@@ -5,7 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AuthService {
-  authUrl = 'http://localhost:8000/authentication';
+  // authUrl = 'http://localhost:8000/authentication';
+  authUrl = 'https://skolton-338519.rj.r.appspot.com/authentication';
   constructor(private http: HttpClient) {}
   createUser(body: any) {
     const httpOptions = {

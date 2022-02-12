@@ -5,9 +5,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ApiService {
   devMode = true;
-  apiUrl = 'http://localhost:8000/api';
-  authUrl = 'http://localhost:8000/authentication';
-  // apiUrl = 'https://arcane-island-14669.herokuapp.com/api';
+  // apiUrl = 'http://localhost:8000/api';
+  // authUrl = 'http://localhost:8000/authentication';
+  authUrl = 'https://skolton-338519.rj.r.appspot.com/authentication';
+  apiUrl = 'https://skolton-338519.rj.r.appspot.com/api';
   constructor(private http: HttpClient) {}
 
   setUserType(body: any) {
