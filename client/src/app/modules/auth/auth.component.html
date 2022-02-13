@@ -1,34 +1,40 @@
-<div class="container-fluid">
-  <div class="row justify-content-between sk-header">
-    <div class="col-sm-4">
-      <table>
-        <tr>
-          <td>
-            <img
-              src="assets/icons/skolton-logo.png"
-              class="logo"
-              routerLink="/auth/home"
-            />
-          </td>
-          <td>
-            <div class="title">Skolton comunidad</div>
-          </td>
-        </tr>
-      </table>
+<section
+  [ngClass]="innerWidth >= 800 ? 'sk-desktop-content' : 'sk-mobile-content'"
+>
+  <section class="sk-main">
+    <div class="container-fluid sk-header">
+      <div class="row justify-content-between">
+        <div class="col-md-4">
+          <table>
+            <tr>
+              <td>
+                <img
+                  src="assets/icons/skolton-logo.png"
+                  class="logo"
+                  routerLink="/auth/home"
+                />
+              </td>
+              <td>
+                <div class="title">Skolton comunidad</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-3" *ngIf="innerWidth >= 800">
+          <table>
+            <tr>
+              <td>
+                <div class="sk-button sign-up" [routerLink]="'sign-up'">
+                  ¡Conectarse!
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
-    <div class="col-md-2 sk-desktop-content">
-      <table>
-        <tr>
-          <td>
-            <div class="sk-button sign-up" [routerLink]="'sign-up'">
-              ¡Conectarse!
-            </div>
-          </td>
-        </tr>
-      </table>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
     </div>
-  </div>
-</div>
-<div class="container-fluid sk-main">
-  <router-outlet></router-outlet>
-</div>
+  </section>
+</section>

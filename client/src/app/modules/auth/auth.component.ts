@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,11 +7,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-  constructor(private router: Router) {}
+  public innerWidth: any;
+  constructor(private router: Router) {
+    this.innerWidth = window.innerWidth;
+  }
 
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
       this.router.navigate(['dashboard/home']);
     }
+  }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.innerWidth = window.innerWidth;
   }
 }
