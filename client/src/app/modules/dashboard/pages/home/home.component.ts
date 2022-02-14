@@ -8,6 +8,11 @@ import { Component, HostListener, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   public widthThreshold = environment.widthThreshold;
   public innerWidth: any;
+  themes = [
+    { title: 'Cine', icon: 'bi bi-film' },
+    { title: 'Literatura', icon: 'bi bi-book' },
+    { title: 'Actualidad', icon: 'bi bi-newspaper' },
+  ];
   constructor() {}
 
   ngOnInit(): void {

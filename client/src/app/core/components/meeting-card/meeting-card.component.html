@@ -7,7 +7,9 @@
       <td>
         <h5><strong>Hablemos de: peliculas</strong></h5>
       </td>
-      <td style="width: 25%"></td>
+      <td style="width: 25%">
+        <p *ngIf="type === 'available'"><strong>Quedan 4 cupos</strong></p>
+      </td>
     </tr>
     <tr>
       <td>
@@ -30,7 +32,12 @@
           <tr>
             <td><p>Faltan: 0d:0h:14m</p></td>
             <td>
-              <div class="sk-button secondary">Ingresar</div>
+              <button class="sk-button secondary" *ngIf="type !== 'available'">
+                Ingresar
+              </button>
+              <button class="sk-button secondary" *ngIf="type === 'available'">
+                Agregar a mi calendario
+              </button>
             </td>
           </tr>
         </table>
@@ -38,6 +45,7 @@
     </tr>
   </table>
   <div
+    *ngIf="type === 'available'"
     class="pt-2 justify description"
     [ngClass]="
       seeMore
@@ -85,6 +93,7 @@
         ? 'pt-2 justify description see-more'
         : ' pt-2 justify description see-less'
     "
+    *ngIf="type === 'available'"
   >
     <p *ngIf="!seeMore">
       {{ description | shorten: 50:40 }}
@@ -100,6 +109,11 @@
     <p><strong>Faltan: 0d:0h:14m</strong></p>
   </div>
   <div class="row justify-content-center pt-2">
-    <div class="sk-button secondary">Ingresar</div>
+    <button class="sk-button secondary" *ngIf="type !== 'available'">
+      Ingresar
+    </button>
+    <button class="sk-button secondary" *ngIf="type === 'available'">
+      Agregar a mi calendario
+    </button>
   </div>
 </div>
