@@ -208,7 +208,7 @@ body {
     border: 1px solid rgb(146, 187, 156);
   }
   &.sign-up {
-    background-color: rgb(18 57 199);
+    background-color: var(--main-color);
     border: none;
     color: white;
   }

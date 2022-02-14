@@ -27,6 +27,11 @@ export class HomeComponent implements OnInit {
     navigation: true,
     pagination: this.pagination,
   };
+  themes = [
+    { title: 'Cine', icon: 'bi bi-film' },
+    { title: 'Literatura', icon: 'bi bi-book' },
+    { title: 'Actualidad', icon: 'bi bi-newspaper' },
+  ];
 
   constructor() {}
 

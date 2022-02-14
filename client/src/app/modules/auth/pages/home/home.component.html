@@ -36,38 +36,28 @@
         Conéctate y participa. Crea tus propios temas o eventos. Conversa sobre
         lo que más te guste hablar
       </h4>
-      <table class="themes-table">
-        <tr>
-          <td>
-            <div class="theme-card">
-              <table>
-                <tr>
-                  <td><h3>Actualidad</h3></td>
-                </tr>
-              </table>
-            </div>
-          </td>
-          <td>
-            <div class="theme-card">
-              <table>
-                <tr>
-                  <td><h3>Cine</h3></td>
-                </tr>
-              </table>
-            </div>
-          </td>
-          <td>
-            <div class="theme-card">
-              <table>
-                <tr>
-                  <td><h3>Literatura</h3></td>
-                </tr>
-              </table>
-            </div>
-          </td>
-        </tr>
-      </table>
-      <h3>Comunidad</h3>
+      <div class="row justify-content-center pt-2">
+        <div class="col-md-4 py-2 px-3" *ngFor="let theme of themes">
+          <div class="sk-theme-card">
+            <table>
+              <tr>
+                <td class="p-2">
+                  <i [class]="theme.icon"></i>
+                </td>
+                <td class="left">
+                  <h2>
+                    <strong>{{ theme.title }}</strong>
+                  </h2>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="pt-2">
+        <h3>Skolton Comunidad</h3>
+      </div>
+
       <div class="row justify-content-center p-3">
         <div class="sk-button sign-up" [routerLink]="'../sign-up'">
           ¡Conectarse!
@@ -132,6 +122,24 @@
                 Conéctate y participa. Crea tus propios temas o eventos.
                 Conversa sobre lo que más te guste hablar
               </h4>
+              <div class="row justify-content-center pt-2">
+                <div class="col-md-4 py-2 px-3" *ngFor="let theme of themes">
+                  <div class="sk-theme-card">
+                    <table>
+                      <tr>
+                        <td class="p-2">
+                          <i [class]="theme.icon"></i>
+                        </td>
+                        <td class="left">
+                          <h2>
+                            <strong>{{ theme.title }}</strong>
+                          </h2>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
