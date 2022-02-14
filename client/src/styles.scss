@@ -18,6 +18,9 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  strong {
+    font-weight: 300 !important;
+  }
   h1 {
     font-weight: 300 !important;
     font-size: 3rem !important;
@@ -42,11 +45,17 @@ body {
     line-height: 1.6rem !important;
     margin: 0 !important;
   }
-  p {
+  h5 {
     font-weight: 100 !important;
+    font-size: 1.3rem !important;
+    line-height: 1.4rem !important;
+    margin: 0 !important;
+  }
+  p {
+    font-weight: 100;
     font-size: 1rem !important;
-    line-height: 1rem !important;
-    margin: 0.2rem !important;
+    line-height: 1.1rem !important;
+    margin: 0rem !important;
     color: #555;
   }
 }
@@ -54,6 +63,13 @@ body {
 // Global styles
 .center {
   text-align: center !important;
+}
+
+.left {
+  text-align: left !important;
+}
+.justify {
+  text-align: justify !important;
 }
 
 .sk-icon-big {
@@ -69,6 +85,7 @@ body {
   height: 120px;
   padding: 10px;
   background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   table {
     height: 100%;
     width: 100%;
@@ -165,7 +182,7 @@ body {
 
 // main content
 .sk-main {
-  background-color: rgb(243, 243, 243);
+  background-color: white;
   height: 100% !important;
   padding: 120px 0 0 0 !important;
   overflow-y: scroll;
@@ -194,6 +211,12 @@ body {
     background-color: rgb(18 57 199);
     border: none;
     color: white;
+  }
+  &.secondary {
+    background-color: white;
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+    font-size: 1rem;
   }
 }
 .sk-button :disabled,
@@ -254,6 +277,30 @@ body {
   &.selected {
     background-color: rgb(136, 160, 213);
     color: white;
+  }
+}
+
+.sk-meeting-card {
+  width: 100%;
+  min-height: 100px;
+  min-width: 160px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  table {
+    width: 100%;
+    height: 100%;
+  }
+  .sk-button {
+    min-width: 30px !important;
+    min-height: 30px !important;
+  }
+  .description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .length-toggle {
+    color: blue;
   }
 }
 
@@ -327,6 +374,12 @@ body {
     font-size: 1.5rem !important;
   }
   h4 {
+    font-size: 1rem !important;
+  }
+  h5 {
+    font-size: 1rem !important;
+  }
+  p {
     font-size: 1rem !important;
   }
 }

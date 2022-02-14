@@ -1,0 +1,105 @@
+<div class="sk-meeting-card p-2" *ngIf="innerWidth >= widthThreshold">
+  <table>
+    <tr>
+      <td class="left" style="width: 25%">
+        <p>Tertulia abierta</p>
+      </td>
+      <td>
+        <h5><strong>Hablemos de: peliculas</strong></h5>
+      </td>
+      <td style="width: 25%"></td>
+    </tr>
+    <tr>
+      <td>
+        <table>
+          <tr>
+            <td>
+              <i class="bi bi-person-circle"></i>
+            </td>
+            <td>
+              <a href="">Andrea Witting</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <p>Martes 20 de febrero 14:00 a 15:00 hrs</p>
+      </td>
+      <td>
+        <table>
+          <tr>
+            <td><p>Faltan: 0d:0h:14m</p></td>
+            <td>
+              <div class="sk-button secondary">Ingresar</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <div
+    class="pt-2 justify description"
+    [ngClass]="
+      seeMore
+        ? 'pt-2 justify description see-more'
+        : ' pt-2 justify description see-less'
+    "
+  >
+    <p *ngIf="!seeMore">
+      {{ description | shorten: 150 }}
+      <span class="length-toggle" (click)="seeMore = !seeMore">ver más</span>
+    </p>
+
+    <p *ngIf="seeMore">
+      {{ description }}
+      <span class="length-toggle" (click)="seeMore = !seeMore">ver menos</span>
+    </p>
+  </div>
+</div>
+<div class="sk-meeting-card p-2 left" *ngIf="innerWidth < widthThreshold">
+  <div class="pt-2">
+    <p>Tertulia abierta</p>
+  </div>
+  <div class="pt-2">
+    <h5><strong>Hablemos de: peliculas</strong></h5>
+  </div>
+  <div class="pt-2">
+    <p>Martes 20 de febrero 14:00 a 15:00 hrs</p>
+  </div>
+  <div class="pt-2">
+    <table>
+      <tr>
+        <td>
+          <i class="bi bi-person-circle"></i>
+        </td>
+        <td>
+          <a href="">Andrea Witting</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div
+    class="pt-2 justify description"
+    [ngClass]="
+      seeMore
+        ? 'pt-2 justify description see-more'
+        : ' pt-2 justify description see-less'
+    "
+  >
+    <p *ngIf="!seeMore">
+      {{ description | shorten: 50:40 }}
+      <span class="length-toggle" (click)="seeMore = !seeMore">ver más</span>
+    </p>
+
+    <p *ngIf="seeMore">
+      {{ description }}
+      <span class="length-toggle" (click)="seeMore = !seeMore">ver menos</span>
+    </p>
+  </div>
+  <div class="pt-2 center">
+    <p><strong>Faltan: 0d:0h:14m</strong></p>
+  </div>
+  <div class="row justify-content-center pt-2">
+    <div class="sk-button secondary">Ingresar</div>
+  </div>
+</div>

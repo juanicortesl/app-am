@@ -1,3 +1,4 @@
+import { CoreModule } from './../../core/core.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -25,6 +26,7 @@ import { MatChipsModule } from '@angular/material/chips';
     FormsModule,
     NgbModule,
     MatChipsModule,
+    CoreModule,
   ],
 })
 export class DashboardModule {}
