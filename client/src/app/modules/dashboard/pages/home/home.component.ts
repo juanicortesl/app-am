@@ -9,9 +9,9 @@ export class HomeComponent implements OnInit {
   public widthThreshold = environment.widthThreshold;
   public innerWidth: any;
   themes = [
-    { title: 'Cine', icon: 'bi bi-film' },
-    { title: 'Literatura', icon: 'bi bi-book' },
+    { title: 'Cine y literatura', icon: 'bi bi-book' },
     { title: 'Actualidad', icon: 'bi bi-newspaper' },
+    { title: 'Otros', icon: 'bi bi-people' },
   ];
   constructor() {}
 
