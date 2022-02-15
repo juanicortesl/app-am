@@ -15,7 +15,7 @@ import {
   styleUrls: ['./meetings.component.scss'],
 })
 export class MeetingsComponent implements OnInit {
-  step = 6;
+  step = 0;
   public firstStepForm = new FormGroup({
     type: new FormControl('', [Validators.required, Validators.minLength(1)]),
   });
