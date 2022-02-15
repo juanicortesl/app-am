@@ -1,70 +1,14 @@
-.meetings-container {
-  display: flex;
-  flex-direction: row;
-  max-height: 13rem;
-  overflow-x: scroll;
-  width: 100%;
-  background-color: transparent;
-  .meeting-card {
-    min-height: 10rem;
-    margin: 1rem;
-    border-radius: 3rem;
-    min-width: 14rem;
-    background-color: rgb(65 65 239);
-    a {
-      color: white;
-    }
-    .name {
-      font-size: 1.2rem;
-      text-align: center;
-      width: 100%;
-      color: white;
-      text-transform: uppercase;
-      text-decoration: underline;
-    }
-    .date {
-      font-size: 1rem;
-      text-align: center;
-      width: 100%;
-      color: white;
-      text-transform: uppercase;
-    }
-    &.new {
-      background-color: white;
-      border: 20px solid rgb(202 204 224);
-      color: rgb(202 204 224);
-      font-weight: bold;
-      font-size: 18px;
-      text-transform: uppercase;
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-      .add-icon {
-        font-size: 4rem;
-        text-align: center;
-      }
-    }
-    &.offered {
-      background-color: rgb(178 243 175);
-      .name {
-        color: rgb(16 19 38);
-      }
-      .date {
-        color: rgb(16 19 38);
-      }
-    }
-    &.past {
-      background-color: rgb(16 19 38);
-    }
-    .star-container {
-      display: flex;
-      flex-direction: row;
-      font-size: 1rem;
-      justify-content: center;
-      .filled {
-        color: white;
-      }
-      .unfilled {
-        color: grey;
-      }
-    }
+.radio-table {
+  width: 50%;
+  margin-left: 25%;
+  text-align: left;
+  tr {
+    height: 2.5rem;
   }
+}
+::ng-deep .mat-form-field-flex {
+  background-color: white !important;
+}
+::ng-deep .mat-input-element {
+  color: #555 !important;
 }

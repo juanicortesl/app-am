@@ -1,151 +1,279 @@
-<div class="row">
-  <div class="col">
-    <div class="row pb-5">
-      <div class="sk-page-title">Encuentros</div>
+<div class="row justify-content-center p-4">
+  <div class="col-md-10 center">
+    <div class="pt-2">
+      <h2>Crear tertulia</h2>
     </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col sk-scroll-height">
-    <div class="row">
-      <div class="sk-section-title">Ofrecidos</div>
-    </div>
-    <div class="meetings-container">
-      <div
-        class="meeting-card pt-5 offered"
-        *ngFor="let item of offeredMeetings"
-      >
-        <div class="name">
-          {{ item.date | date: "dd" }} de
-          {{ item.date | date: "MMMM" }}
-        </div>
-        <div class="date pt-2">{{ item.date | date: "HH:mm" }} hrs</div>
+    <!-- step 0 begins -->
+    <span *ngIf="step === 0">
+      <div class="pt-4">
+        <h3><strong>¿Qué es una tertulia?</strong></h3>
       </div>
-      <div class="meeting-card new" (click)="openNewMeeting()">
-        <div class="add-icon pt-4">
-          <i class="bi bi-plus-lg"></i>
-        </div>
-        <div class="pt-1 center">Ofrecer</div>
+      <div class="pt-2">
+        <h3>
+          Es un espacio de conversación que permite a un máximo de 10 personas
+          conversar sobre un tema de interés
+        </h3>
       </div>
-    </div>
-    <div class="row">
-      <div class="sk-section-title">Próximos</div>
-    </div>
-    <div class="meetings-container">
-      <div class="meeting-card pt-5" *ngFor="let item of nextMeetings">
-        <div class="name">
-          {{ item.other.first_name }}
-        </div>
-        <div class="date pt-2">
-          {{ item.date | date: "dd-MMM" }}
-        </div>
-        <div class="date">{{ item.date | date: "HH:mm" }} hrs.</div>
-        <div class="date"><a [href]="item.meetingLink">link zoom</a></div>
+      <div class="p-4">
+        <button class="sk-button sign-up" (click)="nextStep()">
+          Continuar
+        </button>
       </div>
-      <div class="meeting-card new" [routerLink]="'../search-meetings'">
-        <div class="add-icon pt-4">
-          <i class="bi bi-plus-lg"></i>
-        </div>
-        <div class="pt-1 center">Buscar</div>
-      </div>
+    </span>
+    <!-- step 0 ends -->
+    <div class="py-3" *ngIf="step > 0">
+      <h4>
+        <strong>Paso {{ step }} de 6</strong>
+      </h4>
     </div>
-    <div class="row">
-      <div class="sk-section-title">Pasados</div>
+    <div class="pt-2" *ngIf="step > 0">
+      <button class="sk-button secondary" (click)="previousStep()">
+        Volver
+      </button>
     </div>
-    <div class="meetings-container">
-      <div class="meeting-card past pt-5" *ngFor="let item of pastMeetings">
-        <div class="name">
-          {{ item.other.first_name }}
-        </div>
-        <div class="date pt-2">
-          {{ item.date | date: "dd-MMM" }}
-        </div>
-        <div class="star-container pt-2">
-          <div *ngFor="let item of [].constructor(2)" class="filled">
-            <i class="bi bi-star-fill"></i>
-          </div>
-          <div *ngFor="let item of [].constructor(5 - 2)" class="unfilled">
-            <i class="bi bi-star-fill"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Modal new meeting-->
-<div
-  class="modal"
-  tabindex="-1"
-  role="dialog"
-  [ngStyle]="{ display: displayNewMeeting }"
->
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title sk-page-title">
-          Ofrece un nuevo horario para un encuentro
-        </h4>
+    <!-- step 1 begins -->
+    <section class="pt-2" *ngIf="step === 1" [formGroup]="firstStepForm">
+      <h4><strong>Tipo de tertulia</strong></h4>
+      <div class="row pt-3 justify-content-center">
+        <div class="col-md-4">
+          <table class="radio-table">
+            <tr>
+              <td style="width: 10%">
+                <input type="radio" value="open" formControlName="type" />
+              </td>
+              <td>
+                <h4>Abierta</h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="radio" value="private" formControlName="type" />
+              </td>
+              <td>
+                <h4>Privada</h4>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
-      <div class="modal-body container-fluid">
-        <div class="row">
-          <div class="col">
-            <label>Fecha:</label>
-            <div class="input-group">
-              <input
-                class="form-control"
-                placeholder="yyyy-mm-dd"
-                name="dp"
-                [(ngModel)]="newMeetingDate"
-                [minDate]="{
-                  year: today.getFullYear(),
-                  month: today.getMonth() + 1,
-                  day: today.getDate()
-                }"
-                ngbDatepicker
-                #d="ngbDatepicker"
-              />
-              <div class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary calendar"
-                  (click)="d.toggle()"
-                  type="button"
-                >
-                  <i class="bi bi-calendar-date"></i>
-                </button>
-              </div>
+
+      <div class="p-4">
+        <button
+          class="sk-button sign-up"
+          (click)="nextStep()"
+          [disabled]="firstStepForm.invalid"
+        >
+          Continuar
+        </button>
+      </div>
+    </section>
+    <!-- step 1 ends -->
+
+    <!-- step 2 begins -->
+    <section class="pt-2" *ngIf="step === 2" [formGroup]="secondStepForm">
+      <h4><strong>Tema de tertulia</strong></h4>
+      <div class="row pt-3 justify-content-center">
+        <div class="col-md-5">
+          <table class="radio-table">
+            <tr>
+              <td style="width: 10%">
+                <input
+                  type="radio"
+                  value="cine y literatura"
+                  formControlName="theme"
+                />
+              </td>
+              <td>
+                <h4>Cine y literatura</h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input
+                  type="radio"
+                  value="actualidad"
+                  formControlName="theme"
+                />
+              </td>
+              <td>
+                <h4>Actualidad</h4>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="radio" value="other" formControlName="theme" />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputTheme"
+                  aria-describedby="themeHelp"
+                  placeholder="Otro:"
+                  formControlName="otherTheme"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="p-4">
+        <button
+          class="sk-button sign-up"
+          (click)="nextStep()"
+          [disabled]="secondStepForm.invalid"
+        >
+          Continuar
+        </button>
+      </div>
+    </section>
+    <!-- step 2 ends -->
+
+    <!-- step 3 begins -->
+    <section class="pt-2" *ngIf="step === 3" [formGroup]="thirdStepForm">
+      <h4><strong>Descripción de tertulia</strong></h4>
+      <div class="pt-2">
+        <h4>Describe el tema en pocas palabras</h4>
+      </div>
+      <div class="pt-4">
+        <div class="sk-comment-container">
+          <textarea
+            name="comment"
+            formControlName="description"
+            maxlength="200"
+            placeholder="Descripción:"
+          ></textarea>
+        </div>
+      </div>
+      <div class="p-4">
+        <button
+          class="sk-button sign-up"
+          (click)="nextStep()"
+          [disabled]="thirdStepForm.invalid"
+        >
+          Continuar
+        </button>
+      </div>
+    </section>
+    <!-- step 3 ends -->
+
+    <!-- step 4 begins -->
+    <section class="pt-2" *ngIf="step === 4" [formGroup]="fourthStepForm">
+      <h4><strong>Fecha de la tertulia</strong></h4>
+      <div class="pt-2">
+        <h4>Hasta 30 dias de anticipacion</h4>
+      </div>
+      <div class="pt-4"></div>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Elige una fecha</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="date"
+          [disabled]="true"
+          [min]="minDate"
+          [max]="maxDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker
+          touchUi
+          #picker
+          startAt="1960"
+          [disabled]="false"
+        ></mat-datepicker>
+      </mat-form-field>
+      <div class="p-4">
+        <button
+          class="sk-button sign-up"
+          (click)="nextStep()"
+          [disabled]="fourthStepForm.invalid"
+        >
+          Continuar
+        </button>
+      </div>
+    </section>
+    <!-- step 4 ends -->
+
+    <!-- step 5 begins -->
+    <section class="pt-2" *ngIf="step === 5" [formGroup]="fifthStepForm">
+      <h4><strong>Hora de la tertulia</strong></h4>
+      <div class="pt-2"></div>
+      <div class="row justify-content-center pt-4">
+        <div class="col-sm-4">
+          <h4>Hora de inicio:</h4>
+          <div class="pt-2">
+            <div style="display: flex; width: 100%; justify-content: center">
+              <ngb-timepicker
+                formControlName="startTime"
+                [minuteStep]="15"
+              ></ngb-timepicker>
             </div>
           </div>
         </div>
-        <div class="row pt-2">
-          <div class="col">
-            <label class="pt-2">Hora:</label>
-            <ngb-timepicker
-              [(ngModel)]="newMeetingTime"
-              [minuteStep]="15"
-            ></ngb-timepicker>
+      </div>
+      <div class="row justify-content-center pt-4">
+        <div class="col-sm-4">
+          <h4>Hora de termino:</h4>
+          <div class="pt-2">
+            <div style="display: flex; width: 100%; justify-content: center">
+              <ngb-timepicker
+                formControlName="endTime"
+                [minuteStep]="15"
+              ></ngb-timepicker>
+            </div>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="p-4">
         <button
-          type="button"
-          class="btn btn-danger"
-          (click)="closeNewMeeting()"
+          class="sk-button sign-up"
+          (click)="nextStep()"
+          [disabled]="fifthStepForm.invalid"
         >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="createNewMeeting()"
-          [disabled]="
-            newMeetingDate.day == undefined || newMeetingTime.hour == undefined
-          "
-        >
-          Ofrecer
+          Continuar
         </button>
       </div>
-    </div>
+    </section>
+    <!-- step 5 ends -->
+
+    <!-- step 6 begins -->
+    <section class="pt-2" *ngIf="step === 6" [formGroup]="sixthStepForm">
+      <h4><strong>Asi lo verán todos:</strong></h4>
+      <div class="pt-2">
+        <app-meeting-card [type]="'available'"></app-meeting-card>
+      </div>
+      <div class="row pt-3 justify-content-center">
+        <div class="col-md-12">
+          <table class="radio-table" style="width: 90%; margin-left: 5%">
+            <tr>
+              <td>
+                <input
+                  type="checkbox"
+                  value="true"
+                  formControlName="acceptedTerms"
+                />
+              </td>
+              <td>
+                <p>
+                  Me comprometo a cumplir los términos y condiciones de la
+                  comunidad
+                </p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="p-4">
+        <button
+          class="sk-button sign-up"
+          (click)="nextStep()"
+          [disabled]="sixthStepForm.invalid"
+        >
+          Publicar
+        </button>
+      </div>
+    </section>
   </div>
 </div>

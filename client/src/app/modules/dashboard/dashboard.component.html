@@ -53,20 +53,27 @@
                 </tr>
               </table>
             </div>
-            <div class="col-md-2 sk-tab">
+            <div
+              [ngClass]="
+                isSelected('meetings')
+                  ? 'col-md-2 sk-tab selected'
+                  : 'col-md-2 sk-tab'
+              "
+              (click)="goTo('meetings')"
+            >
               <table>
                 <tr>
                   <td>
                     <i
                       class="bi bi-plus-circle"
-                      *ngIf="!isSelected('events')"
+                      *ngIf="!isSelected('meetings')"
                     ></i>
                     <i
                       class="bi bi-plus-circle-fill"
-                      *ngIf="isSelected('events')"
+                      *ngIf="isSelected('meetings')"
                     ></i>
                   </td>
-                  <td>Crear evento</td>
+                  <td>Crear tertulia</td>
                 </tr>
               </table>
             </div>
@@ -179,19 +186,27 @@
             </tr>
           </table>
         </div>
-        <div class="col-3 sk-tab">
+        <div
+          [ngClass]="
+            isSelected('meetings') ? 'col-3 sk-tab selected' : 'col-3 sk-tab'
+          "
+          (click)="goTo('meetings')"
+        >
           <table>
             <tr>
               <td>
-                <i class="bi bi-plus-circle" *ngIf="!isSelected('events')"></i>
+                <i
+                  class="bi bi-plus-circle"
+                  *ngIf="!isSelected('meetings')"
+                ></i>
                 <i
                   class="bi bi-plus-circle-fill"
-                  *ngIf="isSelected('events')"
+                  *ngIf="isSelected('meetings')"
                 ></i>
               </td>
             </tr>
             <tr>
-              <td>Crear evento</td>
+              <td>Crear tertulia</td>
             </tr>
           </table>
         </div>
