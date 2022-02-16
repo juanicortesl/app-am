@@ -13,6 +13,25 @@ export class HomeComponent implements OnInit {
     { title: 'Actualidad', icon: 'bi bi-newspaper' },
     { title: 'Otros', icon: 'bi bi-people' },
   ];
+  readyMeeting = {
+    theme: 'Cine y literatura',
+    type: 'public',
+    host: { first_name: 'Andrea Witing' },
+    startTime: new Date(2022, 1, 17, 14, 30),
+    endTime: new Date(2022, 1, 17, 15, 30),
+    availableSlots: 4,
+    description: '',
+  };
+  toBeMeeting = {
+    theme: 'Actualidad',
+    type: 'public',
+    host: { first_name: 'Pablo Escobar' },
+    startTime: new Date(2022, 1, 23, 15, 30),
+    endTime: new Date(2022, 1, 23, 16, 30),
+    availableSlots: 4,
+    description:
+      'Conversemos de western clásicos y cómo influyen en la sociedad. Muchas veces, las películas del Oeste están ambientadas en territoriosinexplorados o indómitos, bajo la amenaza latente del ataque de los indios, o en ciudades sin ley en las que los bandidos campaban a sus anchas. Por ello, el género se fue enfocando hacia la confrontación de losdiversos personajes, adquiriendo un carácter cada vez más psicológico. ',
+  };
   constructor() {}
 
   ngOnInit(): void {

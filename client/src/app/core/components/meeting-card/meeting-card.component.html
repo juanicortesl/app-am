@@ -2,13 +2,18 @@
   <table>
     <tr>
       <td class="left" style="width: 25%">
-        <p>Tertulia abierta</p>
+        <p *ngIf="meeting.type == 'public'">Tertulia abierta</p>
+        <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
       </td>
       <td>
-        <h5><strong>Hablemos de: peliculas</strong></h5>
+        <h5>
+          <strong>Hablemos de: {{ meeting.theme }}</strong>
+        </h5>
       </td>
       <td style="width: 25%">
-        <p *ngIf="type === 'available'"><strong>Quedan 4 cupos</strong></p>
+        <p *ngIf="type === 'available'">
+          <strong>Quedan {{ meeting.availableSlots }} cupos</strong>
+        </p>
       </td>
     </tr>
     <tr>
@@ -19,18 +24,29 @@
               <i class="bi bi-person-circle"></i>
             </td>
             <td>
-              <a href="">Andrea Witting</a>
+              <a href="">{{ meeting.host.first_name }}</a>
             </td>
           </tr>
         </table>
       </td>
       <td>
-        <p>Martes 20 de febrero 14:00 a 15:00 hrs</p>
+        <p>
+          {{ meeting.startTime | date: "EEEE  d" }} de
+          {{ meeting.startTime | date: "MMMM" }}
+          {{ meeting.startTime | date: "HH:mm" }} a
+          {{ meeting.endTime | date: "HH:mm" }} hrs.
+        </p>
       </td>
       <td>
         <table>
           <tr>
-            <td><p>Faltan: 0d:0h:14m</p></td>
+            <td>
+              <p>
+                Faltan: {{ remainingTime.days }}d:{{ remainingTime.hours }}h:{{
+                  remainingTime.minutes
+                }}m
+              </p>
+            </td>
             <td>
               <button class="sk-button secondary" *ngIf="type !== 'available'">
                 Ingresar
@@ -54,25 +70,33 @@
     "
   >
     <p *ngIf="!seeMore">
-      {{ description | shorten: 150 }}
+      {{ meeting.description | shorten: 150 }}
       <span class="length-toggle" (click)="seeMore = !seeMore">ver más</span>
     </p>
 
     <p *ngIf="seeMore">
-      {{ description }}
+      {{ meeting.description }}
       <span class="length-toggle" (click)="seeMore = !seeMore">ver menos</span>
     </p>
   </div>
 </div>
 <div class="sk-meeting-card p-2 left" *ngIf="innerWidth < widthThreshold">
   <div class="pt-2">
-    <p>Tertulia abierta</p>
+    <p *ngIf="meeting.type == 'public'">Tertulia abierta</p>
+    <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
   </div>
   <div class="pt-2">
-    <h5><strong>Hablemos de: peliculas</strong></h5>
+    <h5>
+      <strong>Hablemos de: {{ meeting.theme }}</strong>
+    </h5>
   </div>
   <div class="pt-2">
-    <p>Martes 20 de febrero 14:00 a 15:00 hrs</p>
+    <p>
+      {{ meeting.startTime | date: "EEEE  d" }} de
+      {{ meeting.startTime | date: "MMMM" }}
+      {{ meeting.startTime | date: "HH:mm" }} a
+      {{ meeting.endTime | date: "HH:mm" }} hrs.
+    </p>
   </div>
   <div class="pt-2">
     <table>
@@ -81,7 +105,7 @@
           <i class="bi bi-person-circle"></i>
         </td>
         <td>
-          <a href="">Andrea Witting</a>
+          <a href="">{{ meeting.host.first_name }}</a>
         </td>
       </tr>
     </table>
@@ -96,12 +120,12 @@
     *ngIf="type === 'available'"
   >
     <p *ngIf="!seeMore">
-      {{ description | shorten: 50:40 }}
+      {{ meeting.description | shorten: 50:40 }}
       <span class="length-toggle" (click)="seeMore = !seeMore">ver más</span>
     </p>
 
     <p *ngIf="seeMore">
-      {{ description }}
+      {{ meeting.description }}
       <span class="length-toggle" (click)="seeMore = !seeMore">ver menos</span>
     </p>
   </div>
