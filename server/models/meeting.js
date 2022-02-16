@@ -12,15 +12,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Meeting.belongsTo(models.User, {
-        as: "Offerer",
+        as: "Host",
         foreignKey: {
-          name: "offererId",
+          name: "hostId",
         },
       });
-      Meeting.belongsTo(models.User, {
-        as: "Searcher",
+      Meeting.belongsToMany(models.User, {
+        as: "Attendees",
+        through: "Attends",
         foreignKey: {
-          name: "searcherId",
+          name: "attendeeId",
         },
       });
     }
@@ -175,7 +176,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Meeting.init(
     {
-      date: {
+      startTime: {
         type: "TIMESTAMP",
         allowNull: false,
         validate: {
@@ -188,9 +189,25 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      offererId: DataTypes.INTEGER,
-      searcherId: DataTypes.INTEGER,
+      endTime: {
+        type: "TIMESTAMP",
+        allowNull: false,
+        validate: {
+          isAfterToday(value) {
+            let today = new Date();
+            let date = new Date(value);
+            if (today.getTime() > date.getTime()) {
+              throw new Error("BAD DATE");
+            }
+          },
+        },
+      },
+      hostId: DataTypes.INTEGER,
       status: DataTypes.STRING,
+      description: DataTypes.STRING,
+      theme: DataTypes.STRING,
+      type: DataTypes.STRING,
+      availableSlots: DataTypes.INTEGER,
       meetingLink: DataTypes.STRING,
     },
     {

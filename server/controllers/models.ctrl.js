@@ -152,8 +152,9 @@ class ModelsController {
       }
       // new meeting logic
       if (model === "meetings") {
-        attributesToCreate.offererId = req.user.id;
+        attributesToCreate.hostId = req.user.id;
         attributesToCreate.status = "available";
+        attributesToCreate.availableSlots = 10;
       }
 
       const queryResult = await this.models[model].model.add(

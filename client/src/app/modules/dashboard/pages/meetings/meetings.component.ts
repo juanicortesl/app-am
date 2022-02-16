@@ -70,10 +70,13 @@ export class MeetingsComponent implements OnInit {
   }
 
   createNewMeeting() {
+    console.log(this.meeting);
     try {
-      this.apiService.addAvailableMeeting({}).subscribe({
+      this.apiService.addAvailableMeeting(this.meeting).subscribe({
         next: (data: any) => {
-          console.log(data);
+          if (data.result) {
+            this.step = 0;
+          }
         },
         error: (error: any) => {
           console.log(error);
@@ -89,8 +92,40 @@ export class MeetingsComponent implements OnInit {
   previousStep() {
     this.step--;
   }
-
+  get type() {
+    return this.firstStepForm.get('type')?.value;
+  }
   get theme() {
     return this.secondStepForm.get('theme')?.value;
+  }
+  get description() {
+    return this.thirdStepForm.get('description')?.value;
+  }
+  get date() {
+    return this.fourthStepForm.get('date')?.value;
+  }
+  get startTime() {
+    return this.fifthStepForm.get('startTime')?.value;
+  }
+  get endTime() {
+    return this.fifthStepForm.get('startTime')?.value;
+  }
+
+  get meeting() {
+    let startTime = new Date(this.date);
+    let endTime = new Date(this.date);
+    startTime.setHours(this.startTime.hour);
+    startTime.setMinutes(this.startTime.minute);
+    endTime.setHours(this.endTime.hour);
+    endTime.setMinutes(this.endTime.minute);
+    return {
+      theme: this.theme,
+      type: this.type,
+      host: { first_name: 'Andrea Witing' },
+      startTime: startTime,
+      endTime: endTime,
+      availableSlots: 10,
+      description: this.description,
+    };
   }
 }

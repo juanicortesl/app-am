@@ -242,7 +242,10 @@
     <section class="pt-2" *ngIf="step === 6" [formGroup]="sixthStepForm">
       <h4><strong>Asi lo verán todos:</strong></h4>
       <div class="pt-2">
-        <app-meeting-card [type]="'available'"></app-meeting-card>
+        <app-meeting-card
+          [type]="'available'"
+          [meeting]="meeting"
+        ></app-meeting-card>
       </div>
       <div class="row pt-3 justify-content-center">
         <div class="col-md-12">
@@ -268,7 +271,7 @@
       <div class="p-4">
         <button
           class="sk-button sign-up"
-          (click)="nextStep()"
+          (click)="createNewMeeting()"
           [disabled]="sixthStepForm.invalid"
         >
           Publicar

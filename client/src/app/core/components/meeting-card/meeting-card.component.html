@@ -130,7 +130,13 @@
     </p>
   </div>
   <div class="pt-2 center">
-    <p><strong>Faltan: 0d:0h:14m</strong></p>
+    <p>
+      <strong
+        >Faltan: {{ remainingTime.days }}d:{{ remainingTime.hours }}h:{{
+          remainingTime.minutes
+        }}m</strong
+      >
+    </p>
   </div>
   <div class="row justify-content-center pt-2">
     <button class="sk-button secondary" *ngIf="type !== 'available'">

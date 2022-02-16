@@ -1,45 +1,28 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Meetings", {
+    await queryInterface.createTable("Attends", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      startTime: {
-        type: Sequelize.DATE,
-      },
-      endTime: {
-        type: Sequelize.DATE,
-      },
-      hostId: {
+      attendeeId: {
         type: Sequelize.INTEGER,
-        onDelete: "CASCADE",
         references: {
           model: "Users",
           key: "id",
-          as: "hostId",
+          as: "attendeeId",
         },
       },
-      status: {
-        type: Sequelize.STRING,
-      },
-      description: {
-        type: Sequelize.STRING,
-      },
-      theme: {
-        type: Sequelize.STRING,
-      },
-      type: {
-        type: Sequelize.STRING,
-      },
-      meetingLink: {
-        type: Sequelize.STRING,
-      },
-      availableSlots: {
+      meetingId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "Meetings",
+          key: "id",
+          as: "meetingId",
+        },
       },
       createdAt: {
         allowNull: false,
@@ -52,6 +35,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Meetings");
+    await queryInterface.dropTable("Attends");
   },
 };
