@@ -1,3 +1,4 @@
+import { ApiService } from './../../../../core/http/api.service';
 import { environment } from './../../../../../environments/environment';
 import { Component, HostListener, OnInit } from '@angular/core';
 @Component({
@@ -32,10 +33,13 @@ export class HomeComponent implements OnInit {
     description:
       'Conversemos de western clásicos y cómo influyen en la sociedad. Muchas veces, las películas del Oeste están ambientadas en territoriosinexplorados o indómitos, bajo la amenaza latente del ataque de los indios, o en ciudades sin ley en las que los bandidos campaban a sus anchas. Por ello, el género se fue enfocando hacia la confrontación de losdiversos personajes, adquiriendo un carácter cada vez más psicológico. ',
   };
-  constructor() {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
+    this.apiService.getOfferedMeetings().subscribe((data) => {
+      console.log(data);
+    });
   }
 
   @HostListener('window:resize', ['$event'])

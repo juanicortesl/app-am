@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "Attendees",
         through: "Attends",
         foreignKey: {
-          name: "attendeeId",
+          name: "meetingId",
         },
       });
     }
@@ -45,8 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         where: {
           status: status,
           [Op.or]: {
-            searcherId: userId,
-            offererId: userId,
+            hostId: userId,
           },
         },
       });
@@ -58,19 +57,15 @@ module.exports = (sequelize, DataTypes) => {
       const response = await Meeting.findAll({
         where: {
           status: status,
-          [Op.or]: {
-            searcherId: userId,
-            offererId: userId,
-          },
+          hostId: userId,
         },
         include: [
           {
-            association: "Offerer",
+            association: "Host",
             attributes: ["interests", "first_name"],
           },
           {
-            association: "Searcher",
-            attributes: ["interests", "first_name"],
+            association: "Attendees",
           },
         ],
       }).then((meetings) => {

@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "atendedMeetings",
         through: "Attends",
         foreignKey: {
-          name: "meetingId",
+          name: "attendeeId",
         },
       });
     }

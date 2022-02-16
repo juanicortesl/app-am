@@ -44,7 +44,7 @@ class ModelsController {
       // meetings logic
       if (model === "meetings") {
         if (status === "offered") {
-          queryResult = await this.models[model].model.getAllFromUser(
+          queryResult = await this.models[model].model.getAllFromUserWithFull(
             "available",
             req.user.id
           );
