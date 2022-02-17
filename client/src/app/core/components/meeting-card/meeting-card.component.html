@@ -1,7 +1,7 @@
 <div class="sk-meeting-card p-3" *ngIf="innerWidth >= widthThreshold">
   <table>
     <tr>
-      <td class="left" style="width: 25%">
+      <td class="left" style="width: 30%">
         <p *ngIf="meeting.type == 'open'">Tertulia abierta</p>
         <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
       </td>
@@ -10,7 +10,7 @@
           <strong>Hablemos de: {{ meeting.theme }}</strong>
         </h5>
       </td>
-      <td style="width: 25%">
+      <td style="width: 30%">
         <p *ngIf="type === 'available'">
           <strong>Quedan {{ meeting.availableSlots }} cupos</strong>
         </p>
@@ -18,7 +18,7 @@
     </tr>
     <tr>
       <td>
-        <table>
+        <table class="pt-2" *ngIf="type === 'available'">
           <tr>
             <td>
               <i class="bi bi-person-circle"></i>
@@ -48,8 +48,15 @@
               </p>
             </td>
             <td>
-              <button class="sk-button secondary" *ngIf="type !== 'available'">
+              <button
+                class="sk-button secondary"
+                *ngIf="type === 'ready'"
+                (click)="goToMeeting()"
+              >
                 Ingresar
+              </button>
+              <button class="sk-button secondary" *ngIf="type === 'offered'">
+                No puedo asistir
               </button>
               <button
                 class="sk-button secondary"
@@ -102,7 +109,7 @@
       {{ meeting.endTime | date: "HH:mm" }} hrs.
     </p>
   </div>
-  <div class="pt-2">
+  <div class="pt-2" *ngIf="type === 'available'">
     <table>
       <tr>
         <td>
@@ -143,10 +150,21 @@
     </p>
   </div>
   <div class="row justify-content-center pt-2">
-    <button class="sk-button secondary" *ngIf="type !== 'available'">
+    <button class="sk-button secondary" *ngIf="type === 'offered'">
+      No puedo asistir
+    </button>
+    <button
+      class="sk-button secondary"
+      *ngIf="type === 'ready'"
+      (click)="goToMeeting()"
+    >
       Ingresar
     </button>
-    <button class="sk-button secondary" *ngIf="type === 'available'">
+    <button
+      class="sk-button secondary"
+      *ngIf="type === 'available'"
+      (click)="requestMeeting()"
+    >
       Agregar a mi calendario
     </button>
   </div>

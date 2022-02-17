@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ApiService } from './../../http/api.service';
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { interval, map } from 'rxjs';
@@ -15,7 +16,7 @@ export class MeetingCardComponent implements OnInit {
   @Input() type = '';
   @Input() meeting: any;
   seeMore = false;
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
@@ -58,5 +59,8 @@ export class MeetingCardComponent implements OnInit {
     this.apiService.requestMeeting(this.meeting.id).subscribe((data) => {
       console.log(data);
     });
+  }
+  goToMeeting() {
+    this.router.navigate(['dashboard/meeting'], {});
   }
 }

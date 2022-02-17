@@ -13,6 +13,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { SearcherComponent } from './pages/searcher/searcher.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
+import { MeetingComponent } from './pages/meeting/meeting.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CalendarComponent } from './pages/calendar/calendar.component';
     ProfileComponent,
     SearcherComponent,
     CalendarComponent,
+    MeetingComponent,
   ],
   imports: [
     CommonModule,

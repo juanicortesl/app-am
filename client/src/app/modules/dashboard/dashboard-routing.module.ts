@@ -1,3 +1,4 @@
+import { MeetingComponent } from './pages/meeting/meeting.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { SearcherComponent } from './pages/searcher/searcher.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'searcher', component: SearcherComponent },
       { path: 'calendar', component: CalendarComponent },
+      { path: 'meeting', component: MeetingComponent },
     ],
   },
 ];
