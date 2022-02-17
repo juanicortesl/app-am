@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ApiService } from './../../../../core/http/api.service';
 import { environment } from './../../../../../environments/environment';
 import { Component, HostListener, OnInit } from '@angular/core';
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit {
     description:
       'Conversemos de western clásicos y cómo influyen en la sociedad. Muchas veces, las películas del Oeste están ambientadas en territoriosinexplorados o indómitos, bajo la amenaza latente del ataque de los indios, o en ciudades sin ley en las que los bandidos campaban a sus anchas. Por ello, el género se fue enfocando hacia la confrontación de losdiversos personajes, adquiriendo un carácter cada vez más psicológico. ',
   };
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
@@ -45,5 +46,9 @@ export class HomeComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.innerWidth = window.innerWidth;
+  }
+
+  goToSearcher(theme: string) {
+    this.router.navigate(['dashboard/searcher'], { state: { theme: theme } });
   }
 }

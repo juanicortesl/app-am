@@ -2,7 +2,7 @@
   <table>
     <tr>
       <td class="left" style="width: 25%">
-        <p *ngIf="meeting.type == 'public'">Tertulia abierta</p>
+        <p *ngIf="meeting.type == 'open'">Tertulia abierta</p>
         <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
       </td>
       <td>
@@ -24,7 +24,7 @@
               <i class="bi bi-person-circle"></i>
             </td>
             <td>
-              <a href="">{{ meeting.host.first_name }}</a>
+              <a href="">{{ meeting.Host.first_name }}</a>
             </td>
           </tr>
         </table>
@@ -105,7 +105,7 @@
           <i class="bi bi-person-circle"></i>
         </td>
         <td>
-          <a href="">{{ meeting.host.first_name }}</a>
+          <a href="">{{ meeting.Host.first_name }}</a>
         </td>
       </tr>
     </table>

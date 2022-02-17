@@ -1,3 +1,4 @@
+import { SearcherComponent } from './pages/searcher/searcher.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
       { path: 'meetings', component: MeetingsComponent },
       { path: 'search-meetings', component: SearchMeetingsComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'searcher', component: SearcherComponent },
     ],
   },
 ];

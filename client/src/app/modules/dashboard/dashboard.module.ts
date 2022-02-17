@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { SearcherComponent } from './pages/searcher/searcher.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MeetingsComponent,
     SearchMeetingsComponent,
     ProfileComponent,
+    SearcherComponent,
   ],
   imports: [
     CommonModule,

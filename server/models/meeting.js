@@ -104,13 +104,14 @@ module.exports = (sequelize, DataTypes) => {
       const response = await Meeting.findAll({
         where: {
           status: "available",
-          offererId: {
+          hostId: {
             [Op.ne]: userId,
           },
         },
         include: [
           {
-            association: "Offerer",
+            association: "Host",
+            attributes: ["first_name", "description"],
           },
         ],
         nest: true,
