@@ -137,10 +137,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         include: [
           {
-            association: "Offerer",
-          },
-          {
-            association: "Searcher",
+            association: "Host",
           },
         ],
         nest: true,

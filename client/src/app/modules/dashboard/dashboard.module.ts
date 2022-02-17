@@ -12,6 +12,7 @@ import { NgbModule, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { SearcherComponent } from './pages/searcher/searcher.component';
+import { CalendarComponent } from './pages/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SearcherComponent } from './pages/searcher/searcher.component';
     SearchMeetingsComponent,
     ProfileComponent,
     SearcherComponent,
+    CalendarComponent,
   ],
   imports: [
     CommonModule,

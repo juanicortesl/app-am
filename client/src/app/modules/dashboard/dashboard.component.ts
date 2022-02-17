@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
     if (this.router.url.includes('profile')) this.page = 'profile';
     else if (this.router.url.includes('home')) this.page = 'home';
     else if (this.router.url.includes('meetings')) this.page = 'meetings';
+    else if (this.router.url.includes('calendar')) this.page = 'calendar';
     this.innerWidth = window.innerWidth;
   }
 

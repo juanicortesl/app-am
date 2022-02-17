@@ -51,7 +51,11 @@
               <button class="sk-button secondary" *ngIf="type !== 'available'">
                 Ingresar
               </button>
-              <button class="sk-button secondary" *ngIf="type === 'available'">
+              <button
+                class="sk-button secondary"
+                *ngIf="type === 'available'"
+                (click)="requestMeeting()"
+              >
                 Agregar a mi calendario
               </button>
             </td>

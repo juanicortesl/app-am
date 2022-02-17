@@ -317,7 +317,11 @@ class ModelsController {
           req.params.id
         );
         // check if meeting exists and is available
-        if (!meeting || meeting.dataValues.status !== "available") {
+        if (
+          !meeting ||
+          meeting.dataValues.status !== "available" ||
+          meeting.dataValues.availableSlots <= 0
+        ) {
           res.status(200).send({
             result: false,
             message: "Something went wrong, please check the error section",
@@ -332,32 +336,38 @@ class ModelsController {
           });
           return;
         }
+        // create attend instance
+        const attends = await Models.Attends.add({
+          attendeeId: req.user.id,
+          meetingId: meeting.dataValues.id,
+        });
         // get meeting link
-        const meetingObject = await utils.createMeetingLink(meeting);
-        const meetingLink = meetingObject.data.join_url;
+        const meetingLink = "";
         // update meeting status
+        let newAvailableSlots = meeting.dataValues.availableSlots - 1;
+        let newStatus = newAvailableSlots <= 0 ? "full" : "available";
         const newMeetingAttributes = {
-          searcherId: req.user.id,
-          status: "requested",
+          status: newStatus,
           meetingLink: meetingLink,
+          availableSlots: newAvailableSlots,
         };
         [updatedRows, queryResults] = await this.models[model].model.updateById(
           id,
           newMeetingAttributes
         );
         // send emails
-        await utils.sendConfirmationEmailSearcher(
-          meeting.Offerer,
-          user.dataValues,
-          meeting.dataValues.date,
-          meetingLink
-        );
-        await utils.sendConfirmationEmailOfferer(
-          meeting.Offerer,
-          user.dataValues,
-          meeting.dataValues.date,
-          meetingLink
-        );
+        // await utils.sendConfirmationEmailSearcher(
+        //   meeting.Offerer,
+        //   user.dataValues,
+        //   meeting.dataValues.date,
+        //   meetingLink
+        // );
+        // await utils.sendConfirmationEmailOfferer(
+        //   meeting.Offerer,
+        //   user.dataValues,
+        //   meeting.dataValues.date,
+        //   meetingLink
+        // );
       } else {
         [updatedRows, queryResults] = await this.models[model].model.updateById(
           id,
