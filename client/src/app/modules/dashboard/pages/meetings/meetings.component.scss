@@ -6,6 +6,11 @@
     height: 2.5rem;
   }
 }
+.info {
+  color: blue;
+  font-size: 1rem;
+  text-decoration: underline;
+}
 ::ng-deep .mat-form-field-flex {
   background-color: white !important;
 }

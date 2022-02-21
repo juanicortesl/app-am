@@ -11,7 +11,7 @@
       <div class="pt-2">
         <h3>
           Es un espacio de conversación que permite a un máximo de 10 personas
-          conversar sobre un tema de interés
+          conversar sobre un tema de interés.
         </h3>
       </div>
       <div class="p-4">
@@ -36,14 +36,23 @@
     <section class="pt-2" *ngIf="step === 1" [formGroup]="firstStepForm">
       <h4><strong>Tipo de tertulia</strong></h4>
       <div class="row pt-3 justify-content-center">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <table class="radio-table">
             <tr>
               <td style="width: 10%">
                 <input type="radio" value="open" formControlName="type" />
               </td>
               <td>
-                <h4>Abierta</h4>
+                <h4>
+                  Abierta
+                  <span
+                    ngbTooltip="Cualquier integrante puede anotarse para asistir"
+                    triggers="click:blur"
+                    class="info"
+                  >
+                    ¿Qué es?</span
+                  >
+                </h4>
               </td>
             </tr>
             <tr>
@@ -51,7 +60,16 @@
                 <input type="radio" value="private" formControlName="type" />
               </td>
               <td>
-                <h4>Privada</h4>
+                <h4>
+                  Privada
+                  <span
+                    class="info"
+                    ngbTooltip="Tú decides a quién y a cuántas personas invitar"
+                    triggers="click:blur"
+                  >
+                    ¿Qué es?</span
+                  >
+                </h4>
               </td>
             </tr>
           </table>
