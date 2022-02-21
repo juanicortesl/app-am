@@ -1,34 +1,60 @@
-<div id="jitsi-iframe" class="meeting-frame"></div>
+<div id="meeting-component">
+  <div
+    id="jitsi-iframe"
+    [ngClass]="fullScreenMode ? 'meeting-frame big' : 'meeting-frame'"
+  >
+    <i (click)="executeCommand('resize-large-video')"></i>
+  </div>
 
-<!--For Custom Controls-->
-<div class="item-center">
-  <span>Custom Controls</span>
-</div>
-<div class="item-center">
-  <i
-    (click)="executeCommand('toggleAudio')"
-    class="fas fa-2x grey-color"
-    [ngClass]="isAudioMuted ? 'fa-microphone-slash' : 'fa-microphone'"
-    aria-hidden="true"
-    title="Mute / Unmute"
-  ></i>
-  <i
-    (click)="executeCommand('hangup')"
-    class="fas fa-phone-slash fa-2x red-color"
-    aria-hidden="true"
-    title="Leave"
-  ></i>
-  <i
-    (click)="executeCommand('toggleVideo')"
-    class="fas fa-2x grey-color"
-    [ngClass]="isVideoMuted ? 'fa-video-slash' : 'fa-video'"
-    aria-hidden="true"
-    title="Start / Stop camera"
-  ></i>
-  <i
-    (click)="executeCommand('toggleShareScreen')"
-    class="fas fa-film fa-2x grey-color"
-    aria-hidden="true"
-    title="Share your screen"
-  ></i>
+  <!--For Custom Controls-->
+  <table class="icon-table">
+    <tr>
+      <td>
+        <div class="icon-container">
+          <i
+            (click)="executeCommand('toggleAudio')"
+            [ngClass]="isAudioMuted ? 'bi bi-mic-mute-fill' : 'bi bi-mic-fill'"
+            aria-hidden="true"
+            title="Mute / Unmute"
+          ></i>
+        </div>
+      </td>
+      <td>
+        <div class="icon-container">
+          <i
+            (click)="executeCommand('toggleVideo')"
+            [ngClass]="
+              isVideoMuted
+                ? 'icon bi bi-camera-video-off-fill'
+                : 'icon bi bi-camera-video-fill'
+            "
+            aria-hidden="true"
+            title="Start / Stop camera"
+          ></i>
+        </div>
+      </td>
+      <td>
+        <div class="icon-container">
+          <i
+            (click)="executeCommand('resize-large-video')"
+            [ngClass]="
+              !fullScreenMode
+                ? 'bi bi-arrows-fullscreen'
+                : 'bi bi-fullscreen-exit'
+            "
+          ></i>
+        </div>
+      </td>
+      <td>
+        <div class="icon-container">
+          <i
+            (click)="executeCommand('hangup')"
+            class="bi bi-x-circle-fill"
+            aria-hidden="true"
+            title="Leave"
+          ></i>
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>

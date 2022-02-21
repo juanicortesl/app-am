@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 declare var JitsiMeetExternalAPI: any;
 @Component({
   selector: 'app-meeting',
@@ -13,8 +13,9 @@ export class MeetingComponent implements OnInit {
   user: any;
 
   // For Custom Controls
-  isAudioMuted = false;
-  isVideoMuted = false;
+  isAudioMuted = true;
+  isVideoMuted = true;
+  fullScreenMode = false;
 
   constructor() {}
 
@@ -28,16 +29,19 @@ export class MeetingComponent implements OnInit {
   ngAfterViewInit(): void {
     this.options = {
       roomName: this.room,
-      width: window.innerWidth,
-      height: 500,
+      width: '100%',
+      height: '100%',
       configOverwrite: {
         prejoinPageEnabled: false,
         disableDeepLinking: true,
         startWithAudioMuted: true,
+        startWithVideoMuted: true,
         defaultLanguage: 'es',
+        disableInviteFunctions: true,
       },
       interfaceConfigOverwrite: {
-        LANG_DETECTION: false,
+        LANG_DETECTION: true,
+        TOOLBAR_BUTTONS: ['settings'],
       },
       parentNode: document.querySelector('#jitsi-iframe'),
       userInfo: {
@@ -60,35 +64,35 @@ export class MeetingComponent implements OnInit {
   }
 
   handleClose = () => {
-    console.log('handleClose');
+    // console.log('handleClose');
   };
 
   handleParticipantLeft = async (participant: any) => {
-    console.log('handleParticipantLeft', participant); // { id: "2baa184e" }
+    // console.log('handleParticipantLeft', participant); // { id: "2baa184e" }
     const data = await this.getParticipants();
   };
 
   handleParticipantJoined = async (participant: any) => {
-    console.log('handleParticipantJoined', participant); // { id: "2baa184e", displayName: "Shanu Verma", formattedDisplayName: "Shanu Verma" }
+    // console.log('handleParticipantJoined', participant); // { id: "2baa184e", displayName: "Shanu Verma", formattedDisplayName: "Shanu Verma" }
     const data = await this.getParticipants();
   };
 
   handleVideoConferenceJoined = async (participant: any) => {
-    console.log('handleVideoConferenceJoined', participant); // { roomName: "bwb-bfqi-vmh", id: "8c35a951", displayName: "Akash Verma", formattedDisplayName: "Akash Verma (me)"}
+    // console.log('handleVideoConferenceJoined', participant); // { roomName: "bwb-bfqi-vmh", id: "8c35a951", displayName: "Akash Verma", formattedDisplayName: "Akash Verma (me)"}
     const data = await this.getParticipants();
   };
 
   handleVideoConferenceLeft = () => {
-    console.log('handleVideoConferenceLeft');
+    // console.log('handleVideoConferenceLeft');
     // this.router.navigate(['/thank-you']);
   };
 
   handleMuteStatus = (audio: any) => {
-    console.log('handleMuteStatus', audio); // { muted: true }
+    // console.log('handleMuteStatus', audio); // { muted: true }
   };
 
   handleVideoStatus = (video: any) => {
-    console.log('handleVideoStatus', video); // { muted: true }
+    // console.log('handleVideoStatus', video); // { muted: true }
   };
 
   getParticipants() {
@@ -100,18 +104,77 @@ export class MeetingComponent implements OnInit {
   }
 
   executeCommand(command: string) {
-    this.api.executeCommand(command);
+    if (command == 'resize-large-video') {
+      var elem = document.getElementById('meeting-component') as HTMLElement & {
+        mozRequestFullScreen(): Promise<void>;
+        webkitRequestFullscreen(): Promise<void>;
+        msRequestFullscreen(): Promise<void>;
+      };
+      if (!this.fullScreenMode) {
+        if (elem && elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem && elem.mozRequestFullScreen) {
+          /* Firefox */
+          elem.mozRequestFullScreen();
+        } else if (elem && elem.webkitRequestFullscreen) {
+          /* Chrome, Safari and Opera */
+          elem.webkitRequestFullscreen();
+        } else if (elem && elem.msRequestFullscreen) {
+          /* IE/Edge */
+          elem.msRequestFullscreen();
+        }
+      } else {
+        const docWithBrowsersExitFunctions = document as Document & {
+          mozCancelFullScreen(): Promise<void>;
+          webkitExitFullscreen(): Promise<void>;
+          msExitFullscreen(): Promise<void>;
+        };
+        if (docWithBrowsersExitFunctions.exitFullscreen) {
+          docWithBrowsersExitFunctions.exitFullscreen();
+        } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) {
+          /* Firefox */
+          docWithBrowsersExitFunctions.mozCancelFullScreen();
+        } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) {
+          /* Chrome, Safari and Opera */
+          docWithBrowsersExitFunctions.webkitExitFullscreen();
+        } else if (docWithBrowsersExitFunctions.msExitFullscreen) {
+          /* IE/Edge */
+          docWithBrowsersExitFunctions.msExitFullscreen();
+        }
+      }
+      this.fullScreenMode = !this.fullScreenMode;
+    }
     if (command == 'hangup') {
+      this.api.executeCommand(command);
       // this.router.navigate(['/thank-you']);
       return;
     }
 
     if (command == 'toggleAudio') {
+      this.api.executeCommand(command);
       this.isAudioMuted = !this.isAudioMuted;
     }
 
     if (command == 'toggleVideo') {
+      this.api.executeCommand(command);
       this.isVideoMuted = !this.isVideoMuted;
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    console.log('resize');
+    this.api.executeCommand('resizeLargeVideo', window.innerWidth, 500);
+  }
+
+  @HostListener('fullscreenchange', ['$event'])
+  @HostListener('webkitfullscreenchange', ['$event'])
+  @HostListener('mozfullscreenchange', ['$event'])
+  @HostListener('MSFullscreenChange', ['$event'])
+  screenChange(event: any) {
+    // if (document.fullscreenElement) {
+    //   this.fullScreenMode = !this.fullScreenMode;
+    // }
+    // console.log(document.fullscreenElement, 'FULLSCREENEVENT');
   }
 }

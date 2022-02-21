@@ -1,81 +1,15 @@
 <div class="row justify-content-center p-4">
   <div class="col-md-10 main-content">
-    <section class="sk-desktop-content">
-      <h1>Skolton Comunidad</h1>
-      <h4 class="pt-1">
-        Es una plataforma para encontrar y construir Comunidad. Las personas
-        usan Comunidad para conocer gente nueva, aprender cosas y seguir
-        pasiones juntas.
-      </h4>
-      <table class="stats-table">
-        <tr>
-          <td>
-            <h2>250</h2>
-          </td>
-          <td>
-            <h2>2500</h2>
-          </td>
-          <td>
-            <h2>24</h2>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <h4>Tertulias disponibles</h4>
-          </td>
-          <td>
-            <h4>Usuarios activos</h4>
-          </td>
-          <td>
-            <h4>Charlas disponibles</h4>
-          </td>
-        </tr>
-      </table>
-      <h2>Temas para compartir</h2>
-      <h4 class="pt-1">
-        Conéctate y participa. Crea tus propios temas o eventos. Conversa sobre
-        lo que más te guste hablar
-      </h4>
-      <div class="row justify-content-center pt-2">
-        <div class="col-md-4 py-2 px-3" *ngFor="let theme of themes">
-          <div class="sk-theme-card">
-            <table>
-              <tr>
-                <td class="p-2">
-                  <i [class]="theme.icon"></i>
-                </td>
-                <td class="left">
-                  <h3>
-                    <strong>{{ theme.title }}</strong>
-                  </h3>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="pt-2">
-        <h3>Skolton Comunidad</h3>
-      </div>
-
-      <div class="row justify-content-center p-3">
-        <div class="sk-button sign-up" [routerLink]="'../sign-up'">
-          ¡Conectarse!
-        </div>
-      </div>
-      <div class="row justify-content-center p-1">
-        <a [routerLink]="'../sign-in'">Ya tengo cuenta</a>
-      </div>
-    </section>
-    <section class="sk-mobile-content">
+    <section>
       <div class="swiper-container" [swiper]="config">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
             <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
               <h4>
-                Es una plataforma para encontrar y construir Comunidad. Las
-                personas usan Comunidad para conocer gente nueva, aprender cosas
-                y seguir pasiones juntas.
+                Bienvenidos a esta aplicación que conecta gente mayor de 50
+                años, vía encuentros virtuales de conversación. Puedes
+                integrarte a Tertulias ya creadas o proponer invitar a una de tu
+                interés
               </h4>
             </div>
           </div>
@@ -131,9 +65,9 @@
                           <i [class]="theme.icon"></i>
                         </td>
                         <td class="left">
-                          <h2>
+                          <h3>
                             <strong>{{ theme.title }}</strong>
-                          </h2>
+                          </h3>
                         </td>
                       </tr>
                     </table>
