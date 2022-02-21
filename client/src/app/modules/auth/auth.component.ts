@@ -12,11 +12,7 @@ export class AuthComponent implements OnInit {
     this.innerWidth = window.innerWidth;
   }
 
-  ngOnInit(): void {
-    if (localStorage.getItem('token')) {
-      this.router.navigate(['dashboard/home']);
-    }
-  }
+  ngOnInit(): void {}
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.innerWidth = window.innerWidth;

@@ -17,7 +17,11 @@ export class SignInComponent implements OnInit {
   });
   constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (localStorage.getItem('token')) {
+      this.router.navigate(['dashboard/home']);
+    }
+  }
 
   signIn() {
     if (this.signInForm.value.email && this.signInForm.value.password) {
