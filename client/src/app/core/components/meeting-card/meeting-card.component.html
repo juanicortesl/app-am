@@ -2,7 +2,9 @@
   <table>
     <tr>
       <td class="left" style="width: 30%" *ngIf="type === 'available'">
-        <p *ngIf="meeting.type == 'public'">Tertulia abierta</p>
+        <p *ngIf="meeting.type == 'public' || meeting.type == 'open'">
+          Tertulia abierta
+        </p>
         <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
       </td>
       <td>
@@ -95,8 +97,8 @@
   </div>
 </div>
 <div class="sk-meeting-card p-2 left" *ngIf="innerWidth < widthThreshold">
-  <div class="pt-2" *ngIf="type == 'available'">
-    <p *ngIf="meeting.type == 'public'">Tertulia abierta</p>
+  <div class="pt-2" *ngIf="type === 'available'">
+    <p *ngIf="meeting.type == 'open'">Tertulia abierta</p>
     <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
   </div>
   <div class="pt-2 center">

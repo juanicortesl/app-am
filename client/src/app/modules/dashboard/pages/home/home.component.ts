@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   ];
   readyMeeting = {
     theme: 'Cine y literatura',
-    type: 'public',
+    type: 'open',
     Host: { first_name: 'Andrea Witing' },
     startTime: new Date(2022, 1, 17, 14, 30),
     endTime: new Date(2022, 1, 17, 15, 30),
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   };
   toBeMeeting = {
     theme: 'Actualidad',
-    type: 'public',
+    type: 'open',
     Host: { first_name: 'Pablo Escobar' },
     startTime: new Date(2022, 1, 23, 15, 30),
     endTime: new Date(2022, 1, 23, 16, 30),
