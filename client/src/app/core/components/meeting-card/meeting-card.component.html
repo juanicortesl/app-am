@@ -54,10 +54,16 @@
               </button>
               <button
                 class="sk-button secondary"
-                *ngIf="type === 'available'"
+                *ngIf="type === 'available' && !addedToCalendar"
                 (click)="requestMeeting()"
               >
                 Agregar a mi calendario
+              </button>
+              <button
+                class="sk-button secondary"
+                *ngIf="type === 'available' && addedToCalendar"
+              >
+                No puedo ir
               </button>
             </td>
           </tr>
@@ -163,10 +169,16 @@
     </button>
     <button
       class="sk-button secondary"
-      *ngIf="type === 'available'"
+      *ngIf="type === 'available' && !addedToCalendar"
       (click)="requestMeeting()"
     >
       Agregar a mi calendario
+    </button>
+    <button
+      class="sk-button secondary"
+      *ngIf="type === 'available' && addedToCalendar"
+    >
+      No puedo ir
     </button>
   </div>
 </div>

@@ -15,6 +15,7 @@ export class MeetingCardComponent implements OnInit {
   public remainingTime: any = {};
   @Input() type = '';
   @Input() meeting: any;
+  @Input() addedToCalendar: boolean = false;
   seeMore = false;
   constructor(private apiService: ApiService, private router: Router) {}
 
