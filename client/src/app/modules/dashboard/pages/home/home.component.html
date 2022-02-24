@@ -28,16 +28,16 @@
     </div>
     <div class="row justify-content-center pt-2">
       <div class="col-md-4 py-2 px-3" *ngFor="let theme of themes">
-        <div class="sk-theme-card" (click)="goToSearcher(theme.title)">
+        <div class="sk-theme-card" (click)="goToSearcher(theme)">
           <table>
             <tr>
               <td class="p-2">
                 <i [class]="theme.icon"></i>
               </td>
               <td class="left">
-                <h3>
+                <h4>
                   <strong>{{ theme.title }}</strong>
-                </h3>
+                </h4>
               </td>
             </tr>
           </table>

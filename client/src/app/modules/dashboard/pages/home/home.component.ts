@@ -11,9 +11,14 @@ export class HomeComponent implements OnInit {
   public widthThreshold = environment.widthThreshold;
   public innerWidth: any;
   themes = [
-    { title: 'Cine y literatura', icon: 'bi bi-book' },
-    { title: 'Actualidad', icon: 'bi bi-newspaper' },
+    {
+      title: 'Cine y literatura',
+      icon: 'bi bi-book',
+      value: 'cine y literatura',
+    },
+    { title: 'Actualidad', icon: 'bi bi-newspaper', value: 'actualidad' },
     { title: 'Otros', icon: 'bi bi-people' },
+    { title: 'Todos', icon: 'bi bi-card-checklist' },
   ];
   readyMeeting = {
     theme: 'Cine y literatura',
@@ -48,7 +53,7 @@ export class HomeComponent implements OnInit {
     this.innerWidth = window.innerWidth;
   }
 
-  goToSearcher(theme: string) {
+  goToSearcher(theme: any) {
     this.router.navigate(['dashboard/searcher'], { state: { theme: theme } });
   }
 }

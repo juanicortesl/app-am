@@ -31,21 +31,7 @@ export class CalendarComponent implements OnInit {
       console.log(data);
       if (data.result) {
         data.data.model.forEach((meeting: any) => {
-          meeting.isOwner = true;
-          let date = new Date(meeting.startTime);
-          if (
-            !this.meetingsByDate[
-              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-            ]
-          ) {
-            this.meetingsByDate[
-              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-            ] = [meeting];
-          } else {
-            this.meetingsByDate[
-              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-            ].push(meeting);
-          }
+          this.pushToMeetingsByDate(meeting, true);
         });
       }
     });
@@ -53,23 +39,27 @@ export class CalendarComponent implements OnInit {
       console.log(data);
       if (data.result) {
         data.data.model.forEach((meeting: any) => {
-          meeting.isOwner = false;
-          let date = new Date(meeting.startTime);
-          if (
-            !this.meetingsByDate[
-              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-            ]
-          ) {
-            this.meetingsByDate[
-              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-            ] = [meeting];
-          } else {
-            this.meetingsByDate[
-              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
-            ].push(meeting);
-          }
+          this.pushToMeetingsByDate(meeting, false);
         });
       }
     });
+  }
+
+  pushToMeetingsByDate(meeting: any, isOwner: boolean) {
+    meeting.isOwner = isOwner;
+    let date = new Date(meeting.startTime);
+    if (
+      !this.meetingsByDate[
+        `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      ]
+    ) {
+      this.meetingsByDate[
+        `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      ] = [meeting];
+    } else {
+      this.meetingsByDate[
+        `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      ].push(meeting);
+    }
   }
 }
