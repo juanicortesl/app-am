@@ -17,6 +17,7 @@
         <app-meeting-card
           [type]="'available'"
           [meeting]="meeting"
+          (changedMeeting)="getMeetings()"
         ></app-meeting-card>
       </div>
     </div>

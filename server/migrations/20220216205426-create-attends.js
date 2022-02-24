@@ -15,6 +15,7 @@ module.exports = {
           key: "id",
           as: "attendeeId",
         },
+        onDelete: "cascade",
       },
       meetingId: {
         type: Sequelize.INTEGER,
@@ -23,6 +24,7 @@ module.exports = {
           key: "id",
           as: "meetingId",
         },
+        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,

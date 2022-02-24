@@ -25,11 +25,23 @@ export class ApiService {
   getAvailableMeetings(body: any) {
     return this.genericGet('models/meetings/available');
   }
-  requestMeeting(meetingId: number) {
+  getWillAttendMeetings(body: any) {
+    return this.genericGet('models/meetings/will-attend');
+  }
+  addMeetingToCalendar(meetingId: number) {
     return this.genericPut(
-      { status: 'requested' },
-      `models/meetings/${meetingId}/request`
+      { status: 'request' },
+      `models/meetings/${meetingId}/add-to-calendar`
     );
+  }
+  removeMeetingFromCalendar(meetingId: number) {
+    return this.genericPut(
+      { status: 'request' },
+      `models/meetings/${meetingId}/remove-from-calendar`
+    );
+  }
+  cancelMeeting(meetingId: number) {
+    return this.genericDelete(`models/meetings/${meetingId}`);
   }
   getNextMeetings() {
     return this.genericGet('models/meetings/next');
@@ -77,5 +89,15 @@ export class ApiService {
       }),
     };
     return this.http.get(`${this.apiUrl}/${endpoint}`, httpOptions);
+  }
+
+  genericDelete(endpoint: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.delete(`${this.apiUrl}/${endpoint}`, httpOptions);
   }
 }

@@ -12,50 +12,7 @@ export class CalendarComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.apiService.getOfferedMeetings().subscribe((data: any) => {
-      console.log(data);
-      if (data.result) {
-        this.offeredMeetings.push(...data.data.model);
-        data.data.model.forEach((meeting: any) => {
-          let date = new Date(meeting.startTime);
-          if (
-            !this.meetingsByDate[
-              `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
-            ]
-          ) {
-            this.meetingsByDate[
-              `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
-            ] = [meeting];
-          } else {
-            this.meetingsByDate[
-              `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
-            ].push(meeting);
-          }
-        });
-        console.log(this.meetingsByDate);
-      }
-    });
-    this.apiService.getAvailableMeetings({}).subscribe((data: any) => {
-      console.log(data);
-      if (data.result) {
-        data.data.model.forEach((meeting: any) => {
-          let date = new Date(meeting.startTime);
-          if (
-            !this.meetingsByDate[
-              `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
-            ]
-          ) {
-            this.meetingsByDate[
-              `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
-            ] = [meeting];
-          } else {
-            this.meetingsByDate[
-              `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
-            ].push(meeting);
-          }
-        });
-      }
-    });
+    this.getMeetings();
   }
 
   get dates() {
@@ -66,5 +23,53 @@ export class CalendarComponent implements OnInit {
       return aDate.getTime() - bDate.getTime();
     });
     return dates;
+  }
+
+  getMeetings() {
+    this.meetingsByDate = {};
+    this.apiService.getOfferedMeetings().subscribe((data: any) => {
+      console.log(data);
+      if (data.result) {
+        data.data.model.forEach((meeting: any) => {
+          meeting.isOwner = true;
+          let date = new Date(meeting.startTime);
+          if (
+            !this.meetingsByDate[
+              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+            ]
+          ) {
+            this.meetingsByDate[
+              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+            ] = [meeting];
+          } else {
+            this.meetingsByDate[
+              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+            ].push(meeting);
+          }
+        });
+      }
+    });
+    this.apiService.getWillAttendMeetings({}).subscribe((data: any) => {
+      console.log(data);
+      if (data.result) {
+        data.data.model.forEach((meeting: any) => {
+          meeting.isOwner = false;
+          let date = new Date(meeting.startTime);
+          if (
+            !this.meetingsByDate[
+              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+            ]
+          ) {
+            this.meetingsByDate[
+              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+            ] = [meeting];
+          } else {
+            this.meetingsByDate[
+              `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+            ].push(meeting);
+          }
+        });
+      }
+    });
   }
 }

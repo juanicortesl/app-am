@@ -1,6 +1,13 @@
 import { Router } from '@angular/router';
 import { ApiService } from './../../http/api.service';
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { interval, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -13,9 +20,12 @@ export class MeetingCardComponent implements OnInit {
   public widthThreshold = environment.widthThreshold;
   public innerWidth: any;
   public remainingTime: any = {};
+  loading = false;
   @Input() type = '';
   @Input() meeting: any;
   @Input() addedToCalendar: boolean = false;
+  @Input() isOwner: boolean = false;
+  @Output() changedMeeting = new EventEmitter<boolean>();
   seeMore = false;
   constructor(private apiService: ApiService, private router: Router) {}
 
@@ -56,9 +66,30 @@ export class MeetingCardComponent implements OnInit {
     );
   }
 
-  requestMeeting() {
-    this.apiService.requestMeeting(this.meeting.id).subscribe((data) => {
+  addToCalendar() {
+    this.loading = true;
+    this.apiService.addMeetingToCalendar(this.meeting.id).subscribe((data) => {
       console.log(data);
+      this.changedMeeting.emit(true);
+      this.loading = false;
+    });
+  }
+  removeFromCalendar() {
+    this.loading = true;
+    this.apiService
+      .removeMeetingFromCalendar(this.meeting.id)
+      .subscribe((data) => {
+        console.log(data);
+        this.changedMeeting.emit(true);
+        this.loading = false;
+      });
+  }
+  cancelMeeting() {
+    this.loading = true;
+    this.apiService.cancelMeeting(this.meeting.id).subscribe((data) => {
+      console.log(data);
+      this.changedMeeting.emit(true);
+      this.loading = false;
     });
   }
   goToMeeting() {

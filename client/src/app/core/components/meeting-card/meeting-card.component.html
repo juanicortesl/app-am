@@ -1,4 +1,12 @@
-<div class="sk-meeting-card p-3" *ngIf="innerWidth >= widthThreshold">
+<div class="row justify-content-center" *ngIf="loading">
+  <div class="spinner-border sk-spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div
+  class="sk-meeting-card p-3"
+  *ngIf="innerWidth >= widthThreshold && !loading"
+>
   <table>
     <tr>
       <td class="left" style="width: 30%" *ngIf="type === 'available'">
@@ -55,15 +63,23 @@
               <button
                 class="sk-button secondary"
                 *ngIf="type === 'available' && !addedToCalendar"
-                (click)="requestMeeting()"
+                (click)="addToCalendar()"
               >
                 Agregar a mi calendario
               </button>
               <button
                 class="sk-button secondary"
-                *ngIf="type === 'available' && addedToCalendar"
+                *ngIf="type === 'available' && addedToCalendar && !isOwner"
+                (click)="removeFromCalendar()"
               >
                 No puedo ir
+              </button>
+              <button
+                class="sk-button secondary"
+                *ngIf="type === 'available' && addedToCalendar && isOwner"
+                (click)="cancelMeeting()"
+              >
+                Cancelar tertulia
               </button>
             </td>
           </tr>
@@ -102,7 +118,10 @@
     </p>
   </div>
 </div>
-<div class="sk-meeting-card p-2 left" *ngIf="innerWidth < widthThreshold">
+<div
+  class="sk-meeting-card p-2 left"
+  *ngIf="innerWidth < widthThreshold && !loading"
+>
   <div class="pt-2" *ngIf="type === 'available'">
     <p *ngIf="meeting.type == 'open'">Tertulia abierta</p>
     <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
@@ -170,15 +189,23 @@
     <button
       class="sk-button secondary"
       *ngIf="type === 'available' && !addedToCalendar"
-      (click)="requestMeeting()"
+      (click)="addToCalendar()"
     >
       Agregar a mi calendario
     </button>
     <button
       class="sk-button secondary"
-      *ngIf="type === 'available' && addedToCalendar"
+      *ngIf="type === 'available' && addedToCalendar && !isOwner"
+      (click)="removeFromCalendar()"
     >
       No puedo ir
+    </button>
+    <button
+      class="sk-button secondary"
+      *ngIf="type === 'available' && addedToCalendar && isOwner"
+      (click)="cancelMeeting()"
+    >
+      Cancelar tertulia
     </button>
   </div>
 </div>

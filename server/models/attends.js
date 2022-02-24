@@ -14,6 +14,17 @@ module.exports = (sequelize, DataTypes) => {
       const response = await Attends.create(attributesToCreate);
       return response;
     };
+
+    static getByUserIdMeetingId = async (userId, meetingId) => {
+      const response = await Attends.findOne({
+        where: {
+          attendeeId: userId,
+          meetingId: meetingId,
+        },
+      });
+
+      return response;
+    };
   }
   Attends.init(
     {

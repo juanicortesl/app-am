@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: {
           name: "attendeeId",
         },
+        onDelete: "cascade",
       });
     }
     static add = async (attributesToCreate) => {

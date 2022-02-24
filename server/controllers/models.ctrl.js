@@ -66,6 +66,11 @@ class ModelsController {
             req.user.id
           );
         }
+        if (status === "will-attend") {
+          queryResult = await this.models[
+            model
+          ].model.getAttendedByUserWithFull("available", req.user.id);
+        }
       } else if (status === "simple") {
         queryResult = await this.models[model].model.getAll();
       } else if (status === "full") {
@@ -311,63 +316,69 @@ class ModelsController {
         return;
       }
       const user = await Models.User.getById(req.user.id);
-      if (mode === "request" && model === "meetings") {
-        /* request meeting and generate zoom link */
+      if (model === "meetings") {
+        let newMeetingAttributes = {};
         const meeting = await this.models[model].model.getByIdWithFull(
           req.params.id
         );
-        // check if meeting exists and is available
-        if (
-          !meeting ||
-          meeting.dataValues.status !== "available" ||
-          meeting.dataValues.availableSlots <= 0
-        ) {
-          res.status(200).send({
-            result: false,
-            message: "Something went wrong, please check the error section",
-            errors: [
-              {
-                value: id,
-                msg: "Meeting is not available",
-                param: "id",
-                location: "params",
-              },
-            ],
+        if (mode === "add-to-calendar") {
+          // check if meeting exists and is available
+          if (
+            !meeting ||
+            meeting.dataValues.status !== "available" ||
+            meeting.dataValues.availableSlots <= 0
+          ) {
+            res.status(200).send({
+              result: false,
+              message: "Something went wrong, please check the error section",
+              errors: [
+                {
+                  value: id,
+                  msg: "Meeting is not available",
+                  param: "id",
+                  location: "params",
+                },
+              ],
+            });
+            return;
+          }
+          // create attend instance
+          const attends = await Models.Attends.add({
+            attendeeId: req.user.id,
+            meetingId: meeting.dataValues.id,
           });
-          return;
+          // get meeting link
+          const meetingLink = "";
+          // update meeting status
+          let newAvailableSlots = meeting.dataValues.availableSlots - 1;
+          let newStatus = newAvailableSlots <= 0 ? "full" : "available";
+          newMeetingAttributes = {
+            status: newStatus,
+            meetingLink: meetingLink,
+            availableSlots: newAvailableSlots,
+          };
         }
-        // create attend instance
-        const attends = await Models.Attends.add({
-          attendeeId: req.user.id,
-          meetingId: meeting.dataValues.id,
-        });
-        // get meeting link
-        const meetingLink = "";
-        // update meeting status
-        let newAvailableSlots = meeting.dataValues.availableSlots - 1;
-        let newStatus = newAvailableSlots <= 0 ? "full" : "available";
-        const newMeetingAttributes = {
-          status: newStatus,
-          meetingLink: meetingLink,
-          availableSlots: newAvailableSlots,
-        };
+        if (mode === "remove-from-calendar") {
+          // remove attend instance
+          const attends = await Models.Attends.getByUserIdMeetingId(
+            req.user.id,
+            meeting.id
+          );
+          console.log(attends, "ATTENDS");
+          await attends.destroy();
+          // update meeting status
+          let newAvailableSlots = meeting.dataValues.availableSlots + 1;
+          let newStatus = "available";
+          newMeetingAttributes = {
+            status: newStatus,
+            availableSlots: newAvailableSlots,
+          };
+        }
+
         [updatedRows, queryResults] = await this.models[model].model.updateById(
           id,
           newMeetingAttributes
         );
-        // send emails
-        // await utils.sendConfirmationEmailSearcher(
-        //   meeting.Offerer,
-        //   user.dataValues,
-        //   meeting.dataValues.date,
-        //   meetingLink
-        // );
-        // await utils.sendConfirmationEmailOfferer(
-        //   meeting.Offerer,
-        //   user.dataValues,
-        //   meeting.dataValues.date,
-        //   meetingLink
-        // );
       } else {
         [updatedRows, queryResults] = await this.models[model].model.updateById(
           id,
@@ -440,7 +451,15 @@ class ModelsController {
         });
         return;
       }
-      const destroyedRows = await this.models[model].model.deleteById(id);
+      let destroyedRows;
+      if (model === "meetings") {
+        destroyedRows = await this.models[model].model.deleteById(
+          id,
+          req.user.id
+        );
+      } else {
+        destroyedRows = await this.models[model].model.deleteById(id);
+      }
 
       if (destroyedRows === 0) {
         res.status(200).send({
@@ -460,6 +479,7 @@ class ModelsController {
         data: {},
       });
     } catch (error) {
+      console.log(error);
       res.status(500).send({
         result: false,
         message: "Troubles in backend, API Error",

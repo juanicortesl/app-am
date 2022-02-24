@@ -22,7 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         through: "Attends",
         foreignKey: {
           name: "meetingId",
+          allowNull: true,
         },
+        onDelete: "cascade",
+        hooks: true,
       });
     }
     static add = async (attributesToCreate) => {
@@ -48,6 +51,29 @@ module.exports = (sequelize, DataTypes) => {
             hostId: userId,
           },
         },
+      });
+
+      return response;
+    };
+
+    static getAttendedByUserWithFull = async (status, userId) => {
+      const response = await Meeting.findAll({
+        where: {
+          status: status,
+          "$Attendees.id$": userId,
+        },
+        include: [
+          {
+            association: "Host",
+            attributes: ["interests", "first_name"],
+          },
+          {
+            association: "Attendees",
+            attributes: ["interests", "first_name"],
+          },
+        ],
+      }).then((meetings) => {
+        return meetings;
       });
 
       return response;
@@ -107,10 +133,20 @@ module.exports = (sequelize, DataTypes) => {
           hostId: {
             [Op.ne]: userId,
           },
+          "$Attendees->Attends.attendeeId$": {
+            [Op.or]: {
+              [Op.ne]: userId,
+              [Op.eq]: null,
+            },
+          },
         },
         include: [
           {
             association: "Host",
+            attributes: ["first_name", "description"],
+          },
+          {
+            association: "Attendees",
             attributes: ["first_name", "description"],
           },
         ],
@@ -146,10 +182,11 @@ module.exports = (sequelize, DataTypes) => {
       return response;
     };
 
-    static deleteById = async (id) => {
+    static deleteById = async (id, userId) => {
       const response = await Meeting.destroy({
         where: {
           id: id,
+          hostId: userId,
         },
       });
 
