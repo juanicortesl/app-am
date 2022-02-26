@@ -160,6 +160,8 @@ class ModelsController {
         attributesToCreate.hostId = req.user.id;
         attributesToCreate.status = "available";
         attributesToCreate.availableSlots = 10;
+        attributesToCreate.meetingLink =
+          "skolton_" + Math.floor(Math.random() * 10000);
       }
 
       const queryResult = await this.models[model].model.add(
@@ -347,14 +349,11 @@ class ModelsController {
             attendeeId: req.user.id,
             meetingId: meeting.dataValues.id,
           });
-          // get meeting link
-          const meetingLink = "";
           // update meeting status
           let newAvailableSlots = meeting.dataValues.availableSlots - 1;
           let newStatus = newAvailableSlots <= 0 ? "full" : "available";
           newMeetingAttributes = {
             status: newStatus,
-            meetingLink: meetingLink,
             availableSlots: newAvailableSlots,
           };
         }

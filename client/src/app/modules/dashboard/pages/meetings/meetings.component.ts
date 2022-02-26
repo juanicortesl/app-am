@@ -15,7 +15,7 @@ import {
   styleUrls: ['./meetings.component.scss'],
 })
 export class MeetingsComponent implements OnInit {
-  step = 1;
+  step = 0;
   public firstStepForm = new FormGroup({
     type: new FormControl('', [Validators.required, Validators.minLength(1)]),
   });
@@ -121,7 +121,7 @@ export class MeetingsComponent implements OnInit {
     return {
       theme: this.theme,
       type: this.type,
-      host: { first_name: 'Andrea Witing' },
+      Host: { first_name: 'Andrea Witing' },
       startTime: startTime,
       endTime: endTime,
       availableSlots: 10,

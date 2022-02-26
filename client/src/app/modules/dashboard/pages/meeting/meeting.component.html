@@ -1,4 +1,12 @@
-<div id="meeting-component">
+<div class="row py-4 justify-content-center" *ngIf="meeting">
+  <div class="col md-6 center">
+    <h3>
+      <strong>Hablemos de: {{ meeting.theme }}</strong>
+    </h3>
+    <h4 div class="pt-2">Organiza: {{ meeting.Host.first_name }}</h4>
+  </div>
+</div>
+<div id="meeting-component" *ngIf="!meetingFinished">
   <div
     id="jitsi-iframe"
     [ngClass]="fullScreenMode ? 'meeting-frame big' : 'meeting-frame'"
@@ -57,4 +65,16 @@
       </td>
     </tr>
   </table>
+</div>
+<div class="pt-2" *ngIf="!meetingFinished">
+  <h4>
+    Si tienes problemas al unirte a la reunión ingresa por este link:
+    <span class="link" (click)="openExternalLink()"> link externo</span>
+  </h4>
+</div>
+<div class="row justify-content-center" *ngIf="meetingFinished">
+  <div class="col-md-8 center">
+    <h3 class="py-1">Tertulia terminada</h3>
+    <h4 class="py-1">Por favor entrega tu evaluación:</h4>
+  </div>
 </div>

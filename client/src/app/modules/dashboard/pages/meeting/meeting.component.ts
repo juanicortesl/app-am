@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, HostListener, OnInit } from '@angular/core';
 declare var JitsiMeetExternalAPI: any;
 @Component({
@@ -6,24 +7,31 @@ declare var JitsiMeetExternalAPI: any;
   styleUrls: ['./meeting.component.scss'],
 })
 export class MeetingComponent implements OnInit {
+  meeting: any;
   domain: string = 'meet.jit.si'; // For self hosted use your domain
   room: any;
   options: any;
   api: any;
   user: any;
+  meetingFinished = false;
 
   // For Custom Controls
   isAudioMuted = true;
   isVideoMuted = true;
   fullScreenMode = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.room = 'skolton-bwb-bfqi-vmh'; // Set your room name
-    this.user = {
-      name: 'user', // Set your username
-    };
+    if (history.state.meeting) {
+      this.meeting = history.state.meeting;
+      this.room = this.meeting.meetingLink; // Set your room name
+      this.user = {
+        name: localStorage.getItem('userName'), // Set your username
+      };
+    } else {
+      this.router.navigate(['dashboard/home']);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -64,7 +72,10 @@ export class MeetingComponent implements OnInit {
   }
 
   handleClose = () => {
-    // console.log('handleClose');
+    this.meetingFinished = true;
+    if (this.fullScreenMode) {
+      this.executeCommand('resize-large-video');
+    }
   };
 
   handleParticipantLeft = async (participant: any) => {
@@ -122,6 +133,8 @@ export class MeetingComponent implements OnInit {
         } else if (elem && elem.msRequestFullscreen) {
           /* IE/Edge */
           elem.msRequestFullscreen();
+        } else {
+          console.log();
         }
       } else {
         const docWithBrowsersExitFunctions = document as Document & {
@@ -145,6 +158,7 @@ export class MeetingComponent implements OnInit {
       this.fullScreenMode = !this.fullScreenMode;
     }
     if (command == 'hangup') {
+      this.meetingFinished = true;
       this.api.executeCommand(command);
       // this.router.navigate(['/thank-you']);
       return;
@@ -176,5 +190,9 @@ export class MeetingComponent implements OnInit {
     //   this.fullScreenMode = !this.fullScreenMode;
     // }
     // console.log(document.fullscreenElement, 'FULLSCREENEVENT');
+  }
+
+  openExternalLink() {
+    window.open(`https://meet.jit.si/${this.meeting.meetingLink}`, '_blank');
   }
 }

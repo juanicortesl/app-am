@@ -9,7 +9,9 @@
         <app-meeting-card
           [meeting]="readyMeeting"
           [type]="'ready'"
+          *ngIf="readyMeeting"
         ></app-meeting-card>
+        <h4 *ngIf="!readyMeeting">No tienes tertulias prontas a comenzar</h4>
       </div>
     </div>
     <div class="pt-4">

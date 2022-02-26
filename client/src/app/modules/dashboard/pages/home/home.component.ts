@@ -2,6 +2,8 @@ import { Router } from '@angular/router';
 import { ApiService } from './../../../../core/http/api.service';
 import { environment } from './../../../../../environments/environment';
 import { Component, HostListener, OnInit } from '@angular/core';
+
+const HOUR_IN_MILLISECONDS = 1000 * 60 * 60;
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,15 +22,7 @@ export class HomeComponent implements OnInit {
     { title: 'Otros', icon: 'bi bi-people' },
     { title: 'Todos', icon: 'bi bi-card-checklist' },
   ];
-  readyMeeting = {
-    theme: 'Cine y literatura',
-    type: 'open',
-    Host: { first_name: 'Andrea Witing' },
-    startTime: new Date(2022, 1, 17, 14, 30),
-    endTime: new Date(2022, 1, 17, 15, 30),
-    availableSlots: 4,
-    description: '',
-  };
+  readyMeeting: any;
   toBeMeeting = {
     theme: 'Actualidad',
     type: 'open',
@@ -43,8 +37,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-    this.apiService.getOfferedMeetings().subscribe((data) => {
-      console.log(data);
+    this.apiService.getOfferedMeetings().subscribe((data: any) => {
+      if (data.result) {
+        let now = new Date();
+        this.readyMeeting = data.data.model.find((meeting: any) => {
+          let meetingDate = new Date(meeting.startTime);
+          return (
+            meetingDate.getTime() - now.getTime() < HOUR_IN_MILLISECONDS &&
+            now.getTime() < meetingDate.getTime()
+          );
+        });
+        console.log(this.readyMeeting);
+      }
     });
   }
 

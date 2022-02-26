@@ -93,6 +93,10 @@ export class MeetingCardComponent implements OnInit {
     });
   }
   goToMeeting() {
-    this.router.navigate(['dashboard/meeting'], {});
+    this.router.navigate(['dashboard/meeting'], {
+      state: {
+        meeting: this.meeting,
+      },
+    });
   }
 }
