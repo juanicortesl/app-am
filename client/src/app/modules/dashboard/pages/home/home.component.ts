@@ -22,7 +22,8 @@ export class HomeComponent implements OnInit {
     { title: 'Otros', icon: 'bi bi-people' },
     { title: 'Todos', icon: 'bi bi-card-checklist' },
   ];
-  readyMeeting: any;
+  readyHostMeeting: any;
+  readyAttendeeMeeting: any;
   toBeMeeting = {
     theme: 'Actualidad',
     type: 'open',
@@ -40,14 +41,27 @@ export class HomeComponent implements OnInit {
     this.apiService.getOfferedMeetings().subscribe((data: any) => {
       if (data.result) {
         let now = new Date();
-        this.readyMeeting = data.data.model.find((meeting: any) => {
+        this.readyHostMeeting = data.data.model.find((meeting: any) => {
           let meetingDate = new Date(meeting.startTime);
           return (
             meetingDate.getTime() - now.getTime() < HOUR_IN_MILLISECONDS &&
             now.getTime() < meetingDate.getTime()
           );
         });
-        console.log(this.readyMeeting);
+      }
+    });
+
+    this.apiService.getWillAttendMeetings({}).subscribe((data: any) => {
+      if (data.result) {
+        let now = new Date();
+        this.readyAttendeeMeeting = data.data.model.find((meeting: any) => {
+          let meetingDate = new Date(meeting.startTime);
+          return (
+            meetingDate.getTime() - now.getTime() < HOUR_IN_MILLISECONDS &&
+            now.getTime() < meetingDate.getTime()
+          );
+        });
+        this.readyAttendeeMeeting;
       }
     });
   }
