@@ -25,12 +25,31 @@ module.exports = (sequelize, DataTypes) => {
 
       return response;
     };
+
+    static updateByUserIdMeetingId = async (
+      userId,
+      meetingId,
+      attributesToUpdate
+    ) => {
+      console.log(attributesToUpdate, "ATTRIBUTES");
+      const response = await Attends.update(attributesToUpdate, {
+        where: {
+          attendeeId: userId,
+          meetingId: meetingId,
+        },
+        returning: true,
+      });
+
+      return response;
+    };
   }
   Attends.init(
     {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       attendeeId: DataTypes.INTEGER,
       meetingId: DataTypes.INTEGER,
+      review_comment: DataTypes.STRING,
+      review_rate: DataTypes.FLOAT,
     },
     {
       sequelize,

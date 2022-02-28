@@ -48,6 +48,9 @@ export class HomeComponent implements OnInit {
             now.getTime() < meetingDate.getTime()
           );
         });
+        if (this.readyHostMeeting) {
+          this.readyHostMeeting.isHost = true;
+        }
       }
     });
 

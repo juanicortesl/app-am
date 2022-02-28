@@ -85,6 +85,7 @@ export class SignUpComponent implements OnInit {
           if (data.result) {
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('userId', data.data.user.id);
+            localStorage.setItem('userName', data.data.user.first_name);
             this.step++;
           }
         },

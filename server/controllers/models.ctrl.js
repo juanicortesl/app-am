@@ -374,6 +374,18 @@ class ModelsController {
           };
         }
 
+        if (mode === "add-review") {
+          // add review to attend instance
+          const attends = await Models.Attends.updateByUserIdMeetingId(
+            req.user.id,
+            meeting.id,
+            attributesToUpdate
+          );
+
+          // update meeting status
+          newMeetingAttributes = { status: "available" };
+        }
+
         [updatedRows, queryResults] = await this.models[model].model.updateById(
           id,
           newMeetingAttributes

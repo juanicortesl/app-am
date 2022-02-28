@@ -72,9 +72,48 @@
     <span class="link" (click)="openExternalLink()"> link externo</span>
   </h4>
 </div>
-<div class="row justify-content-center" *ngIf="meetingFinished">
+<div
+  class="row justify-content-center"
+  *ngIf="meetingFinished && !reviewGiven"
+  [formGroup]="reviewForm"
+>
   <div class="col-md-8 center">
     <h3 class="py-1">Tertulia terminada</h3>
     <h4 class="py-1">Por favor entrega tu evaluación:</h4>
+    <ngb-rating formControlName="rate" [max]="5" class="star pt-4"></ngb-rating>
+    <div class="pt-4">
+      <div class="sk-comment-container">
+        <textarea
+          name="comment"
+          formControlName="comment"
+          maxlength="200"
+          placeholder="Escribe un breve comentario:"
+        ></textarea>
+      </div>
+    </div>
+    <div class="p-4">
+      <button
+        class="sk-button sign-up"
+        [disabled]="reviewForm.invalid"
+        (click)="addReview()"
+      >
+        Enviar
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center" *ngIf="meetingFinished && reviewGiven">
+  <div class="col-md-8 center">
+    <h3 class="py-1">Tertulia terminada</h3>
+    <h4 class="py-1">
+      Gracias por formar parte de Skolton, nos vemos en tu próxima tertulia
+    </h4>
+
+    <div class="p-4">
+      <button class="sk-button sign-up" [routerLink]="'../home'">
+        Volver a inicio
+      </button>
+    </div>
   </div>
 </div>

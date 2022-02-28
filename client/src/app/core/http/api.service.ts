@@ -40,6 +40,9 @@ export class ApiService {
       `models/meetings/${meetingId}/remove-from-calendar`
     );
   }
+  addMeetingReview(meetingId: number, body: any) {
+    return this.genericPut(body, `models/meetings/${meetingId}/add-review`);
+  }
   cancelMeeting(meetingId: number) {
     return this.genericDelete(`models/meetings/${meetingId}`);
   }

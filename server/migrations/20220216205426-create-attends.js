@@ -30,6 +30,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      review_comment: {
+        type: Sequelize.STRING,
+      },
+      review_rate: {
+        type: Sequelize.FLOAT,
+      },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,

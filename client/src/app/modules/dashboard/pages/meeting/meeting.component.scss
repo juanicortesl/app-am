@@ -29,3 +29,10 @@
   color: blue;
   text-decoration: underline;
 }
+.star {
+  font-size: 3rem;
+  color: #ffa600;
+  &.full {
+    color: #ffa600;
+  }
+}

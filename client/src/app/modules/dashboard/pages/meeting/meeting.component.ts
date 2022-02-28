@@ -1,3 +1,5 @@
+import { ApiService } from 'src/app/core/http/api.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, HostListener, OnInit } from '@angular/core';
 declare var JitsiMeetExternalAPI: any;
@@ -13,14 +15,21 @@ export class MeetingComponent implements OnInit {
   options: any;
   api: any;
   user: any;
+  reviewGiven = false;
   meetingFinished = false;
+  isHost = false;
 
   // For Custom Controls
   isAudioMuted = true;
   isVideoMuted = true;
   fullScreenMode = false;
 
-  constructor(private router: Router) {}
+  public reviewForm = new FormGroup({
+    rate: new FormControl(0, [Validators.required]),
+    comment: new FormControl('', [Validators.required]),
+  });
+
+  constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit(): void {
     if (history.state.meeting) {
@@ -29,6 +38,8 @@ export class MeetingComponent implements OnInit {
       this.user = {
         name: localStorage.getItem('userName'), // Set your username
       };
+      this.isHost = this.meeting.isHost ? true : false;
+      console.log('isHOST', this.isHost);
     } else {
       this.router.navigate(['dashboard/home']);
     }
@@ -73,6 +84,9 @@ export class MeetingComponent implements OnInit {
 
   handleClose = () => {
     this.meetingFinished = true;
+    if (this.isHost) {
+      this.reviewGiven = true;
+    }
     if (this.fullScreenMode) {
       this.executeCommand('resize-large-video');
     }
@@ -159,6 +173,9 @@ export class MeetingComponent implements OnInit {
     }
     if (command == 'hangup') {
       this.meetingFinished = true;
+      if (this.isHost) {
+        this.reviewGiven = true;
+      }
       this.api.executeCommand(command);
       // this.router.navigate(['/thank-you']);
       return;
@@ -194,5 +211,24 @@ export class MeetingComponent implements OnInit {
 
   openExternalLink() {
     window.open(`https://meet.jit.si/${this.meeting.meetingLink}`, '_blank');
+  }
+  get review_rate() {
+    return this.reviewForm.get('rate')?.value;
+  }
+  get review_comment() {
+    return this.reviewForm.get('comment')?.value;
+  }
+  addReview() {
+    this.apiService
+      .addMeetingReview(this.meeting.id, {
+        review_rate: this.review_rate,
+        review_comment: this.review_comment,
+      })
+      .subscribe((data: any) => {
+        console.log(data);
+        if (data.result) {
+          this.reviewGiven = true;
+        }
+      });
   }
 }
