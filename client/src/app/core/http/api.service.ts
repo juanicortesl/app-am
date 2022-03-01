@@ -64,6 +64,10 @@ export class ApiService {
     return this.genericPut(body, `models/users/${id}`);
   }
 
+  getUsers() {
+    return this.genericGet('models/users/all');
+  }
+
   genericPost(body: any = {}, endpoint: string) {
     const httpOptions = {
       headers: new HttpHeaders({

@@ -12,6 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MeetingsFilterPipe } from './pipes/meetings-filter.pipe';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -22,6 +24,7 @@ import { MeetingsFilterPipe } from './pipes/meetings-filter.pipe';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatAutocompleteModule,
   ],
   exports: [
     MeetingCardComponent,
@@ -32,6 +35,7 @@ import { MeetingsFilterPipe } from './pipes/meetings-filter.pipe';
     MatDatepickerModule,
     MatNativeDateModule,
     MeetingsFilterPipe,
+    MatAutocompleteModule,
   ],
   providers: [HttpClient, MeetingsFilterPipe],
   declarations: [MeetingCardComponent, ShortenPipe, MeetingsFilterPipe],

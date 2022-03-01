@@ -1,6 +1,6 @@
 import { MatNativeDateModule } from '@angular/material/core';
 import { ApiService } from '../../../../core/http/api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -8,6 +8,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-meetings',
@@ -61,12 +64,73 @@ export class MeetingsComponent implements OnInit {
     }
     return null;
   }
+
+  // user search
+
+  myControl = new FormControl();
+  users: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<any[]> | undefined;
+  selectedUsers: any[] = [];
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> | undefined;
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.minDate = new Date();
     this.maxDate = new Date();
     this.maxDate.setDate(this.maxDate.getDate() + 30);
+
+    // user searcher
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
+  }
+
+  private _filter(value: any): string[] {
+    const filterValue = value.first_name
+      ? value.first_name.toLowerCase()
+      : value?.toLowerCase();
+    return this.users.filter((user: any) => {
+      return (
+        user.first_name && user.first_name.toLowerCase().includes(filterValue)
+      );
+    });
+  }
+
+  selectUser(user: any) {
+    this.selectedUsers.push(user);
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = event.value;
+
+    // Add our fruit
+    if (value) {
+      this.selectedUsers.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.myControl.setValue(null);
+  }
+
+  remove(user: any): void {
+    const index = this.selectedUsers.indexOf(user);
+
+    if (index >= 0) {
+      this.selectedUsers.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    console.log(event, 'EVENT');
+    this.selectedUsers.push(event.option.value);
+    if (this.fruitInput) {
+      this.fruitInput.nativeElement.value = '';
+    }
+
+    this.myControl.setValue('');
   }
 
   createNewMeeting() {
@@ -87,6 +151,14 @@ export class MeetingsComponent implements OnInit {
 
   nextStep() {
     this.step++;
+    if (this.step === 1) {
+      this.apiService.getUsers().subscribe((data: any) => {
+        console.log(data);
+        if (data.result) {
+          this.users = data.data.model;
+        }
+      });
+    }
   }
 
   previousStep() {

@@ -34,12 +34,7 @@ class ModelsController {
       let queryResult;
       // users logic
       if (model === "users") {
-        res.status(200).send({
-          result: false,
-          message: "Something went wrong, please check the error section",
-          errors: [{ msg: "Endpoint not available", location: "url" }],
-        });
-        return;
+        queryResult = await this.models[model].model.getAllWithFull();
       }
       // meetings logic
       if (model === "meetings") {

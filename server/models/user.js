@@ -38,15 +38,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static getAllWithFull = async () => {
       const response = await User.findAll({
-        include: [
-          {
-            association: "offeredMeetings",
-          },
-          {
-            association: "acceptedMeetings",
-          },
-        ],
-        nest: true,
+        attributes: ["first_name", "interests", "description", "id"],
       });
 
       return response;

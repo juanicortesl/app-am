@@ -73,6 +73,41 @@
               </td>
             </tr>
           </table>
+          <!-- <form class="example-form" *ngIf="type === 'private'">
+            <div class="py-2"><p>Escoge a que usuarios invitar:</p></div>
+
+            <mat-form-field class="example-chip-list" appearance="fill">
+              <mat-label>Invitados:</mat-label>
+              <mat-chip-list #chipList aria-label="Lista de invitados">
+                <mat-chip
+                  *ngFor="let user of selectedUsers"
+                  (removed)="selectedUsers.pop()"
+                >
+                  {{ user.first_name }}
+                  <button matChipRemove>X</button>
+                </mat-chip>
+                <input
+                  placeholder="Nuevo invitado..."
+                  #fruitInput
+                  [formControl]="myControl"
+                  [matAutocomplete]="auto"
+                  [matChipInputFor]="chipList"
+                  (matChipInputTokenEnd)="add($event)"
+                />
+              </mat-chip-list>
+              <mat-autocomplete
+                #auto="matAutocomplete"
+                (optionSelected)="selected($event)"
+              >
+                <mat-option
+                  *ngFor="let user of filteredOptions | async"
+                  [value]="user"
+                >
+                  {{ user.first_name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form> -->
         </div>
       </div>
 
