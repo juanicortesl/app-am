@@ -1,8 +1,8 @@
-<section class="sk-desktop-content">
+<section>
   <div class="row pt-2 justify-content-center">
     <!-- step 1 begins -->
-    <div class="col-md-5 center" [formGroup]="profileForm" *ngIf="step === 1">
-      <h2>Crear cuenta</h2>
+    <div class="col-sm-6 center" [formGroup]="profileForm" *ngIf="step === 1">
+      <h3 class="py-2"><strong>Crear cuenta</strong></h3>
       <div class="p-2">
         <input
           type="text"
@@ -12,7 +12,7 @@
           placeholder="Nombre"
           formControlName="firstName"
         />
-        <p id="nameHelp">Así aparecerá en la app</p>
+        <p id="nameHelp" class="pt-2 left">Así aparecerá en Skolton</p>
       </div>
       <div class="p-2">
         <input
@@ -23,22 +23,24 @@
           placeholder="Correo electrónico"
           formControlName="email"
         />
-        <p id="emailHelp">
+        <p id="emailHelp" class="pt-2 left">
           Te servirá para entrar a tu cuenta y para recuperar tu contraseña si
           la olvidas
         </p>
       </div>
       <div class="p-2">
-        <h4>Contraseña</h4>
-        <code-input
-          [isCodeHidden]="false"
-          [codeLength]="4"
-          (codeCompleted)="changePassword($event)"
-          (codeChanged)="changePassword($event)"
-          class="code-input"
-        ></code-input>
+        <p class="py-1 left"><strong>Contraseña</strong></p>
+        <p>
+          <code-input
+            [isCodeHidden]="false"
+            [codeLength]="4"
+            (codeCompleted)="changePassword($event)"
+            (codeChanged)="changePassword($event)"
+            class="code-input"
+          ></code-input>
+        </p>
 
-        <p id="passwordHelp">Debe ser de 4 dígitos</p>
+        <p id="passwordHelp" class="pt-2 left">Deben ser sólo 4 números</p>
       </div>
       <div class="p-2">
         <button
@@ -57,12 +59,12 @@
     </div>
     <!-- step 1 ends -->
     <!-- step 2 begins -->
-    <div class="col-md-7 center" *ngIf="this.step === 2">
-      <h2>Ya eres parte de comunidad!</h2>
-      <div class="pt-4">
+    <div class="col-sm-6 center" *ngIf="this.step === 2">
+      <h3 class="pt-2"><strong>¡Ya eres parte de Skolton!</strong></h3>
+      <div class="pt-4 left">
         <h4>
-          Para ayudarte en el uso de esta web necesitamos que respondas tres
-          simple preguntas
+          Para ayudarte a encontrar lo que buscas necesitamos que respondas 3
+          simples preguntas
         </h4>
       </div>
       <div class="p-4">
@@ -74,41 +76,28 @@
     <!-- step 2 ends -->
     <!-- step 3 begins -->
     <div
-      class="col-md-6 center"
+      class="col-sm-6 center px-3"
       *ngIf="this.step === 3"
       [formGroup]="otherInfoForm"
     >
-      <h2>Algunos datos básicos</h2>
-      <div class="pt-4">
-        <h4>¿Cuál es tu fecha de cumpleaños?</h4>
+      <h3 class="pt-2"><strong>Algunos datos básicos</strong></h3>
+      <div class="pt-4 left">
+        <h5>¿Cuál es tu fecha de cumpleaños?</h5>
       </div>
       <div class="pt-2">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Elige una fecha</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            formControlName="birthDate"
-            [disabled]="true"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker
-            touchUi
-            #picker
-            startAt="1960"
-            [disabled]="false"
-          ></mat-datepicker>
+        <mat-form-field appearance="fill">
+          <mat-label>DD/MM/YYYY</mat-label>
+          <input matInput [matDatepicker]="dp" formControlName="birthDate" />
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="pt-4">
-        <h4>Soy</h4>
+      <div class="pt-4 left">
+        <h5>Soy:</h5>
       </div>
       <div class="pt-2">
         <table style="width: 50%; margin-left: 25%; text-align: left">
-          <tr>
+          <tr style="height: 40px">
             <td>
               <input type="radio" value="female" formControlName="gender" />
             </td>
@@ -116,7 +105,7 @@
               <p>Mujer</p>
             </td>
           </tr>
-          <tr>
+          <tr style="height: 40px">
             <td>
               <input type="radio" value="male" formControlName="gender" />
             </td>
@@ -124,7 +113,7 @@
               <p>Hombre</p>
             </td>
           </tr>
-          <tr>
+          <tr style="height: 40px">
             <td>
               <input type="radio" value="other" formControlName="gender" />
             </td>
@@ -134,8 +123,8 @@
           </tr>
         </table>
       </div>
-      <div class="pt-4">
-        <h4>¿En qué comuna vives?</h4>
+      <div class="pt-4 left">
+        <h5>¿En qué comuna vives?</h5>
       </div>
       <div class="pt-2">
         <select
@@ -166,289 +155,52 @@
       </div>
 
       <div class="p-4">
-        <button
-          class="sk-button sign-up"
-          [disabled]="otherInfoForm.invalid || loading"
-          (click)="nextStep()"
-        >
+        <button class="sk-button sign-up" (click)="nextStep()">
           Continuar
         </button>
       </div>
     </div>
     <!-- step 3 ends -->
     <!-- step 4 begins -->
-    <div class="col-md-7 center" *ngIf="this.step === 4">
+    <div class="col-sm-6 center px-3" *ngIf="this.step === 4">
       <div class="pt-4">
-        <h2>¿Cuáles con tus intereses?</h2>
+        <h3><strong>¿Cuáles con tus intereses?</strong></h3>
       </div>
-      <div class="pt-2">
-        <h4>
+      <div class="py-3 left">
+        <h5>
           Elige todos los que quieras y te mantendremos actualizado sobre tus
           intereses a través de las notificaciones
-        </h4>
+        </h5>
       </div>
-      <div class="row pt-3">
-        <div class="col md-3" *ngFor="let interest of interests">
-          <div
-            class="interest-card"
-            [ngClass]="
-              !interest.selected ? 'interest-card' : 'interest-card selected'
-            "
-            (click)="interest.selected = !interest.selected"
-          >
-            <table>
-              <tr>
-                <td>
-                  <h4>{{ interest.name }}</h4>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="p-4">
-        <button class="sk-button sign-up" (click)="nextStep()">
-          Continuar
-        </button>
-      </div>
-    </div>
-    <!-- step 4 ends -->
-    <!-- step 5 begins -->
-    <div
-      class="col-md-7 center"
-      *ngIf="this.step === 5"
-      [formGroup]="descriptionForm"
-    >
-      <div class="pt-4">
-        <h2>Descríbete para que la comunidad pueda conocerte</h2>
-      </div>
-      <div class="pt-4">
-        <div class="sk-comment-container">
-          <textarea
-            name="comment"
-            formControlName="description"
-            placeholder="Descripción:"
-          >
-          </textarea>
-        </div>
-      </div>
-      <div class="pt-2">
-        <h4>
-          Si no deseas cambiar tu descripción ahora puedes hacerlo en Datos
-          personales en el menú principal
-        </h4>
-      </div>
-      <div class="p-4">
-        <button class="sk-button sign-up" (click)="nextStep()">
-          Continuar
-        </button>
-      </div>
-    </div>
-
-    <!-- step 5 ends -->
-  </div>
-</section>
-<section class="sk-mobile-content">
-  <div class="row pt-2 justify-content-center">
-    <!-- step 1 begins -->
-    <div class="col-md-5 center" [formGroup]="profileForm" *ngIf="step === 1">
-      <h2>Crear cuenta</h2>
-      <div class="p-2">
-        <input
-          type="text"
-          class="form-control"
-          id="inputName"
-          aria-describedby="nameHelp"
-          placeholder="Nombre"
-          formControlName="firstName"
-        />
-        <p id="nameHelp">Así aparecerá en la app</p>
-      </div>
-      <div class="p-2">
-        <input
-          type="email"
-          class="form-control"
-          id="inputEmail"
-          aria-describedby="emailHelp"
-          placeholder="Correo electrónico"
-          formControlName="email"
-        />
-        <p id="emailHelp">
-          Te servirá para entrar a tu cuenta y para recuperar tu contraseña si
-          la olvidas
-        </p>
-      </div>
-      <div class="p-2">
-        <h4>Contraseña</h4>
-        <code-input
-          [isCodeHidden]="false"
-          [codeLength]="4"
-          (codeCompleted)="changePassword($event)"
-          (codeChanged)="changePassword($event)"
-          class="code-input"
-        ></code-input>
-
-        <p id="passwordHelp">Debe ser de 4 dígitos</p>
-      </div>
-      <div class="p-2">
-        <button
-          class="sk-button sign-up"
-          [disabled]="profileForm.invalid || loading"
-          (click)="nextStep()"
-        >
-          Continuar
-        </button>
-      </div>
-      <div class="p-2">
-        <button class="sk-button secondary" [routerLink]="'../sign-in'">
-          ¡Ya tengo una cuenta!
-        </button>
-      </div>
-    </div>
-    <!-- step 1 ends -->
-    <!-- step 2 begins -->
-    <div class="col-md-7 center" *ngIf="this.step === 2">
-      <h2>Ya eres parte de comunidad!</h2>
-      <div class="pt-4">
-        <h4>
-          Para ayudarte en el uso de esta web necesitamos que respondas tres
-          simple preguntas
-        </h4>
-      </div>
-      <div class="p-4">
-        <button class="sk-button sign-up" (click)="nextStep()">
-          Continuar
-        </button>
-      </div>
-    </div>
-    <!-- step 2 ends -->
-    <!-- step 3 begins -->
-    <div
-      class="col-md-6 center"
-      *ngIf="this.step === 3"
-      [formGroup]="otherInfoForm"
-    >
-      <h2>Algunos datos básicos</h2>
-      <div class="pt-4">
-        <h4>¿Cuál es tu fecha de cumpleaños?</h4>
-      </div>
-      <div class="pt-2">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Elige una fecha</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            formControlName="birthDate"
-            [disabled]="true"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker
-            touchUi
-            #picker
-            startAt="1960"
-            [disabled]="false"
-          ></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="pt-4">
-        <h4>Soy</h4>
-      </div>
-      <div class="pt-2">
-        <table style="width: 50%; margin-left: 25%; text-align: left">
-          <tr>
-            <td>
-              <input type="radio" value="female" formControlName="gender" />
-            </td>
-            <td>
-              <p>Mujer</p>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="radio" value="male" formControlName="gender" />
-            </td>
-            <td>
-              <p>Hombre</p>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="radio" value="other" formControlName="gender" />
-            </td>
-            <td>
-              <p>Prefiero no decirlo</p>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="pt-4">
-        <h4>¿En qué comuna vives?</h4>
-      </div>
-      <div class="pt-2">
-        <select
-          id="inputState"
-          class="form-control"
-          [(ngModel)]="selectedRegion"
-          [ngModelOptions]="{ standalone: true }"
-        >
-          >
-          <option selected>Region</option>
-          <option *ngFor="let region of regions; let i = index" [value]="i">
-            {{ region.NombreRegion }}
-          </option>
-        </select>
-      </div>
-      <div class="pt-2">
-        <select
-          id="inputState"
-          class="form-control pt-2"
-          *ngIf="selectedRegion && regions[selectedRegion]"
-          formControlName="address"
-        >
-          <option selected>Comuna</option>
-          <option *ngFor="let commune of regions[selectedRegion].comunas">
-            {{ commune }}
-          </option>
-        </select>
-      </div>
-
-      <div class="p-4">
-        <button
-          class="sk-button sign-up"
-          [disabled]="otherInfoForm.invalid || loading"
-          (click)="nextStep()"
-        >
-          Continuar
-        </button>
-      </div>
-    </div>
-    <!-- step 3 ends -->
-    <!-- step 4 begins -->
-    <div class="col-md-7 center" *ngIf="this.step === 4">
-      <div class="pt-4">
-        <h2>¿Cuáles con tus intereses?</h2>
-      </div>
-      <div class="pt-2">
-        <h4>
-          Elige todos los que quieras y te mantendremos actualizado sobre tus
-          intereses a través de las notificaciones
-        </h4>
-      </div>
-      <div class="row pt-2" *ngFor="let interest of interests">
+      <div class="row p-2" *ngFor="let interest of interests">
         <div
           class="interest-card"
           [ngClass]="
             !interest.selected ? 'interest-card' : 'interest-card selected'
           "
-          (click)="interest.selected = !interest.selected"
         >
           <table>
             <tr>
-              <td>
-                <h4>{{ interest.name }}</h4>
+              <td (click)="interest.selected = !interest.selected">
+                <i [class]="interest.icon"></i>
+              </td>
+              <td
+                *ngIf="!interest.other || !interest.selected"
+                (click)="interest.selected = !interest.selected"
+              >
+                <h4 class="left">{{ interest.name }}</h4>
+              </td>
+              <td *ngIf="interest.other && interest.selected">
+                <mat-form-field>
+                  <mat-label>Otro</mat-label>
+                  <input matInput type="text" [(ngModel)]="interest.name" />
+                </mat-form-field>
+              </td>
+              <td (click)="interest.selected = !interest.selected">
+                <i
+                  class="bi bi-check-circle-fill"
+                  *ngIf="interest.selected"
+                ></i>
               </td>
             </tr>
           </table>
@@ -468,7 +220,9 @@
       [formGroup]="descriptionForm"
     >
       <div class="pt-4">
-        <h2>Descríbete para que la comunidad pueda conocerte</h2>
+        <h3>
+          <strong>Descríbete para que la comunidad pueda conocerte</strong>
+        </h3>
       </div>
       <div class="pt-4">
         <div class="sk-comment-container">
@@ -476,14 +230,21 @@
             name="comment"
             formControlName="description"
             placeholder="Descripción: "
+            maxlength="250"
           ></textarea>
+          <div class="remaining-characters p-1 left">
+            <p>
+              {{ descriptionForm.get("description")?.value.length }} / 250
+              caracteres
+            </p>
+          </div>
         </div>
       </div>
-      <div class="pt-2">
-        <h4>
-          Si no deseas cambiar tu descripción ahora puedes hacerlo en Datos
-          personales en el menú principal
-        </h4>
+      <div class="pt-2 left">
+        <p>
+          Si no deseas hacer tu descripción ahora puedes agregarla después en
+          Datos Personales en el menú principal.
+        </p>
       </div>
       <div class="p-4">
         <button class="sk-button sign-up" (click)="nextStep()">

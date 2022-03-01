@@ -78,16 +78,37 @@
 }
 
 .interest-card {
-  border: 1px solid rgb(18 57 199);
+  border: 1px solid gray;
   border-radius: 10px;
-  height: 2.5rem;
+  height: 3.5rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   table {
+    text-transform: capitalize;
     width: 100%;
     height: 100%;
+    ::ng-deep .mat-form-field-flex {
+      background-color: transparent !important;
+      height: 100%;
+      color: rgb(7, 119, 7);
+    }
+    ::ng-deep .mat-input-element {
+      color: rgb(7, 119, 7);
+    }
+    tr td:first-child {
+      width: 20%;
+      font-size: 1.5rem;
+    }
+    tr td:last-child {
+      width: 20%;
+      font-size: 1.5rem;
+    }
   }
   &.selected {
-    background-color: rgb(18 57 199);
-    color: white;
+    background-color: rgba(13, 139, 13, 0.418);
+    color: rgb(7, 119, 7);
+    h4 {
+      font-weight: 500 !important;
+    }
   }
 }
 

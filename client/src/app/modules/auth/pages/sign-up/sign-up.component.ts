@@ -4,11 +4,30 @@ import { AuthService } from './../../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
+  ],
 })
 export class SignUpComponent implements OnInit {
   step = 1;
@@ -20,18 +39,22 @@ export class SignUpComponent implements OnInit {
   interests = [
     {
       name: 'actualidad',
+      icon: 'bi bi-newspaper',
       selected: false,
     },
     {
       name: 'cine',
+      icon: 'bi bi-film',
       selected: false,
     },
     {
       name: 'literatura',
+      icon: 'bi bi-book',
       selected: false,
     },
     {
-      name: 'otros',
+      name: 'otro',
+      other: true,
       selected: false,
     },
   ];
@@ -51,12 +74,12 @@ export class SignUpComponent implements OnInit {
     ]),
   });
   public otherInfoForm = new FormGroup({
-    birthDate: new FormControl('', [Validators.required]),
+    birthDate: new FormControl(moment([1970, 0, 1]), [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
   });
   public descriptionForm = new FormGroup({
-    description: new FormControl('Descripción: ', [Validators.required]),
+    description: new FormControl('', [Validators.required]),
   });
   constructor(
     private router: Router,
@@ -103,10 +126,11 @@ export class SignUpComponent implements OnInit {
     } else if (this.step == 3) {
       this.loading = true;
       let body = {
-        birth_date: this.otherInfoForm.get('birthDate')!.value,
+        birth_date: this.otherInfoForm.get('birthDate')!.value.format(),
         gender: this.otherInfoForm.get('gender')!.value,
         address: this.otherInfoForm.get('address')!.value,
       };
+      console.log(body, 'body');
       this.apiService.updateUser(body).subscribe((data: any) => {
         console.log(data);
         if (data.result) {
@@ -147,10 +171,10 @@ export class SignUpComponent implements OnInit {
       });
     }
   }
-  addInterest() {
-    this.interests.push({ name: this.newInterest, selected: false });
-    this.newInterest = '';
-  }
+  // addInterest() {
+  //   this.interests.push({ name: this.newInterest, selected: false });
+  //   this.newInterest = '';
+  // }
   changeInterest(e: any) {
     this.newInterest = e.target.value;
   }
