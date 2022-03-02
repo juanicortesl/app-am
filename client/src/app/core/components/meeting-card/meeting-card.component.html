@@ -125,6 +125,13 @@
         </table>
       </td>
     </tr>
+  </table>
+  <table>
+    <tr *ngIf="type === 'ready'">
+      <td class="pt-2">
+        <p>faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m</p>
+      </td>
+    </tr>
     <tr *ngIf="type === 'ready'">
       <td>
         <button
@@ -139,92 +146,141 @@
   </table>
 </div>
 <div
-  class="sk-meeting-card p-2 left"
+  class="sk-meeting-card p-3"
   *ngIf="innerWidth < widthThreshold && !loading"
 >
-  <div class="pt-2" *ngIf="type === 'available'">
-    <p *ngIf="meeting.type == 'open'">Tertulia abierta</p>
-    <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
-  </div>
-  <div class="pt-2 center">
-    <h5>
-      <strong>Hablemos de: {{ meeting.theme }}</strong>
-    </h5>
-  </div>
-  <div class="pt-2 center" *ngIf="type === 'available'">
-    <p>
-      {{ meeting.startTime | date: "HH:mm" }} hrs.,
-      {{ meeting.startTime | date: "DD" }} de
-      {{ meeting.startTime | date: "MMMM" }} a
-    </p>
-  </div>
-  <div class="pt-2" *ngIf="type === 'available'">
-    <table>
-      <tr>
-        <td style="width: 10%">
-          <i class="bi bi-person-circle"></i>
-        </td>
-        <td>
-          <a href="">{{ meeting.Host.first_name }}</a>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div
-    class="pt-2 justify description"
-    [ngClass]="
-      seeMore
-        ? 'pt-2 justify description see-more'
-        : ' pt-2 justify description see-less'
-    "
-    *ngIf="type === 'available'"
-  >
-    <p *ngIf="!seeMore">
-      {{ meeting.description | shorten: 50:40 }}
-      <span class="length-toggle" (click)="seeMore = !seeMore">ver más</span>
-    </p>
+  <table>
+    <tr>
+      <td class="left" *ngIf="type === 'available'">
+        <p *ngIf="meeting.type == 'public' || meeting.type == 'open'">
+          <strong>Tertulia abierta </strong>
+        </p>
+        <p *ngIf="meeting.type == 'private'">
+          <strong>Tertulia cerrada</strong>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td class="px-3 pt-2">
+        <div
+          class="picture"
+          [ngClass]="{
+            'font-1': pictureFont === 1,
+            'font-2': pictureFont === 2,
+            'color-1': pictureColor === 1,
+            'color-2': pictureColor === 2
+          }"
+        >
+          <table>
+            <tr>
+              <td>
+                {{ meeting.theme }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
 
-    <p *ngIf="seeMore">
-      {{ meeting.description }}
-      <span class="length-toggle" (click)="seeMore = !seeMore">ver menos</span>
-    </p>
-  </div>
-  <div class="pt-2 center">
-    <p *ngIf="type === 'available'">
-      <strong>Ya somos {{ 10 - meeting.availableSlots }} </strong>
-    </p>
-  </div>
-  <div class="row justify-content-center pt-2">
-    <button class="sk-button secondary" *ngIf="type === 'offered'">
-      No puedo asistir
-    </button>
-    <button
-      class="sk-button secondary"
-      *ngIf="type === 'ready'"
-      (click)="goToMeeting()"
-    >
-      Ingresar
-    </button>
-    <button
-      class="sk-button secondary"
-      *ngIf="type === 'available' && !addedToCalendar"
-      (click)="addToCalendar()"
-    >
-      Agregar a mi calendario
-    </button>
-    <button
-      class="sk-button secondary"
-      *ngIf="type === 'available' && addedToCalendar && !isOwner"
-      (click)="removeFromCalendar()"
-    >
-      No puedo ir
-    </button>
-    <button
-      class="sk-button secondary"
-      *ngIf="type === 'available' && addedToCalendar && isOwner"
-      (click)="cancelMeeting()"
-    >
-      Cancelar tertulia
-    </button>
-  </div>
+    <tr>
+      <td class="left pt-2">
+        <p><strong>Invita:</strong> {{ meeting.Host.first_name }}</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div
+          *ngIf="type === 'available'"
+          class="pt-2 justify description"
+          [ngClass]="
+            seeMore
+              ? 'pt-2 justify description see-more'
+              : ' pt-2 justify description see-less'
+          "
+        >
+          <p *ngIf="!seeMore">
+            {{ meeting.description | shorten: 50:50 }}
+            <span
+              class="length-toggle"
+              (click)="seeMore = !seeMore"
+              *ngIf="meeting.description.length > 50"
+              >leer más</span
+            >
+          </p>
+
+          <p *ngIf="seeMore">
+            {{ meeting.description }}
+            <span class="length-toggle" (click)="seeMore = !seeMore"
+              >leer menos</span
+            >
+          </p>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="pt-2" *ngIf="type === 'available'">
+        <p *ngIf="type === 'available'">
+          {{ meeting.startTime | date: "HH:mm" }},
+          {{ meeting.startTime | date: "dd" }} de
+          {{ meeting.startTime | date: "MMMM" }}
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table>
+          <tr>
+            <td>
+              <p>
+                <strong>Ya somos {{ 10 - meeting.availableSlots }}</strong>
+              </p>
+            </td>
+            <td>
+              <button class="sk-button secondary" *ngIf="type === 'offered'">
+                No puedo asistir
+              </button>
+              <button
+                class="sk-button secondary"
+                *ngIf="type === 'available' && !addedToCalendar"
+                (click)="addToCalendar()"
+              >
+                ¡Participa!
+              </button>
+              <button
+                class="sk-button secondary"
+                *ngIf="type === 'available' && addedToCalendar && !isOwner"
+                (click)="removeFromCalendar()"
+              >
+                No puedo ir
+              </button>
+              <button
+                class="sk-button secondary"
+                *ngIf="type === 'available' && addedToCalendar && isOwner"
+                (click)="cancelMeeting()"
+              >
+                Cancelar tertulia
+              </button>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr *ngIf="type === 'ready'">
+      <td class="pt-2">
+        <p>faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m</p>
+      </td>
+    </tr>
+    <tr *ngIf="type === 'ready'">
+      <td>
+        <button
+          class="sk-button secondary"
+          *ngIf="type === 'ready'"
+          (click)="goToMeeting()"
+        >
+          Ingresar
+        </button>
+      </td>
+    </tr>
+  </table>
 </div>
