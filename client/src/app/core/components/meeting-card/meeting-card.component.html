@@ -11,50 +11,89 @@
     <tr>
       <td class="left" style="width: 30%" *ngIf="type === 'available'">
         <p *ngIf="meeting.type == 'public' || meeting.type == 'open'">
-          Tertulia abierta
+          <strong>Tertulia abierta </strong>
         </p>
-        <p *ngIf="meeting.type == 'private'">Tertulia cerrada</p>
+        <p *ngIf="meeting.type == 'private'">
+          <strong>Tertulia cerrada</strong>
+        </p>
       </td>
-      <td>
-        <h5>
-          <strong>Hablemos de: {{ meeting.theme }}</strong>
-        </h5>
-      </td>
+      <td></td>
       <td style="width: 30%" *ngIf="type === 'available'">
         <p *ngIf="type === 'available'">
-          <strong>Quedan {{ meeting.availableSlots }} cupos</strong>
+          {{ meeting.startTime | date: "HH:mm" }},
+          {{ meeting.startTime | date: "dd" }} de
+          {{ meeting.startTime | date: "MMMM" }}
         </p>
       </td>
     </tr>
     <tr>
-      <td>
-        <table class="pt-2" *ngIf="type === 'available'">
-          <tr>
-            <td style="width: 10%">
-              <i class="bi bi-person-circle"></i>
-            </td>
-            <td class="left px-2">
-              <a href="">{{ meeting.Host.first_name }}</a>
-            </td>
-          </tr>
-        </table>
-
-        <p *ngIf="type === 'ready'">
-          Faltan: {{ remainingTime.days }}d:{{ remainingTime.hours }}h:{{
-            remainingTime.minutes
-          }}m
-        </p>
-      </td>
-      <td>
-        <p *ngIf="type === 'available'">
-          {{ meeting.startTime | date: "EEEE  d" }} de
-          {{ meeting.startTime | date: "MMMM" }}
-          {{ meeting.startTime | date: "HH:mm" }} a
-          {{ meeting.endTime | date: "HH:mm" }} hrs.
-        </p>
+      <td class="px-3 pt-2">
+        <div
+          class="picture"
+          [ngClass]="{
+            'font-1': pictureFont === 1,
+            'font-2': pictureFont === 2,
+            'color-1': pictureColor === 1,
+            'color-2': pictureColor === 2
+          }"
+        >
+          <table>
+            <tr>
+              <td>
+                {{ meeting.theme }}
+              </td>
+            </tr>
+          </table>
+        </div>
       </td>
       <td>
         <table>
+          <tr>
+            <td class="left">
+              <p><strong>Invita:</strong> {{ meeting.Host.first_name }}</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div
+                *ngIf="type === 'available'"
+                class="pt-2 justify description"
+                [ngClass]="
+                  seeMore
+                    ? 'pt-2 justify description see-more'
+                    : ' pt-2 justify description see-less'
+                "
+              >
+                <p *ngIf="!seeMore">
+                  {{ meeting.description | shorten: 50:50 }}
+                  <span
+                    class="length-toggle"
+                    (click)="seeMore = !seeMore"
+                    *ngIf="meeting.description.length > 50"
+                    >leer más</span
+                  >
+                </p>
+
+                <p *ngIf="seeMore">
+                  {{ meeting.description }}
+                  <span class="length-toggle" (click)="seeMore = !seeMore"
+                    >leer menos</span
+                  >
+                </p>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table>
+          <tr>
+            <td>
+              <p class="pt-2">
+                <strong>Ya somos {{ 10 - meeting.availableSlots }}</strong>
+              </p>
+            </td>
+          </tr>
           <tr>
             <td>
               <button class="sk-button secondary" *ngIf="type === 'offered'">
@@ -65,7 +104,7 @@
                 *ngIf="type === 'available' && !addedToCalendar"
                 (click)="addToCalendar()"
               >
-                Agregar a mi calendario
+                ¡Participa!
               </button>
               <button
                 class="sk-button secondary"
@@ -98,25 +137,6 @@
       </td>
     </tr>
   </table>
-  <div
-    *ngIf="type === 'available'"
-    class="pt-2 justify description"
-    [ngClass]="
-      seeMore
-        ? 'pt-2 justify description see-more'
-        : ' pt-2 justify description see-less'
-    "
-  >
-    <p *ngIf="!seeMore">
-      {{ meeting.description | shorten: 150 }}
-      <span class="length-toggle" (click)="seeMore = !seeMore">ver más</span>
-    </p>
-
-    <p *ngIf="seeMore">
-      {{ meeting.description }}
-      <span class="length-toggle" (click)="seeMore = !seeMore">ver menos</span>
-    </p>
-  </div>
 </div>
 <div
   class="sk-meeting-card p-2 left"
@@ -133,10 +153,9 @@
   </div>
   <div class="pt-2 center" *ngIf="type === 'available'">
     <p>
-      {{ meeting.startTime | date: "EEEE  d" }} de
-      {{ meeting.startTime | date: "MMMM" }}
-      {{ meeting.startTime | date: "HH:mm" }} a
-      {{ meeting.endTime | date: "HH:mm" }} hrs.
+      {{ meeting.startTime | date: "HH:mm" }} hrs.,
+      {{ meeting.startTime | date: "DD" }} de
+      {{ meeting.startTime | date: "MMMM" }} a
     </p>
   </div>
   <div class="pt-2" *ngIf="type === 'available'">
@@ -172,7 +191,7 @@
   </div>
   <div class="pt-2 center">
     <p *ngIf="type === 'available'">
-      <strong>Quedan {{ meeting.availableSlots }} cupos</strong>
+      <strong>Ya somos {{ 10 - meeting.availableSlots }} </strong>
     </p>
   </div>
   <div class="row justify-content-center pt-2">

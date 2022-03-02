@@ -27,12 +27,17 @@ export class MeetingCardComponent implements OnInit {
   @Input() isOwner: boolean = false;
   @Output() changedMeeting = new EventEmitter<boolean>();
   seeMore = false;
+  pictureColor = 0;
+  pictureFont = 0;
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     this.meeting.startTime = new Date(this.meeting.startTime);
-    this.meeting.endTime = new Date(this.meeting.endTime);
+    this.pictureColor =
+      (this.meeting.startTime.getDate() + this.meeting.description.length) % 3;
+    this.pictureFont = this.meeting.description?.length % 3;
+    console.log(this.pictureColor, this.pictureFont);
     this.start().subscribe((_) => {});
   }
   @HostListener('window:resize', ['$event'])
