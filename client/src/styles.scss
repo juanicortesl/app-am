@@ -19,7 +19,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   strong {
-    font-weight: 500 !important;
+    font-weight: 400 !important;
   }
   h1 {
     font-weight: 300 !important;
@@ -38,24 +38,21 @@ body {
     font-size: 2rem !important;
     line-height: 2.1rem !important;
     margin: 0 !important;
-    strong {
-      font-weight: 400 !important;
-    }
   }
   h4 {
-    font-weight: 300 !important;
+    font-weight: 200 !important;
     font-size: 1.5rem !important;
     line-height: 1.6rem !important;
     margin: 0 !important;
   }
   h5 {
-    font-weight: 300 !important;
+    font-weight: 200 !important;
     font-size: 1.3rem !important;
     line-height: 1.4rem !important;
     margin: 0 !important;
   }
   p {
-    font-weight: 300;
+    font-weight: 200;
     font-size: 1rem !important;
     line-height: 1.1rem !important;
     margin: 0rem !important;
@@ -258,12 +255,14 @@ body {
 }
 
 .sk-theme-card {
-  height: auto;
+  height: 3rem;
   width: 100%;
   border-radius: 10px;
-  color: white;
+  border: 1px solid gray;
+  text-transform: capitalize;
+  color: black;
   font-weight: 400 !important;
-  background-color: var(--main-color);
+  background-color: transparent;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   table {

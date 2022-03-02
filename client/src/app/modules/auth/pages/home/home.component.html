@@ -1,9 +1,9 @@
-<div class="row justify-content-center p-4">
-  <div class="col-md-10 main-content">
+<div class="row justify-content-center py-4 px-0">
+  <div class="col-md-12 main-content p-0">
     <section>
       <div class="swiper-container" [swiper]="config">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
+          <div class="swiper-slide px-4">
             <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
               <h4>
                 Bienvenidos a esta aplicación que conecta gente mayor de 50
@@ -13,12 +13,12 @@
               </h4>
             </div>
           </div>
-          <div class="swiper-slide">
+          <div class="swiper-slide px-4">
             <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
               <table class="stats-table mobile-content">
                 <tr>
                   <td>
-                    <h1>250</h1>
+                    <h2>250</h2>
                   </td>
                 </tr>
                 <tr>
@@ -28,7 +28,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <h1>2500</h1>
+                    <h2>2500</h2>
                   </td>
                 </tr>
                 <tr>
@@ -38,7 +38,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <h1>24</h1>
+                    <h2>24</h2>
                   </td>
                 </tr>
                 <tr>
@@ -49,9 +49,9 @@
               </table>
             </div>
           </div>
-          <div class="swiper-slide">
+          <div class="swiper-slide px-4">
             <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-              <h2>Temas para compartir</h2>
+              <h3 class="py-2"><strong>Temas para compartir</strong></h3>
               <h4>
                 Conéctate y participa. Crea tus propios temas o eventos.
                 Conversa sobre lo que más te guste hablar
@@ -65,9 +65,9 @@
                           <i [class]="theme.icon"></i>
                         </td>
                         <td class="left">
-                          <h3>
+                          <h4>
                             <strong>{{ theme.title }}</strong>
-                          </h3>
+                          </h4>
                         </td>
                       </tr>
                     </table>

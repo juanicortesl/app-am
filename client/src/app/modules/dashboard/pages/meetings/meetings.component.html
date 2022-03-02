@@ -1,18 +1,18 @@
 <div class="row justify-content-center p-4">
   <div class="col-md-10 center">
     <div class="pt-2">
-      <h2>Crear tertulia</h2>
+      <h3><strong>Crear tertulia</strong></h3>
     </div>
     <!-- step 0 begins -->
     <span *ngIf="step === 0">
       <div class="pt-4">
-        <h3><strong>¿Qué es una tertulia?</strong></h3>
+        <h4><strong>¿Qué es una tertulia?</strong></h4>
       </div>
-      <div class="pt-2">
-        <h3>
+      <div class="pt-4">
+        <h4>
           Es un espacio de conversación que permite a un máximo de 10 personas
           conversar sobre un tema de interés.
-        </h3>
+        </h4>
       </div>
       <div class="p-4">
         <button class="sk-button sign-up" (click)="nextStep()">
@@ -22,21 +22,19 @@
     </span>
     <!-- step 0 ends -->
     <div class="py-3" *ngIf="step > 0">
-      <h4>
-        <strong>Paso {{ step }} de 6</strong>
-      </h4>
-    </div>
-    <div class="pt-2" *ngIf="step > 0">
-      <button class="sk-button secondary" (click)="previousStep()">
-        Volver
-      </button>
+      <p class="left" (click)="previousStep()">
+        <strong
+          ><span><i class="bi bi-arrow-left"></i></span> Volver</strong
+        >
+      </p>
+      <p>Paso {{ step }} de 4</p>
     </div>
 
     <!-- step 1 begins -->
     <section class="pt-2" *ngIf="step === 1" [formGroup]="firstStepForm">
-      <h4><strong>Tipo de tertulia</strong></h4>
+      <h4 class="left"><strong>Tipo de tertulia:</strong></h4>
       <div class="row pt-3 justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-10">
           <table class="radio-table">
             <tr>
               <td style="width: 10%">
@@ -110,7 +108,6 @@
           </form> -->
         </div>
       </div>
-
       <div class="p-4">
         <button
           class="sk-button sign-up"
@@ -125,20 +122,28 @@
 
     <!-- step 2 begins -->
     <section class="pt-2" *ngIf="step === 2" [formGroup]="secondStepForm">
-      <h4><strong>Tema de tertulia</strong></h4>
+      <h4 class="left"><strong>Tema de tertulia:</strong></h4>
       <div class="row pt-3 justify-content-center">
-        <div class="col-md-5">
+        <div class="col-md-10">
           <table class="radio-table">
+            <tr>
+              <td style="width: 10%">
+                <input type="radio" value="cine" formControlName="theme" />
+              </td>
+              <td>
+                <h4>Cine</h4>
+              </td>
+            </tr>
             <tr>
               <td style="width: 10%">
                 <input
                   type="radio"
-                  value="cine y literatura"
+                  value="literatura"
                   formControlName="theme"
                 />
               </td>
               <td>
-                <h4>Cine y literatura</h4>
+                <h4>Literatura</h4>
               </td>
             </tr>
             <tr>
@@ -170,6 +175,26 @@
             </tr>
           </table>
         </div>
+        <h4 class="left pt-2"><strong>Descripción de tertulia:</strong></h4>
+        <div class="pt-2 left">
+          <p>Describe el tema en pocas palabras</p>
+        </div>
+        <div class="pt-4">
+          <div class="sk-comment-container">
+            <textarea
+              name="comment"
+              formControlName="description"
+              maxlength="200"
+              placeholder="Descripción:"
+            ></textarea>
+            <div class="remaining-characters p-1 left">
+              <p>
+                {{ secondStepForm.get("description")?.value.length }} / 250
+                caracteres
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="p-4">
@@ -186,37 +211,9 @@
 
     <!-- step 3 begins -->
     <section class="pt-2" *ngIf="step === 3" [formGroup]="thirdStepForm">
-      <h4><strong>Descripción de tertulia</strong></h4>
-      <div class="pt-2">
-        <h4>Describe el tema en pocas palabras</h4>
-      </div>
-      <div class="pt-4">
-        <div class="sk-comment-container">
-          <textarea
-            name="comment"
-            formControlName="description"
-            maxlength="200"
-            placeholder="Descripción:"
-          ></textarea>
-        </div>
-      </div>
-      <div class="p-4">
-        <button
-          class="sk-button sign-up"
-          (click)="nextStep()"
-          [disabled]="thirdStepForm.invalid"
-        >
-          Continuar
-        </button>
-      </div>
-    </section>
-    <!-- step 3 ends -->
-
-    <!-- step 4 begins -->
-    <section class="pt-2" *ngIf="step === 4" [formGroup]="fourthStepForm">
-      <h4><strong>Fecha de la tertulia</strong></h4>
-      <div class="pt-2">
-        <h4>Hasta 30 dias de anticipacion</h4>
+      <h4 class="left"><strong>Fecha de la tertulia:</strong></h4>
+      <div class="pt-2 left">
+        <p>Hasta 30 dias de anticipacion</p>
       </div>
       <div class="pt-4"></div>
       <mat-form-field class="example-full-width" appearance="fill">
@@ -237,44 +234,22 @@
           [disabled]="false"
         ></mat-datepicker>
       </mat-form-field>
-      <div class="p-4">
-        <button
-          class="sk-button sign-up"
-          (click)="nextStep()"
-          [disabled]="fourthStepForm.invalid"
-        >
-          Continuar
-        </button>
-      </div>
-    </section>
-    <!-- step 4 ends -->
-
-    <!-- step 5 begins -->
-    <section class="pt-2" *ngIf="step === 5" [formGroup]="fifthStepForm">
-      <h4><strong>Hora de la tertulia</strong></h4>
+      <h4 class="left pt-4"><strong>Hora de la tertulia:</strong></h4>
       <div class="pt-2"></div>
       <div class="row justify-content-center pt-4">
         <div class="col-sm-4">
-          <h4>Hora de inicio:</h4>
           <div class="pt-2">
             <div style="display: flex; width: 100%; justify-content: center">
               <ngb-timepicker
                 formControlName="startTime"
                 [minuteStep]="15"
               ></ngb-timepicker>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row justify-content-center pt-4">
-        <div class="col-sm-4">
-          <h4>Hora de termino:</h4>
-          <div class="pt-2">
-            <div style="display: flex; width: 100%; justify-content: center">
-              <ngb-timepicker
-                formControlName="endTime"
-                [minuteStep]="15"
-              ></ngb-timepicker>
+              <table>
+                <tr>
+                  <td></td>
+                  <td>hrs.</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
@@ -283,17 +258,17 @@
         <button
           class="sk-button sign-up"
           (click)="nextStep()"
-          [disabled]="fifthStepForm.invalid"
+          [disabled]="thirdStepForm.invalid"
         >
           Continuar
         </button>
       </div>
     </section>
-    <!-- step 5 ends -->
+    <!-- step 3 ends -->
 
-    <!-- step 6 begins -->
-    <section class="pt-2" *ngIf="step === 6" [formGroup]="sixthStepForm">
-      <h4><strong>Asi lo verán todos:</strong></h4>
+    <!-- step 4 begins -->
+    <section class="pt-2" *ngIf="step === 4" [formGroup]="fourthStepForm">
+      <h4 class="left"><strong>Asi lo verán todos:</strong></h4>
       <div class="pt-2">
         <app-meeting-card
           [type]="'available'"
@@ -325,7 +300,7 @@
         <button
           class="sk-button sign-up"
           (click)="createNewMeeting()"
-          [disabled]="sixthStepForm.invalid"
+          [disabled]="fourthStepForm.invalid"
         >
           Publicar
         </button>

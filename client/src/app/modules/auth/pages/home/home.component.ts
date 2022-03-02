@@ -17,6 +17,9 @@ export class HomeComponent implements OnInit {
     el: '.swiper-pagination',
     clickable: true,
     hideOnClick: false,
+    renderBullet: function (index, className) {
+      return '<span class="' + className + '">' + '</span>';
+    },
   };
   public config: SwiperConfigInterface = {
     direction: 'horizontal',
@@ -28,9 +31,22 @@ export class HomeComponent implements OnInit {
     pagination: this.pagination,
   };
   themes = [
-    { title: 'Cine y literatura', icon: 'bi bi-book' },
-    { title: 'Actualidad', icon: 'bi bi-newspaper' },
-    { title: 'Otros', icon: 'bi bi-people' },
+    {
+      title: 'actualidad',
+      icon: 'bi bi-newspaper',
+    },
+    {
+      title: 'cine',
+      icon: 'bi bi-film',
+    },
+    {
+      title: 'literatura',
+      icon: 'bi bi-book',
+    },
+    {
+      title: 'otros',
+      other: true,
+    },
   ];
 
   constructor() {}

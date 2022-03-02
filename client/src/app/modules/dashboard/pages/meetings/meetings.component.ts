@@ -29,30 +29,24 @@ export class MeetingsComponent implements OnInit {
         Validators.minLength(1),
       ]),
       otherTheme: new FormControl('', []),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(250),
+      ]),
     },
     {
       validators: [MeetingsComponent.isThemeValid],
     }
   );
-  public thirdStepForm = new FormGroup({
-    description: new FormControl('', [
-      Validators.required,
-      Validators.minLength(10),
-      Validators.maxLength(300),
-    ]),
-  });
-  public fourthStepForm = new FormGroup({
-    date: new FormControl('', [Validators.required]),
-  });
-
   minDate: Date | undefined;
   maxDate: Date | undefined;
-  public fifthStepForm = new FormGroup({
-    startTime: new FormControl('', [Validators.required]),
-    endTime: new FormControl('', [Validators.required]),
+  public thirdStepForm = new FormGroup({
+    date: new FormControl('', [Validators.required]),
+    startTime: new FormControl({ hour: 12, minute: 0 }, [Validators.required]),
   });
 
-  public sixthStepForm = new FormGroup({
+  public fourthStepForm = new FormGroup({
     acceptedTerms: new FormControl('', [Validators.required]),
   });
   static isThemeValid(control: AbstractControl): ValidationErrors | null {
@@ -168,19 +162,19 @@ export class MeetingsComponent implements OnInit {
     return this.firstStepForm.get('type')?.value;
   }
   get theme() {
-    return this.secondStepForm.get('theme')?.value;
+    let value = this.secondStepForm.get('theme')?.value;
+    return value !== 'other'
+      ? value
+      : this.secondStepForm.get('otherTheme')?.value;
   }
   get description() {
-    return this.thirdStepForm.get('description')?.value;
+    return this.secondStepForm.get('description')?.value;
   }
   get date() {
-    return this.fourthStepForm.get('date')?.value;
+    return this.thirdStepForm.get('date')?.value;
   }
   get startTime() {
-    return this.fifthStepForm.get('startTime')?.value;
-  }
-  get endTime() {
-    return this.fifthStepForm.get('startTime')?.value;
+    return this.thirdStepForm.get('startTime')?.value;
   }
 
   get meeting() {
@@ -188,14 +182,11 @@ export class MeetingsComponent implements OnInit {
     let endTime = new Date(this.date);
     startTime.setHours(this.startTime.hour);
     startTime.setMinutes(this.startTime.minute);
-    endTime.setHours(this.endTime.hour);
-    endTime.setMinutes(this.endTime.minute);
     return {
       theme: this.theme,
       type: this.type,
       Host: { first_name: 'Andrea Witing' },
       startTime: startTime,
-      endTime: endTime,
       availableSlots: 10,
       description: this.description,
     };

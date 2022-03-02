@@ -221,7 +221,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       endTime: {
         type: "TIMESTAMP",
-        allowNull: false,
+        allowNull: true,
         validate: {
           isAfterToday(value) {
             let today = new Date();
