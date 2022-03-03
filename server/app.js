@@ -11,8 +11,7 @@ loadConfig();
 const http = require("http");
 // Set up the express app
 const app = express();
-// import controllers
-const { ModelsController } = require("./controllers/models.ctrl");
+
 // Log requests to the console.
 app.use(logger("dev"));
 app.use(cors());

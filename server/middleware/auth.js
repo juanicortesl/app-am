@@ -18,6 +18,22 @@ let checkToken = (req, res, next) => {
   });
 };
 
+// check cron token
+let checkCronToken = (req, res, next) => {
+  const authToken = req.get("Authorization");
+  console.log("TOKEN INTO MIDDLEWARE", authToken);
+  if (authToken !== "cronTokenSkolton") {
+    return res.status(401).json({
+      ok: false,
+      err: {
+        message: "401 UnAuthorized - user without token",
+      },
+    });
+  }
+
+  next();
+};
+
 // check admin role
 let checkAdminRole = (req, res, next) => {
   let user = req.user;
@@ -39,4 +55,5 @@ let checkAdminRole = (req, res, next) => {
 module.exports = {
   checkToken,
   checkAdminRole,
+  checkCronToken,
 };

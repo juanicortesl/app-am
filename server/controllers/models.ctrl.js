@@ -2,7 +2,6 @@
 
 const express = require("express");
 const Models = require("../models");
-const utils = require("../utils/utils");
 
 class ModelsController {
   path = "/models";
