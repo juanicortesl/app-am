@@ -15,6 +15,7 @@ export class SearcherComponent implements OnInit {
   meetingsByDate: any = {};
   filter: any = {};
   loading = false;
+  searchInput = '';
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -68,6 +69,7 @@ export class SearcherComponent implements OnInit {
     }
   }
   get dates() {
+    this.filter.searchInput = this.searchInput;
     let dates = Object.keys(this.meetingsByDate);
     dates = dates.sort((a: any, b: any) => {
       let aDate = new Date(a);
