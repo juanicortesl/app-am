@@ -24,20 +24,13 @@
     <div class="pt-2">
       <h4>Actividades disponibles:</h4>
     </div>
-    <div
-      class="row justify-content-center p-3"
-      *ngFor="let meeting of meetingsData"
-    >
-      <div class="col-md-12">
-        <app-meeting-card
-          [type]="'available'"
-          [meeting]="meeting"
-          (changedMeeting)="getMeetings()"
-        ></app-meeting-card>
+    <div class="row justify-content-center pt-4" *ngIf="loading">
+      <div class="spinner-border sk-spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
     </div>
     <div class="row justify-content-center p-3" *ngFor="let date of dates">
-      <h3 *ngIf="meetingsByDate[date].filteredMeetings.length > 0">
+      <h3 *ngIf="meetingsByDate[date].filteredMeetings.length > 0 && !loading">
         {{ date | date: "dd" }} de {{ date | date: "MMMM" }}
       </h3>
       <div
@@ -59,6 +52,12 @@
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="row justify-content-center pt-4"
+      *ngIf="!loading && filteredMeetingsData.length === 0"
+    >
+      <h4>Aun no hay eventos</h4>
     </div>
   </div>
 </div>

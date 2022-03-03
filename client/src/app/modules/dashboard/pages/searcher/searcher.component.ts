@@ -11,8 +11,10 @@ import { Component, OnInit } from '@angular/core';
 export class SearcherComponent implements OnInit {
   currentTheme: any | undefined;
   meetingsData: any[] = [];
+  filteredMeetingsData: any[] = [];
   meetingsByDate: any = {};
   filter: any = {};
+  loading = false;
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -33,13 +35,18 @@ export class SearcherComponent implements OnInit {
   }
 
   getMeetings() {
+    this.loading = true;
     this.meetingsByDate = {};
+    this.meetingsData = [];
     this.apiService.getAvailableMeetings({}).subscribe((data: any) => {
+      this.loading = false;
       if (data.result) {
         console.log(data.data.model);
+        this.meetingsData = data.data.model;
         data.data.model.forEach((meeting: any) => {
           this.pushToMeetingsByDate(meeting, false);
         });
+        console.log(this.dates, 'DATES');
       }
     });
   }
@@ -74,6 +81,10 @@ export class SearcherComponent implements OnInit {
           this.filter
         );
     });
+    this.filteredMeetingsData = this.meetingsFilterPipe.transform(
+      this.meetingsData,
+      this.filter
+    );
     return dates;
   }
 }

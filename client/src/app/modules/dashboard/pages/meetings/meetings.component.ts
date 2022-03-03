@@ -86,7 +86,9 @@ export class MeetingsComponent implements OnInit {
       : value?.toLowerCase();
     return this.users.filter((user: any) => {
       return (
-        user.first_name && user.first_name.toLowerCase().includes(filterValue)
+        user.first_name &&
+        user.first_name.toLowerCase().includes(filterValue) &&
+        !this.selectedUsers.includes(user)
       );
     });
   }

@@ -14,9 +14,14 @@ export class HomeComponent implements OnInit {
   public innerWidth: any;
   themes = [
     {
-      title: 'Cine y literatura',
+      title: 'Cine',
+      icon: 'bi bi-film',
+      value: 'cine',
+    },
+    {
+      title: 'Literatura',
       icon: 'bi bi-book',
-      value: 'cine y literatura',
+      value: 'cine',
     },
     { title: 'Actualidad', icon: 'bi bi-newspaper', value: 'actualidad' },
     { title: 'Otros', icon: 'bi bi-people' },
@@ -44,8 +49,8 @@ export class HomeComponent implements OnInit {
         this.readyHostMeeting = data.data.model.find((meeting: any) => {
           let meetingDate = new Date(meeting.startTime);
           return (
-            meetingDate.getTime() - now.getTime() < HOUR_IN_MILLISECONDS &&
-            now.getTime() < meetingDate.getTime()
+            Math.abs(meetingDate.getTime() - now.getTime()) <
+            HOUR_IN_MILLISECONDS
           );
         });
         if (this.readyHostMeeting) {
