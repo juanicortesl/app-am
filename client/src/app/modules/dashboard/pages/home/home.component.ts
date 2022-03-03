@@ -27,51 +27,58 @@ export class HomeComponent implements OnInit {
     { title: 'Otros', icon: 'bi bi-people' },
     { title: 'Todos', icon: 'bi bi-card-checklist' },
   ];
+  loadingReadyMeeting = false;
+  loadingToBeMeeting = true;
   readyHostMeeting: any;
   readyAttendeeMeeting: any;
-  toBeMeeting = {
-    theme: 'Actualidad',
-    type: 'open',
-    Host: { first_name: 'Pablo Escobar' },
-    startTime: new Date(2022, 1, 23, 15, 30),
-    endTime: new Date(2022, 1, 23, 16, 30),
-    availableSlots: 4,
-    description:
-      'Conversemos de western clásicos y cómo influyen en la sociedad. Muchas veces, las películas del Oeste están ambientadas en territoriosinexplorados o indómitos, bajo la amenaza latente del ataque de los indios, o en ciudades sin ley en las que los bandidos campaban a sus anchas. Por ello, el género se fue enfocando hacia la confrontación de losdiversos personajes, adquiriendo un carácter cada vez más psicológico. ',
-  };
+  toBeMeeting: any;
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-    this.apiService.getOfferedMeetings().subscribe((data: any) => {
-      if (data.result) {
-        let now = new Date();
-        this.readyHostMeeting = data.data.model.find((meeting: any) => {
-          let meetingDate = new Date(meeting.startTime);
-          return (
-            Math.abs(meetingDate.getTime() - now.getTime()) <
-            HOUR_IN_MILLISECONDS
-          );
-        });
-        if (this.readyHostMeeting) {
-          this.readyHostMeeting.isHost = true;
+    this.loadingReadyMeeting = true;
+    this.apiService.getOfferedMeetings().subscribe(
+      (data: any) => {
+        this.loadingReadyMeeting = false;
+        if (data.result) {
+          let now = new Date();
+          this.readyHostMeeting = data.data.model.find((meeting: any) => {
+            let meetingDate = new Date(meeting.startTime);
+            return (
+              Math.abs(meetingDate.getTime() - now.getTime()) <
+              HOUR_IN_MILLISECONDS
+            );
+          });
+          if (this.readyHostMeeting) {
+            this.readyHostMeeting.isHost = true;
+          }
         }
+      },
+      (err) => {
+        console.log(err), (this.loadingReadyMeeting = false);
       }
-    });
+    );
 
-    this.apiService.getWillAttendMeetings({}).subscribe((data: any) => {
-      if (data.result) {
-        let now = new Date();
-        this.readyAttendeeMeeting = data.data.model.find((meeting: any) => {
-          let meetingDate = new Date(meeting.startTime);
-          return (
-            meetingDate.getTime() - now.getTime() < HOUR_IN_MILLISECONDS &&
-            now.getTime() < meetingDate.getTime()
-          );
-        });
-        this.readyAttendeeMeeting;
+    this.apiService.getWillAttendMeetings({}).subscribe(
+      (data: any) => {
+        this.loadingReadyMeeting = false;
+        if (data.result) {
+          let now = new Date();
+          this.readyAttendeeMeeting = data.data.model.find((meeting: any) => {
+            let meetingDate = new Date(meeting.startTime);
+            return (
+              meetingDate.getTime() - now.getTime() < HOUR_IN_MILLISECONDS &&
+              now.getTime() < meetingDate.getTime()
+            );
+          });
+          this.readyAttendeeMeeting;
+        }
+      },
+      (err) => {
+        console.log(err), (this.loadingReadyMeeting = false);
       }
-    });
+    );
+    this.getToBeMeeting();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -81,5 +88,21 @@ export class HomeComponent implements OnInit {
 
   goToSearcher(theme: any) {
     this.router.navigate(['dashboard/searcher'], { state: { theme: theme } });
+  }
+
+  getToBeMeeting() {
+    this.toBeMeeting = undefined;
+    this.loadingToBeMeeting = true;
+    this.apiService.getAvailableMeetings({}).subscribe(
+      (data: any) => {
+        this.loadingToBeMeeting = false;
+        if (data.result && data.data.model.length > 0) {
+          this.toBeMeeting = data.data.model[0];
+        }
+      },
+      (err) => {
+        console.log(err), (this.loadingToBeMeeting = false);
+      }
+    );
   }
 }
