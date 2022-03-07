@@ -3,14 +3,32 @@
     <section>
       <div class="swiper-container" [swiper]="config">
         <div class="swiper-wrapper">
-          <div class="swiper-slide px-4">
+          <div class="swiper-slide px-5">
             <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-              <h4>
-                Bienvenidos a esta aplicación que conecta gente mayor de 50
-                años, vía encuentros virtuales de conversación. Puedes
-                integrarte a Tertulias ya creadas o proponer invitar a una de tu
-                interés
+              <h3 class="py-1">
+                <strong> ¿Qué es Skolton? </strong>
+              </h3>
+              <h4 class="py-1 left">
+                Somos la comunidad que te entrega espacios virtuales de
+                conversación.
               </h4>
+              <h4 class="py-1 left">
+                Conecta con tus amigos a través de Skolton o encuentra nuevos
+                amigos que compartan los temas de los que te interesa conversar.
+              </h4>
+              <h4 class="py-1 left">Con Skolton podrás:</h4>
+              <div class="row justify-content-center">
+                <div class="col-6">
+                  <ul>
+                    <li class="left">
+                      <h4>Crear o participar de Tertulias</h4>
+                    </li>
+                    <li class="left">
+                      <h4>Asistir a conferencias de expertos</h4>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
           <div class="swiper-slide px-4">
@@ -51,11 +69,8 @@
           </div>
           <div class="swiper-slide px-4">
             <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-              <h3 class="py-2"><strong>Temas para compartir</strong></h3>
-              <h4>
-                Conéctate y participa. Crea tus propios temas o eventos.
-                Conversa sobre lo que más te guste hablar
-              </h4>
+              <h3 class="py-2"><strong>¡Conéctate y participa! </strong></h3>
+              <h4>Conversa con personas que comparten tus intereses</h4>
               <div class="row justify-content-center pt-2">
                 <div class="col-md-4 py-2 px-3" *ngFor="let theme of themes">
                   <div class="sk-theme-card">
