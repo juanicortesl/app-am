@@ -16,6 +16,10 @@ export class SearcherComponent implements OnInit {
   filter: any = {};
   loading = false;
   searchInput = '';
+  selectedType = 'activities';
+  usersData: any[] = [];
+  loadingUsers = false;
+  userFilterOptions = { searchInput: 'erte' };
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -33,6 +37,17 @@ export class SearcherComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMeetings();
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.loadingUsers = true;
+    this.apiService.getUsers().subscribe((data: any) => {
+      this.loadingUsers = false;
+      if (data.result) {
+        this.usersData = data.data.model;
+      }
+    });
   }
 
   getMeetings() {
@@ -47,7 +62,6 @@ export class SearcherComponent implements OnInit {
         data.data.model.forEach((meeting: any) => {
           this.pushToMeetingsByDate(meeting, false);
         });
-        console.log(this.dates, 'DATES');
       }
     });
   }

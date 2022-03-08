@@ -9,61 +9,103 @@
         <input matInput placeholder="" [(ngModel)]="searchInput" />
       </mat-form-field>
     </div>
-    <div class="row justify-content-center pt-2" *ngIf="currentTheme">
-      <div class="col-md-4 py-2 px-3">
-        <div class="sk-theme-card">
-          <table>
-            <tr>
-              <td class="p-2">
-                <i [class]="currentTheme.icon"></i>
-              </td>
-              <td class="left">
-                <h4>
-                  <strong>{{ currentTheme.title }}</strong>
-                </h4>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="pt-2">
-      <h4>Actividades disponibles:</h4>
-    </div>
-    <div class="row justify-content-center pt-4" *ngIf="loading">
-      <div class="spinner-border sk-spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
-    <div class="row justify-content-center p-3" *ngFor="let date of dates">
-      <h3 *ngIf="meetingsByDate[date].filteredMeetings.length > 0 && !loading">
-        {{ date | date: "dd" }} de {{ date | date: "MMMM" }}
-      </h3>
-      <div
-        *ngIf="meetingsByDate[date].filteredMeetings.length > 0"
-        class="col-md-12"
+    <p>
+      <span
+        class="type-selector px-2"
+        [ngClass]="{ selected: selectedType === 'activities' }"
+        (click)="selectedType = 'activities'"
+        >Actividades
+      </span>
+      <span
+        class="type-selector px-2"
+        [ngClass]="{ selected: selectedType === 'people' }"
+        (click)="selectedType = 'people'"
+        >Personas</span
       >
-        <div
-          class="row justify-content-center p-3"
-          *ngFor="let meeting of meetingsByDate[date].filteredMeetings"
-        >
-          <div class="col-md-9">
-            <app-meeting-card
-              [type]="'available'"
-              [meeting]="meeting"
-              [addedToCalendar]="false"
-              [isOwner]="meeting.isOwner"
-              (changedMeeting)="getMeetings()"
-            ></app-meeting-card>
+    </p>
+    <section *ngIf="selectedType === 'activities'">
+      <div class="row justify-content-center pt-2" *ngIf="currentTheme">
+        <div class="col-md-4 py-2 px-3">
+          <div class="sk-theme-card">
+            <table>
+              <tr>
+                <td class="p-2">
+                  <i [class]="currentTheme.icon"></i>
+                </td>
+                <td class="left">
+                  <h4>
+                    <strong>{{ currentTheme.title }}</strong>
+                  </h4>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="row justify-content-center pt-4"
-      *ngIf="!loading && filteredMeetingsData.length === 0"
-    >
-      <h4>Aun no hay eventos</h4>
-    </div>
+      <div class="pt-2">
+        <h4>Actividades disponibles:</h4>
+      </div>
+      <div class="row justify-content-center pt-4" *ngIf="loading">
+        <div class="spinner-border sk-spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="row justify-content-center p-3" *ngFor="let date of dates">
+        <h3
+          *ngIf="meetingsByDate[date].filteredMeetings.length > 0 && !loading"
+        >
+          {{ date | date: "dd" }} de {{ date | date: "MMMM" }}
+        </h3>
+        <div
+          *ngIf="meetingsByDate[date].filteredMeetings.length > 0"
+          class="col-md-12"
+        >
+          <div
+            class="row justify-content-center p-3"
+            *ngFor="let meeting of meetingsByDate[date].filteredMeetings"
+          >
+            <div class="col-md-9">
+              <app-meeting-card
+                [type]="'available'"
+                [meeting]="meeting"
+                [addedToCalendar]="false"
+                [isOwner]="meeting.isOwner"
+                (changedMeeting)="getMeetings()"
+              ></app-meeting-card>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row justify-content-center pt-4"
+        *ngIf="!loading && filteredMeetingsData.length === 0"
+      >
+        <h4>Aun no hay eventos</h4>
+      </div>
+    </section>
+    <section *ngIf="selectedType === 'people'">
+      <div class="row justify-content-center pt-4" *ngIf="loadingUsers">
+        <div class="spinner-border sk-spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div class="pt-2">
+        <h4>Usuarios de Skolton:</h4>
+      </div>
+      <div *ngIf="!loadingUsers">
+        <div
+          class="row justify-content-center p-3"
+          *ngFor="
+            let user of usersData | usersFilter: { searchInput: searchInput }
+          "
+        >
+          <div class="col-md-9">
+            <app-user-card [user]="user">
+              {{ user.first_name }}
+            </app-user-card>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

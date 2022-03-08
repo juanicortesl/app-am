@@ -1,0 +1,6 @@
+.type-selector {
+  text-decoration: underline;
+  &.selected {
+    color: blue;
+  }
+}

@@ -1,0 +1,39 @@
+<div class="user-card">
+  <div class="row justify-content-center">
+    <div class="col-md-3 p-3 left">
+      <h5>
+        <strong>{{ user.first_name }}</strong>
+      </h5>
+    </div>
+    <div class="col-md-4 p-3 left">
+      <h5>
+        <strong> Descripción: </strong>
+      </h5>
+      <p *ngIf="user.description" class="pt-4">{{ user.description }}</p>
+      <p *ngIf="!user.description" class="pt-4">
+        El usuario aún no posee una descripción
+      </p>
+    </div>
+    <div class="col-md-4 p-3 left">
+      <h5>
+        <strong> Intereses: </strong>
+      </h5>
+      <div
+        class="sk-theme-card my-2 center align-middle"
+        *ngFor="let theme of user.interests"
+      >
+        <table>
+          <tr>
+            <td>
+              <h5>
+                <strong>
+                  {{ theme }}
+                </strong>
+              </h5>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,6 +13,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MeetingsFilterPipe } from './pipes/meetings-filter.pipe';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { UserCardComponent } from './components/user-card/user-card.component';
+import { UsersFilterPipe } from './pipes/users-filter.pipe';
 
 @NgModule({
   imports: [
@@ -36,8 +38,16 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatNativeDateModule,
     MeetingsFilterPipe,
     MatAutocompleteModule,
+    UserCardComponent,
+    UsersFilterPipe,
   ],
   providers: [HttpClient, MeetingsFilterPipe],
-  declarations: [MeetingCardComponent, ShortenPipe, MeetingsFilterPipe],
+  declarations: [
+    MeetingCardComponent,
+    ShortenPipe,
+    MeetingsFilterPipe,
+    UserCardComponent,
+    UsersFilterPipe,
+  ],
 })
 export class CoreModule {}
