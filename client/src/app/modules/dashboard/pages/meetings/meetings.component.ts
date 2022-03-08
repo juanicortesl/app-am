@@ -187,7 +187,7 @@ export class MeetingsComponent implements OnInit {
     return {
       theme: this.theme,
       type: this.type,
-      Host: { first_name: 'Andrea Witing' },
+      Host: { first_name: localStorage.getItem('userName') },
       startTime: startTime,
       availableSlots: 10,
       description: this.description,

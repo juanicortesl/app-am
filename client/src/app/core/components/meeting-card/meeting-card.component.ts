@@ -25,6 +25,7 @@ export class MeetingCardComponent implements OnInit {
   @Input() meeting: any;
   @Input() addedToCalendar: boolean = false;
   @Input() isOwner: boolean = false;
+  @Input() disableActions: boolean = false;
   @Output() changedMeeting = new EventEmitter<boolean>();
   seeMore = false;
   pictureColor = 0;
@@ -72,12 +73,16 @@ export class MeetingCardComponent implements OnInit {
   }
 
   addToCalendar() {
-    this.loading = true;
-    this.apiService.addMeetingToCalendar(this.meeting.id).subscribe((data) => {
-      console.log(data);
-      this.changedMeeting.emit(true);
-      this.loading = false;
-    });
+    if (!this.disableActions) {
+      this.loading = true;
+      this.apiService
+        .addMeetingToCalendar(this.meeting.id)
+        .subscribe((data) => {
+          console.log(data);
+          this.changedMeeting.emit(true);
+          this.loading = false;
+        });
+    }
   }
   removeFromCalendar() {
     this.loading = true;
