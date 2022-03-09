@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit {
     },
     {
       title: 'otros',
+      icon: 'bi bi-three-dots',
       other: true,
     },
   ];
