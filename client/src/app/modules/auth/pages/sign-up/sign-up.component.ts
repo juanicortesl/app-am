@@ -30,7 +30,7 @@ import * as moment from 'moment';
   ],
 })
 export class SignUpComponent implements OnInit {
-  step = 1;
+  step = 4;
   loading = false;
   newInterest = '';
   errorPopup = 'none';
@@ -54,6 +54,8 @@ export class SignUpComponent implements OnInit {
     },
     {
       name: 'otro',
+      value: '',
+      icon: 'bi bi-three-dots',
       other: true,
       selected: false,
     },
@@ -144,7 +146,8 @@ export class SignUpComponent implements OnInit {
         (interest) => interest.selected
       );
       selectedInterests = selectedInterests.map(
-        (interest: { name: any }) => interest.name
+        (interest: { name: any; value: any }) =>
+          interest.name === 'otro' ? interest.value : interest.name
       );
       console.log(selectedInterests);
       let body = {

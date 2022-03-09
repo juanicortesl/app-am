@@ -3,24 +3,30 @@
     <!-- step 1 begins -->
     <div class="col-sm-6 center" [formGroup]="profileForm" *ngIf="step === 1">
       <h3 class="py-2"><strong>Crear cuenta</strong></h3>
+      <h4 class="left py-1">
+        <strong>Nombre:</strong>
+      </h4>
       <div class="p-2">
         <input
           type="text"
           class="form-control"
           id="inputName"
           aria-describedby="nameHelp"
-          placeholder="Nombre"
+          placeholder="Ingresa tu nombre"
           formControlName="firstName"
         />
         <p id="nameHelp" class="pt-2 left">Así aparecerá en Skolton</p>
       </div>
+      <h4 class="left py-1">
+        <strong>Correo electrónico:</strong>
+      </h4>
       <div class="p-2">
         <input
           type="email"
           class="form-control"
           id="inputEmail"
           aria-describedby="emailHelp"
-          placeholder="Correo electrónico"
+          placeholder="Ingresa tu correo"
           formControlName="email"
         />
         <p id="emailHelp" class="pt-2 left">
@@ -28,8 +34,10 @@
           la olvidas
         </p>
       </div>
+      <h4 class="left py-1">
+        <strong>Contraseña:</strong>
+      </h4>
       <div class="p-2">
-        <p class="py-1 left"><strong>Contraseña</strong></p>
         <p>
           <code-input
             [isCodeHidden]="false"
@@ -61,7 +69,7 @@
     <!-- step 2 begins -->
     <div class="col-sm-6 center" *ngIf="this.step === 2">
       <h3 class="pt-2"><strong>¡Ya eres parte de Skolton!</strong></h3>
-      <div class="pt-4 left">
+      <div class="pt-4 justify">
         <h4>
           Para ayudarte a encontrar lo que buscas necesitamos que respondas 3
           simples preguntas
@@ -81,9 +89,9 @@
       [formGroup]="otherInfoForm"
     >
       <h3 class="pt-2"><strong>Algunos datos básicos</strong></h3>
-      <div class="pt-4 left">
-        <h5>¿Cuál es tu fecha de cumpleaños?</h5>
-      </div>
+      <h4 class="left py-1">
+        <strong>¿Cuál es tu fecha de cumpleaños?</strong>
+      </h4>
       <div class="pt-2">
         <mat-form-field appearance="fill">
           <mat-label>DD/MM/YYYY</mat-label>
@@ -92,9 +100,9 @@
           <mat-datepicker #dp></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="pt-4 left">
-        <h5>Soy:</h5>
-      </div>
+      <h4 class="left py-1">
+        <strong>Soy:</strong>
+      </h4>
       <div class="pt-2">
         <table style="width: 50%; margin-left: 25%; text-align: left">
           <tr style="height: 40px">
@@ -123,9 +131,9 @@
           </tr>
         </table>
       </div>
-      <div class="pt-4 left">
-        <h5>¿En qué comuna vives?</h5>
-      </div>
+      <h4 class="left py-1">
+        <strong>¿En qué comuna vives?</strong>
+      </h4>
       <div class="pt-2">
         <select
           id="inputState"
@@ -134,9 +142,9 @@
           [ngModelOptions]="{ standalone: true }"
         >
           >
-          <option selected>Region</option>
+          <option selected><p>Region</p></option>
           <option *ngFor="let region of regions; let i = index" [value]="i">
-            {{ region.NombreRegion }}
+            <p>{{ region.NombreRegion }}</p>
           </option>
         </select>
       </div>
@@ -147,7 +155,9 @@
           *ngIf="selectedRegion && regions[selectedRegion]"
           formControlName="address"
         >
-          <option selected>Comuna</option>
+          <option selected>
+            <p>Comuna</p>
+          </option>
           <option *ngFor="let commune of regions[selectedRegion].comunas">
             {{ commune }}
           </option>
@@ -192,8 +202,8 @@
               </td>
               <td *ngIf="interest.other && interest.selected">
                 <mat-form-field>
-                  <mat-label>Otro</mat-label>
-                  <input matInput type="text" [(ngModel)]="interest.name" />
+                  <mat-label>Ingresa un tema</mat-label>
+                  <input matInput type="text" [(ngModel)]="interest.value" />
                 </mat-form-field>
               </td>
               <td (click)="interest.selected = !interest.selected">
