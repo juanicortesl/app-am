@@ -239,6 +239,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       availableSlots: DataTypes.INTEGER,
       meetingLink: DataTypes.STRING,
+      name: DataTypes.STRING,
     },
     {
       sequelize,

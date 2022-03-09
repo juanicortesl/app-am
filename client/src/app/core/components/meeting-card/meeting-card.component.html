@@ -40,7 +40,7 @@
           <table>
             <tr>
               <td>
-                {{ meeting.theme }}
+                {{ meeting.name }}
               </td>
             </tr>
           </table>
@@ -48,6 +48,11 @@
       </td>
       <td>
         <table>
+          <tr>
+            <td class="left">
+              <p><strong>Tema:</strong> {{ meeting.theme }}</p>
+            </td>
+          </tr>
           <tr>
             <td class="left">
               <p><strong>Invita:</strong> {{ meeting.Host.first_name }}</p>
@@ -177,14 +182,18 @@
           <table>
             <tr>
               <td>
-                {{ meeting.theme }}
+                {{ meeting.name }}
               </td>
             </tr>
           </table>
         </div>
       </td>
     </tr>
-
+    <tr>
+      <td class="left">
+        <p><strong>Tema:</strong> {{ meeting.theme }}</p>
+      </td>
+    </tr>
     <tr>
       <td class="left pt-2">
         <p><strong>Invita:</strong> {{ meeting.Host.first_name }}</p>

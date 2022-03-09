@@ -38,6 +38,9 @@ module.exports = {
       meetingLink: {
         type: Sequelize.STRING,
       },
+      name: {
+        type: Sequelize.STRING,
+      },
       availableSlots: {
         type: Sequelize.INTEGER,
       },

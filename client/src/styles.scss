@@ -73,6 +73,9 @@ body {
 .left {
   text-align: left !important;
 }
+.right {
+  text-align: right !important;
+}
 .justify {
   text-align: justify !important;
 }
@@ -343,7 +346,7 @@ body {
     border-radius: 10px;
     font-family: "Indie Flower", cursive;
     line-height: 100%;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     table {
       min-height: 80px;
     }
@@ -384,6 +387,7 @@ body {
     padding: 0.5rem;
   }
   .remaining-characters {
+    width: 100%;
     position: absolute;
     bottom: 0;
   }
@@ -485,4 +489,7 @@ body {
 // third party components
 .code-input {
   --item-background: white;
+}
+.form-control {
+  font-weight: 300 !important;
 }

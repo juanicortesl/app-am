@@ -29,9 +29,14 @@ export class MeetingsComponent implements OnInit {
         Validators.minLength(1),
       ]),
       otherTheme: new FormControl('', []),
+      name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(60),
+      ]),
       description: new FormControl('', [
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(4),
         Validators.maxLength(250),
       ]),
     },
@@ -172,6 +177,9 @@ export class MeetingsComponent implements OnInit {
   get description() {
     return this.secondStepForm.get('description')?.value;
   }
+  get name() {
+    return this.secondStepForm.get('name')?.value;
+  }
   get date() {
     return this.thirdStepForm.get('date')?.value;
   }
@@ -185,6 +193,7 @@ export class MeetingsComponent implements OnInit {
     startTime.setHours(this.startTime.hour);
     startTime.setMinutes(this.startTime.minute);
     return {
+      name: this.name,
       theme: this.theme,
       type: this.type,
       Host: { first_name: localStorage.getItem('userName') },

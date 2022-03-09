@@ -17,3 +17,21 @@
 ::ng-deep .mat-input-element {
   color: #555 !important;
 }
+.back {
+  color: blue;
+  text-decoration: underline;
+}
+.name-container {
+  position: relative;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  .form-control {
+    border: none;
+    width: calc(100% - 4rem);
+  }
+  .remaining-characters {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

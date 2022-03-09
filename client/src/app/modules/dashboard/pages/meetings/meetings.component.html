@@ -1,4 +1,4 @@
-<div class="row justify-content-center p-4">
+<div class="row justify-content-center px-4 pb-4">
   <div class="col-md-10 center">
     <div class="pt-2">
       <h3><strong>Crear tertulia</strong></h3>
@@ -22,7 +22,7 @@
     </span>
     <!-- step 0 ends -->
     <div class="py-3" *ngIf="step > 0">
-      <p class="left" (click)="previousStep()">
+      <p class="left back" (click)="previousStep()">
         <strong
           ><span><i class="bi bi-arrow-left"></i></span> Volver</strong
         >
@@ -130,61 +130,82 @@
       <h4 class="left"><strong>Tema de tertulia:</strong></h4>
       <div class="row pt-3 justify-content-center">
         <div class="col-md-10">
-          <table class="radio-table">
-            <tr>
-              <td style="width: 10%">
-                <input type="radio" value="cine" formControlName="theme" />
-              </td>
-              <td>
-                <h4>Cine</h4>
-              </td>
-            </tr>
-            <tr>
-              <td style="width: 10%">
-                <input
-                  type="radio"
-                  value="literatura"
-                  formControlName="theme"
-                />
-              </td>
-              <td>
-                <h4>Literatura</h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input
-                  type="radio"
-                  value="actualidad"
-                  formControlName="theme"
-                />
-              </td>
-              <td>
-                <h4>Actualidad</h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="radio" value="other" formControlName="theme" />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="inputTheme"
-                  aria-describedby="themeHelp"
-                  placeholder="Otro:"
-                  formControlName="otherTheme"
-                />
-              </td>
-            </tr>
-          </table>
+          <div class="row justify-content-center">
+            <div class="col-6">
+              <table class="radio-table">
+                <tr>
+                  <td style="width: 10%">
+                    <input type="radio" value="cine" formControlName="theme" />
+                  </td>
+                  <td>
+                    <h4>Cine</h4>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 10%">
+                    <input
+                      type="radio"
+                      value="literatura"
+                      formControlName="theme"
+                    />
+                  </td>
+                  <td>
+                    <h4>Literatura</h4>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="col-6">
+              <table class="radio-table">
+                <tr>
+                  <td>
+                    <input
+                      type="radio"
+                      value="actualidad"
+                      formControlName="theme"
+                    />
+                  </td>
+                  <td>
+                    <h4>Actualidad</h4>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="radio" value="other" formControlName="theme" />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="inputTheme"
+                      aria-describedby="themeHelp"
+                      placeholder="Otro:"
+                      formControlName="otherTheme"
+                    />
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
+        <h4 class="left pt-2"><strong>Nombre breve de tertulia:</strong></h4>
+        <div class="p-2">
+          <div class="name-container">
+            <input
+              type="text"
+              class="form-control name-input"
+              maxlength="40"
+              placeholder="Ingresa un nombre"
+              formControlName="name"
+            />
+            <div class="remaining-characters right p-2">
+              <p>{{ secondStepForm.get("name")?.value.length }} / 60</p>
+            </div>
+          </div>
+        </div>
+
         <h4 class="left pt-2"><strong>Descripción de tertulia:</strong></h4>
-        <div class="pt-2 left">
-          <p>Describe el tema en pocas palabras</p>
-        </div>
-        <div class="pt-4">
+        <div class="pt-2">
           <div class="sk-comment-container">
             <textarea
               name="comment"
@@ -192,11 +213,8 @@
               maxlength="200"
               placeholder="Descripción:"
             ></textarea>
-            <div class="remaining-characters p-1 left">
-              <p>
-                {{ secondStepForm.get("description")?.value.length }} / 250
-                caracteres
-              </p>
+            <div class="remaining-characters p-1 right">
+              <p>{{ secondStepForm.get("description")?.value.length }} / 250</p>
             </div>
           </div>
         </div>
@@ -220,7 +238,7 @@
       <div class="pt-2 left">
         <p>Hasta 30 dias de anticipacion</p>
       </div>
-      <div class="pt-4"></div>
+      <div class="pt-1"></div>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Elige una fecha</mat-label>
         <input
@@ -239,9 +257,9 @@
           [disabled]="false"
         ></mat-datepicker>
       </mat-form-field>
-      <h4 class="left pt-4"><strong>Hora de la tertulia:</strong></h4>
+      <h4 class="left pt-2"><strong>Hora de la tertulia:</strong></h4>
       <div class="pt-2"></div>
-      <div class="row justify-content-center pt-4">
+      <div class="row justify-content-center">
         <div class="col-sm-4">
           <div class="pt-2">
             <div style="display: flex; width: 100%; justify-content: center">
@@ -252,7 +270,9 @@
               <table>
                 <tr>
                   <td></td>
-                  <td>hrs.</td>
+                  <td>
+                    <p>hrs.</p>
+                  </td>
                 </tr>
               </table>
             </div>
