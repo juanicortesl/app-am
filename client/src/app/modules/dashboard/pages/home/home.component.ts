@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
   loadingSuggestedMeeting = true;
   readyHostMeeting: any;
   readyAttendeeMeeting: any;
-  toBeMeeting: any;
   suggestedMeetings: any[] = [];
   constructor(private apiService: ApiService, private router: Router) {}
 
@@ -92,7 +91,6 @@ export class HomeComponent implements OnInit {
   }
 
   getSuggestedMeetings() {
-    this.toBeMeeting = undefined;
     this.loadingSuggestedMeeting = true;
     this.apiService.getAvailableMeetings({}).subscribe(
       (data: any) => {
