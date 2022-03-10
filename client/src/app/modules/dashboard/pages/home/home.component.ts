@@ -28,10 +28,11 @@ export class HomeComponent implements OnInit {
     { title: 'Todos', icon: 'bi bi-card-checklist' },
   ];
   loadingReadyMeeting = false;
-  loadingToBeMeeting = true;
+  loadingSuggestedMeeting = true;
   readyHostMeeting: any;
   readyAttendeeMeeting: any;
   toBeMeeting: any;
+  suggestedMeetings: any[] = [];
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
@@ -78,7 +79,7 @@ export class HomeComponent implements OnInit {
         console.log(err), (this.loadingReadyMeeting = false);
       }
     );
-    this.getToBeMeeting();
+    this.getSuggestedMeetings();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -90,18 +91,18 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['dashboard/searcher'], { state: { theme: theme } });
   }
 
-  getToBeMeeting() {
+  getSuggestedMeetings() {
     this.toBeMeeting = undefined;
-    this.loadingToBeMeeting = true;
+    this.loadingSuggestedMeeting = true;
     this.apiService.getAvailableMeetings({}).subscribe(
       (data: any) => {
-        this.loadingToBeMeeting = false;
+        this.loadingSuggestedMeeting = false;
         if (data.result && data.data.model.length > 0) {
-          this.toBeMeeting = data.data.model[0];
+          this.suggestedMeetings = data.data.model.slice(0, 3);
         }
       },
       (err) => {
-        console.log(err), (this.loadingToBeMeeting = false);
+        console.log(err), (this.loadingSuggestedMeeting = false);
       }
     );
   }
