@@ -317,6 +317,15 @@ class ModelsController {
         const meeting = await this.models[model].model.getByIdWithFull(
           req.params.id
         );
+        if (mode === "invite") {
+          // create attend instance with invitation status
+          const attends = await Models.Attends.add({
+            status: "invited",
+            attendeeId: attributesToUpdate.inviteeId,
+            meetingId: meeting.dataValues.id,
+          });
+          newMeetingAttributes = { status: "available" };
+        }
         if (mode === "add-to-calendar") {
           // check if meeting exists and is available
           if (

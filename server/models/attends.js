@@ -50,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       meetingId: DataTypes.INTEGER,
       review_comment: DataTypes.STRING,
       review_rate: DataTypes.FLOAT,
+      status: DataTypes.STRING,
     },
     {
       sequelize,

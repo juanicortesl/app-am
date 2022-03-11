@@ -36,6 +36,9 @@ module.exports = {
       review_rate: {
         type: Sequelize.FLOAT,
       },
+      status: {
+        type: Sequelize.STRING,
+      },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,

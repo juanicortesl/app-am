@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ApiService } from '../../../../core/http/api.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
@@ -70,8 +71,8 @@ export class MeetingsComponent implements OnInit {
   users: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<any[]> | undefined;
   selectedUsers: any[] = [];
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> | undefined;
-  constructor(private apiService: ApiService) {}
+  @ViewChild('userInput') userInput: ElementRef<HTMLInputElement> | undefined;
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
     this.minDate = new Date();
@@ -125,13 +126,13 @@ export class MeetingsComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    console.log(event, 'EVENT');
-    this.selectedUsers.push(event.option.value);
-    if (this.fruitInput) {
-      this.fruitInput.nativeElement.value = '';
+    if (this.selectedUsers.length < 10) {
+      this.selectedUsers.push(event.option.value);
+      if (this.userInput) {
+        this.userInput.nativeElement.value = '';
+      }
+      this.myControl.setValue('');
     }
-
-    this.myControl.setValue('');
   }
 
   createNewMeeting() {
@@ -141,6 +142,18 @@ export class MeetingsComponent implements OnInit {
         next: (data: any) => {
           if (data.result) {
             this.step = 0;
+            if (this.meeting.type === 'private') {
+              this.selectedUsers.forEach((user) => {
+                this.apiService
+                  .inviteUserToMeeting(data.data.model.id, {
+                    inviteeId: user.id,
+                  })
+                  .subscribe((data: any) => {
+                    console.log(data);
+                  });
+              });
+            }
+            this.router.navigate(['dashboard/home']);
           }
         },
         error: (error: any) => {

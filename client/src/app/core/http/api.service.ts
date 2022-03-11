@@ -28,6 +28,9 @@ export class ApiService {
   getWillAttendMeetings(body: any) {
     return this.genericGet('models/meetings/will-attend');
   }
+  inviteUserToMeeting(meetingId: number, body: any) {
+    return this.genericPut(body, `models/meetings/${meetingId}/invite`);
+  }
   addMeetingToCalendar(meetingId: number) {
     return this.genericPut(
       { status: 'request' },
