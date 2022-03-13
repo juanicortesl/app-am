@@ -25,6 +25,7 @@ export class MeetingCardComponent implements OnInit {
   @Input() meeting: any;
   @Input() addedToCalendar: boolean = false;
   @Input() isOwner: boolean = false;
+  @Input() isInvitation: boolean = false;
   @Input() disableActions: boolean = false;
   @Output() changedMeeting = new EventEmitter<boolean>();
   seeMore = false;
@@ -88,6 +89,16 @@ export class MeetingCardComponent implements OnInit {
     this.loading = true;
     this.apiService
       .removeMeetingFromCalendar(this.meeting.id)
+      .subscribe((data) => {
+        console.log(data);
+        this.changedMeeting.emit(true);
+        this.loading = false;
+      });
+  }
+  acceptInvitation() {
+    this.loading = true;
+    this.apiService
+      .acceptMeetingInvitation(this.meeting.id, { status: 'accepted' })
       .subscribe((data) => {
         console.log(data);
         this.changedMeeting.emit(true);

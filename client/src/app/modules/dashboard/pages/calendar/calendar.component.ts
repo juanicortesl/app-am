@@ -43,10 +43,23 @@ export class CalendarComponent implements OnInit {
         });
       }
     });
+    this.apiService.getMeetingInvitations().subscribe((data: any) => {
+      console.log(data, 'invitations');
+      if (data.result) {
+        data.data.model.forEach((meeting: any) => {
+          this.pushToMeetingsByDate(meeting, false, true);
+        });
+      }
+    });
   }
 
-  pushToMeetingsByDate(meeting: any, isOwner: boolean) {
+  pushToMeetingsByDate(
+    meeting: any,
+    isOwner: boolean,
+    isInvitation: boolean = false
+  ) {
     meeting.isOwner = isOwner;
+    meeting.isInvitation = isInvitation;
     let date = new Date(meeting.startTime);
     if (
       !this.meetingsByDate[

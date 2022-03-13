@@ -113,10 +113,27 @@
               </button>
               <button
                 class="sk-button secondary"
-                *ngIf="type === 'available' && addedToCalendar && !isOwner"
+                *ngIf="
+                  type === 'available' &&
+                  addedToCalendar &&
+                  !isOwner &&
+                  !isInvitation
+                "
                 (click)="removeFromCalendar()"
               >
                 No puedo ir
+              </button>
+              <button
+                class="sk-button secondary"
+                *ngIf="
+                  type === 'available' &&
+                  addedToCalendar &&
+                  !isOwner &&
+                  isInvitation
+                "
+                (click)="acceptInvitation()"
+              >
+                Aceptar invitacion
               </button>
               <button
                 class="sk-button secondary"
@@ -261,10 +278,27 @@
               </button>
               <button
                 class="sk-button secondary"
-                *ngIf="type === 'available' && addedToCalendar && !isOwner"
+                *ngIf="
+                  type === 'available' &&
+                  addedToCalendar &&
+                  !isOwner &&
+                  !isInvitation
+                "
                 (click)="removeFromCalendar()"
               >
                 No puedo ir
+              </button>
+              <button
+                class="sk-button secondary"
+                *ngIf="
+                  type === 'available' &&
+                  addedToCalendar &&
+                  !isOwner &&
+                  isInvitation
+                "
+                (click)="acceptInvitation()"
+              >
+                Aceptar invitacion
               </button>
               <button
                 class="sk-button secondary"

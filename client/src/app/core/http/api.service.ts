@@ -31,6 +31,12 @@ export class ApiService {
   inviteUserToMeeting(meetingId: number, body: any) {
     return this.genericPut(body, `models/meetings/${meetingId}/invite`);
   }
+  acceptMeetingInvitation(meetingId: number, body: any) {
+    return this.genericPut(
+      body,
+      `models/meetings/${meetingId}/accept-invitation`
+    );
+  }
   addMeetingToCalendar(meetingId: number) {
     return this.genericPut(
       { status: 'request' },
@@ -59,6 +65,10 @@ export class ApiService {
 
   getPastMeetings() {
     return this.genericGet('models/meetings/past');
+  }
+
+  getMeetingInvitations() {
+    return this.genericGet('models/meetings/invitation');
   }
 
   updateUser(body: any) {

@@ -60,6 +60,11 @@ class ModelsController {
             req.user.id
           );
         }
+        if (status === "invitation") {
+          queryResult = await this.models[
+            model
+          ].model.getAllInvitationsWithFull(req.user.id);
+        }
         if (status === "will-attend") {
           queryResult = await this.models[
             model
@@ -325,6 +330,22 @@ class ModelsController {
             meetingId: meeting.dataValues.id,
           });
           newMeetingAttributes = { status: "available" };
+        }
+        if (mode === "accept-invitation") {
+          // create attend instance with invitation status
+          const attends = await Models.Attends.updateByUserIdMeetingId(
+            req.user.id,
+            meeting.id,
+            {
+              status: "accepted",
+            }
+          );
+          let newAvailableSlots = meeting.dataValues.availableSlots - 1;
+          let newStatus = newAvailableSlots <= 0 ? "full" : "available";
+          newMeetingAttributes = {
+            status: newStatus,
+            availableSlots: newAvailableSlots,
+          };
         }
         if (mode === "add-to-calendar") {
           // check if meeting exists and is available

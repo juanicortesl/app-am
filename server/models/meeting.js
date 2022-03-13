@@ -61,6 +61,7 @@ module.exports = (sequelize, DataTypes) => {
         where: {
           status: status,
           "$Attendees.id$": userId,
+          "$Attendees->Attends.status$": { [Op.ne]: "invited" },
         },
         include: [
           {
@@ -130,6 +131,7 @@ module.exports = (sequelize, DataTypes) => {
       const response = await Meeting.findAll({
         where: {
           status: "available",
+          type: "open",
           hostId: {
             [Op.ne]: userId,
           },
@@ -139,6 +141,31 @@ module.exports = (sequelize, DataTypes) => {
               [Op.eq]: null,
             },
           },
+        },
+        include: [
+          {
+            association: "Host",
+            attributes: ["first_name", "description"],
+          },
+          {
+            association: "Attendees",
+            attributes: ["first_name", "description"],
+          },
+        ],
+        nest: true,
+      });
+
+      return response;
+    };
+
+    static getAllInvitationsWithFull = async (userId) => {
+      const response = await Meeting.findAll({
+        where: {
+          status: "available",
+          hostId: {
+            [Op.ne]: userId,
+          },
+          "$Attendees->Attends.status$": "invited",
         },
         include: [
           {
