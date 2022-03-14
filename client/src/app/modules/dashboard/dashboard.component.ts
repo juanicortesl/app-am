@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   }
 
   isSelected(tab: string) {
-    return tab === this.page;
+    return this.router.url.includes(tab);
   }
   goTo(tab: string) {
     this.page = tab;
