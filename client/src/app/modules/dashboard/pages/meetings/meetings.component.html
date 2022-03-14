@@ -294,7 +294,10 @@
 
     <!-- step 4 begins -->
     <section class="pt-2" *ngIf="step === 4" [formGroup]="fourthStepForm">
-      <h4 class="left"><strong>Asi lo verán todos:</strong></h4>
+      <h4 class="left"><strong> Revisar y publicar</strong></h4>
+      <div class="pt-2 left">
+        <p>Asi lo verán todos, si está correcto presiona Publicar</p>
+      </div>
       <div class="pt-2">
         <app-meeting-card
           [type]="'available'"
