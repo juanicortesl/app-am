@@ -30,7 +30,7 @@ import * as moment from 'moment';
   ],
 })
 export class SignUpComponent implements OnInit {
-  step = 4;
+  step = 1;
   loading = false;
   newInterest = '';
   errorPopup = 'none';
