@@ -1,5 +1,19 @@
 <div class="row justify-content-center px-4">
   <div class="col-md center">
+    <div
+      class="py-1"
+      *ngFor="let meetingInvitation of meetingInvitations; let i = index"
+    >
+      <ngb-alert [type]="'success'" (closed)="removeAlert(i)"
+        >{{ meetingInvitation.Host.first_name }} te ha invitado a una tertulia
+        privada.
+        <span
+          style="text-decoration: underline"
+          [routerLink]="'/dashboard/calendar'"
+          >Revisar en el calendario</span
+        ></ngb-alert
+      >
+    </div>
     <div class="pt-2">
       <h3><strong>Tertulia por comenzar</strong></h3>
     </div>

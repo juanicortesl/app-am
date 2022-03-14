@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   readyHostMeeting: any;
   readyAttendeeMeeting: any;
   suggestedMeetings: any[] = [];
+  meetingInvitations: any[] = [];
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
@@ -79,6 +80,7 @@ export class HomeComponent implements OnInit {
       }
     );
     this.getSuggestedMeetings();
+    this.getMeetingInvitations();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -103,5 +105,16 @@ export class HomeComponent implements OnInit {
         console.log(err), (this.loadingSuggestedMeeting = false);
       }
     );
+  }
+  getMeetingInvitations() {
+    this.apiService.getMeetingInvitations().subscribe((data: any) => {
+      console.log(data, 'invitations');
+      if (data.result) {
+        this.meetingInvitations = data.data.model;
+      }
+    });
+  }
+  removeAlert(index: number) {
+    this.meetingInvitations.splice(index, 1);
   }
 }

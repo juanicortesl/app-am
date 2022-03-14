@@ -166,6 +166,7 @@ module.exports = (sequelize, DataTypes) => {
             [Op.ne]: userId,
           },
           "$Attendees->Attends.status$": "invited",
+          "$Attendees->Attends.attendeeId$": userId,
         },
         include: [
           {
