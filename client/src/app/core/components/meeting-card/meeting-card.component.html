@@ -333,3 +333,25 @@
     </tr>
   </table>
 </div>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{ display: displayStyle }"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header left">
+        <h4 class="modal-title">{{ popupTitle }}</h4>
+      </div>
+      <div class="modal-body left">
+        <p>{{ popupMessage }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closePopup()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

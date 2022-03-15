@@ -36,7 +36,7 @@ export class CalendarComponent implements OnInit {
       }
     });
     this.apiService.getWillAttendMeetings({}).subscribe((data: any) => {
-      console.log(data);
+      console.log(data, 'WILLATTEND');
       if (data.result) {
         data.data.model.forEach((meeting: any) => {
           this.pushToMeetingsByDate(meeting, false);

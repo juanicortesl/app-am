@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
     static getAttendedByUserWithFull = async (status, userId) => {
       const response = await Meeting.findAll({
         where: {
-          status: status,
+          status: { [Op.ne]: "finished" },
           "$Attendees.id$": userId,
           "$Attendees->Attends.status$": { [Op.ne]: "invited" },
         },

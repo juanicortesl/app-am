@@ -372,6 +372,7 @@ class ModelsController {
           const attends = await Models.Attends.add({
             attendeeId: req.user.id,
             meetingId: meeting.dataValues.id,
+            status: "accepted",
           });
           // update meeting status
           let newAvailableSlots = meeting.dataValues.availableSlots - 1;

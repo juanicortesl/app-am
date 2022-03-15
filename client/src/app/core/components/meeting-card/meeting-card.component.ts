@@ -17,6 +17,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./meeting-card.component.scss'],
 })
 export class MeetingCardComponent implements OnInit {
+  displayStyle = 'none';
+  popupTitle = '';
+  popupMessage = '';
   public widthThreshold = environment.widthThreshold;
   public innerWidth: any;
   public remainingTime: any = {};
@@ -78,8 +81,11 @@ export class MeetingCardComponent implements OnInit {
       this.apiService
         .addMeetingToCalendar(this.meeting.id)
         .subscribe((data) => {
+          this.openPopup(
+            'Esta tertulia ha sido agregada a tu calendario',
+            'Si no puedes asistir, puedes cancelar tu asistencia desde el calendario'
+          );
           console.log(data);
-          this.changedMeeting.emit(true);
           this.loading = false;
         });
     }
@@ -118,5 +124,14 @@ export class MeetingCardComponent implements OnInit {
         meeting: this.meeting,
       },
     });
+  }
+  openPopup(title: string, message: string) {
+    this.popupTitle = title;
+    this.popupMessage = message;
+    this.displayStyle = 'block';
+  }
+  closePopup() {
+    this.displayStyle = 'none';
+    this.changedMeeting.emit(true);
   }
 }
