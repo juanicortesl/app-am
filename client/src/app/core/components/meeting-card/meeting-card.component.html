@@ -151,10 +151,10 @@
   <table>
     <tr *ngIf="type === 'ready'">
       <td class="pt-2">
-        <p *ngIf="remainingTime.hours <= 1">
+        <p *ngIf="remainingTime.hours >= 0">
           faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m
         </p>
-        <p *ngIf="remainingTime.hours > 1">Ya comenzó</p>
+        <p *ngIf="remainingTime.hours < 0">Ya comenzó</p>
       </td>
     </tr>
     <tr *ngIf="type === 'ready'">

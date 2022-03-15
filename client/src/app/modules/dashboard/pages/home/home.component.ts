@@ -27,8 +27,9 @@ export class HomeComponent implements OnInit {
     { title: 'Otros', icon: 'bi bi-people' },
     { title: 'Todos', icon: 'bi bi-card-checklist' },
   ];
-  loadingReadyMeeting = false;
+  loadingTodayMeetings = false;
   loadingSuggestedMeeting = true;
+  todayMeetings: any[] = [];
   readyHostMeeting: any;
   readyAttendeeMeeting: any;
   suggestedMeetings: any[] = [];
@@ -37,50 +38,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-    this.loadingReadyMeeting = true;
-    this.apiService.getOfferedMeetings().subscribe(
-      (data: any) => {
-        this.loadingReadyMeeting = false;
-        if (data.result) {
-          let now = new Date();
-          this.readyHostMeeting = data.data.model.find((meeting: any) => {
-            let meetingDate = new Date(meeting.startTime);
-            return (
-              Math.abs(meetingDate.getTime() - now.getTime()) <
-              HOUR_IN_MILLISECONDS
-            );
-          });
-          if (this.readyHostMeeting) {
-            this.readyHostMeeting.isHost = true;
-          }
-        }
-      },
-      (err) => {
-        console.log(err), (this.loadingReadyMeeting = false);
-      }
-    );
+    this.loadingTodayMeetings = true;
 
-    this.apiService.getWillAttendMeetings({}).subscribe(
-      (data: any) => {
-        this.loadingReadyMeeting = false;
-        if (data.result) {
-          let now = new Date();
-          this.readyAttendeeMeeting = data.data.model.find((meeting: any) => {
-            let meetingDate = new Date(meeting.startTime);
-            return (
-              meetingDate.getTime() - now.getTime() < HOUR_IN_MILLISECONDS &&
-              now.getTime() < meetingDate.getTime()
-            );
-          });
-          this.readyAttendeeMeeting;
-        }
-      },
-      (err) => {
-        console.log(err), (this.loadingReadyMeeting = false);
-      }
-    );
     this.getSuggestedMeetings();
     this.getMeetingInvitations();
+    this.getTodayMeetings();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -90,6 +52,49 @@ export class HomeComponent implements OnInit {
 
   goToSearcher(theme: any) {
     this.router.navigate(['dashboard/searcher'], { state: { theme: theme } });
+  }
+
+  getTodayMeetings() {
+    this.todayMeetings = [];
+    let now = new Date();
+    this.apiService.getOfferedMeetings().subscribe(
+      (data: any) => {
+        this.loadingTodayMeetings = false;
+        if (data.result) {
+          data.data.model.forEach((meeting: any) => {
+            let meetingDate = new Date(meeting.startTime);
+            meeting.isHost = true;
+            if (
+              meetingDate.getDate() === now.getDate() &&
+              meetingDate.getMonth() === now.getMonth()
+            )
+              this.todayMeetings.push(meeting);
+          });
+        }
+      },
+      (err) => {
+        console.log(err), (this.loadingTodayMeetings = false);
+      }
+    );
+
+    this.apiService.getWillAttendMeetings({}).subscribe(
+      (data: any) => {
+        this.loadingTodayMeetings = false;
+        if (data.result) {
+          data.data.model.forEach((meeting: any) => {
+            let meetingDate = new Date(meeting.startTime);
+            if (
+              meetingDate.getDate() === now.getDate() &&
+              meetingDate.getMonth() === now.getMonth()
+            )
+              this.todayMeetings.push(meeting);
+          });
+        }
+      },
+      (err) => {
+        console.log(err), (this.loadingTodayMeetings = false);
+      }
+    );
   }
 
   getSuggestedMeetings() {

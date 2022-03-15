@@ -50,7 +50,6 @@ export class MeetingCardComponent implements OnInit {
   updateTime() {
     const now = new Date();
     const diff = this.meeting.startTime.getTime() - now.getTime();
-
     // Cálculos para sacar lo que resta hasta ese tiempo objetivo / final
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor(diff / (1000 * 60 * 60));
