@@ -73,7 +73,26 @@ module.exports = (sequelize, DataTypes) => {
             attributes: ["interests", "first_name"],
           },
         ],
-      }).then((meetings) => {
+      }).then(async (meetings) => {
+        //include test meeting
+        if ([43, 67, 68, 69].includes(userId)) {
+          let testMeeting = await Meeting.findOne({
+            where: {
+              id: 47,
+            },
+            include: [
+              {
+                association: "Host",
+                attributes: ["interests", "first_name"],
+              },
+              {
+                association: "Attendees",
+                attributes: ["interests", "first_name"],
+              },
+            ],
+          });
+          meetings.push(testMeeting);
+        }
         return meetings;
       });
 
