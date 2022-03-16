@@ -65,6 +65,11 @@ class ModelsController {
             model
           ].model.getAllInvitationsWithFull(req.user.id);
         }
+        if (status === "waiting-list") {
+          queryResult = await this.models[
+            model
+          ].model.getAllWaitingListWithFull(req.user.id);
+        }
         if (status === "will-attend") {
           queryResult = await this.models[
             model
@@ -368,6 +373,11 @@ class ModelsController {
             });
             return;
           }
+          // check if previous attends instance exists and delete it
+          const prevAttends = await Models.Attends.deleteByUserIdMeetingId(
+            req.user.id,
+            meeting.dataValues.id
+          );
           // create attend instance
           const attends = await Models.Attends.add({
             attendeeId: req.user.id,
@@ -380,6 +390,23 @@ class ModelsController {
           newMeetingAttributes = {
             status: newStatus,
             availableSlots: newAvailableSlots,
+          };
+        }
+        if (mode === "add-to-waiting-list") {
+          const attendsExist = await Models.Attends.getByUserIdMeetingId(
+            req.user.id,
+            meeting.id
+          );
+          if (!attendsExist) {
+            const attends = await Models.Attends.add({
+              attendeeId: req.user.id,
+              meetingId: meeting.dataValues.id,
+              status: "waiting-list",
+            });
+          }
+
+          newMeetingAttributes = {
+            status: meeting.status,
           };
         }
         if (mode === "remove-from-calendar") {

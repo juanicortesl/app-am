@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
   readyAttendeeMeeting: any;
   suggestedMeetings: any[] = [];
   meetingInvitations: any[] = [];
+  meetingWaitingList: any[] = [];
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
@@ -42,6 +43,7 @@ export class HomeComponent implements OnInit {
 
     this.getSuggestedMeetings();
     this.getMeetingInvitations();
+    this.getMeetingWaitingList();
     this.getTodayMeetings();
   }
 
@@ -121,5 +123,20 @@ export class HomeComponent implements OnInit {
   }
   removeAlert(index: number) {
     this.meetingInvitations.splice(index, 1);
+  }
+
+  getMeetingWaitingList() {
+    this.apiService.getMeetingWaitingList().subscribe((data: any) => {
+      console.log(data, 'waiting-list');
+      if (data.result) {
+        this.meetingWaitingList = data.data.model;
+        this.meetingWaitingList.forEach((meeting) => {
+          meeting.show = false;
+        });
+      }
+    });
+  }
+  removeAlertFromWaitingList(index: number) {
+    this.meetingWaitingList.splice(index, 1);
   }
 }

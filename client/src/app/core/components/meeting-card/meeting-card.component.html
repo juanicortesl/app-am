@@ -94,22 +94,41 @@
         <table>
           <tr>
             <td>
-              <p class="pt-2 center">
-                <strong>Quedan {{ meeting.availableSlots }} cupos</strong>
+              <p class="pt-2 center" *ngIf="meeting.availableSlots > 0">
+                <i class="bi bi-ticket-perforated-fill"></i>
+                <strong> Quedan {{ meeting.availableSlots }} cupos</strong>
+              </p>
+              <p class="pt-2 center" *ngIf="meeting.availableSlots <= 0">
+                <i class="bi bi-slash-circle"></i>
+                <strong> Cupos completos</strong>
               </p>
             </td>
           </tr>
           <tr>
             <td>
-              <button class="sk-button secondary" *ngIf="type === 'offered'">
-                No puedo asistir
+              <button
+                class="sk-button secondary"
+                *ngIf="
+                  type === 'available' &&
+                  !addedToCalendar &&
+                  meeting.availableSlots > 0
+                "
+                (click)="addToCalendar()"
+              >
+                <i class="bi bi-ticket-perforated-fill"></i>
+                Participar
               </button>
               <button
                 class="sk-button secondary"
-                *ngIf="type === 'available' && !addedToCalendar"
-                (click)="addToCalendar()"
+                *ngIf="
+                  type === 'available' &&
+                  !addedToCalendar &&
+                  meeting.availableSlots <= 0
+                "
+                (click)="addToWaitingList()"
               >
-                ¡Participa!
+                <i class="bi bi-megaphone-fill"></i>
+                Avísenme si hay cupos
               </button>
               <button
                 class="sk-button secondary"
@@ -261,20 +280,39 @@
         <table>
           <tr>
             <td>
-              <p>
-                <strong>Quedan {{ meeting.availableSlots }} cupos</strong>
+              <p class="pt-2 center" *ngIf="meeting.availableSlots > 0">
+                <i class="bi bi-ticket-perforated-fill"></i>
+                <strong> Quedan {{ meeting.availableSlots }} cupos</strong>
+              </p>
+              <p class="pt-2 center" *ngIf="meeting.availableSlots <= 0">
+                <i class="bi bi-slash-circle"></i>
+                <strong> Cupos completos</strong>
               </p>
             </td>
             <td>
-              <button class="sk-button secondary" *ngIf="type === 'offered'">
-                No puedo asistir
+              <button
+                class="sk-button secondary"
+                *ngIf="
+                  type === 'available' &&
+                  !addedToCalendar &&
+                  meeting.availableSlots > 0
+                "
+                (click)="addToCalendar()"
+              >
+                <i class="bi bi-ticket-perforated-fill"></i>
+                Participar
               </button>
               <button
                 class="sk-button secondary"
-                *ngIf="type === 'available' && !addedToCalendar"
-                (click)="addToCalendar()"
+                *ngIf="
+                  type === 'available' &&
+                  !addedToCalendar &&
+                  meeting.availableSlots <= 0
+                "
+                (click)="addToWaitingList()"
               >
-                ¡Participa!
+                <i class="bi bi-megaphone-fill"></i>
+                Avísenme si hay cupos
               </button>
               <button
                 class="sk-button secondary"

@@ -14,6 +14,24 @@
         ></ngb-alert
       >
     </div>
+    <div class="py-1" *ngFor="let meeting of meetingWaitingList; let i = index">
+      <ngb-alert [type]="'success'" (closed)="removeAlert(i)"
+        >Se liberó un cupo para la tertulia "{{ meeting.name }}", ofrecida por
+        {{ meeting.Host.first_name }}
+        <span
+          style="text-decoration: underline"
+          (click)="meeting.show = !meeting.show"
+          >Ver tertulia</span
+        ></ngb-alert
+      >
+      <app-meeting-card
+        *ngIf="meeting.show"
+        [type]="'available'"
+        [meeting]="meeting"
+        (changedMeeting)="getMeetingWaitingList()"
+      >
+      </app-meeting-card>
+    </div>
     <div class="pt-2">
       <h3><strong>Actividades de hoy</strong></h3>
     </div>

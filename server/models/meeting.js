@@ -150,7 +150,9 @@ module.exports = (sequelize, DataTypes) => {
     static getAllAvailableWithFull = async (userId) => {
       const response = await Meeting.findAll({
         where: {
-          status: "available",
+          status: {
+            [Op.or]: ["available", "full"],
+          },
           type: "open",
           hostId: {
             [Op.ne]: userId,
@@ -161,6 +163,9 @@ module.exports = (sequelize, DataTypes) => {
               [Op.eq]: null,
             },
           },
+          // "$Attendees->Attends.status$": {
+          //   [Op.ne]: ["waiting-list"],
+          // },
         },
         include: [
           {
@@ -186,6 +191,32 @@ module.exports = (sequelize, DataTypes) => {
             [Op.ne]: userId,
           },
           "$Attendees->Attends.status$": "invited",
+          "$Attendees->Attends.attendeeId$": userId,
+        },
+        include: [
+          {
+            association: "Host",
+            attributes: ["first_name", "description"],
+          },
+          {
+            association: "Attendees",
+            attributes: ["first_name", "description"],
+          },
+        ],
+        nest: true,
+      });
+
+      return response;
+    };
+
+    static getAllWaitingListWithFull = async (userId) => {
+      const response = await Meeting.findAll({
+        where: {
+          status: "available",
+          hostId: {
+            [Op.ne]: userId,
+          },
+          "$Attendees->Attends.status$": "waiting-list",
           "$Attendees->Attends.attendeeId$": userId,
         },
         include: [
