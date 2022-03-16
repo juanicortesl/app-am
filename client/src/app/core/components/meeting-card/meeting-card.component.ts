@@ -90,6 +90,21 @@ export class MeetingCardComponent implements OnInit {
         });
     }
   }
+  addToWaitingList() {
+    if (!this.disableActions) {
+      this.loading = true;
+      this.apiService
+        .addMeetingToWaitingList(this.meeting.id)
+        .subscribe((data) => {
+          this.openPopup(
+            'Esta tertulia ha sido agregada a tu lista de espera',
+            'Te avisaremos cuando haya un cupo para esta tertulia'
+          );
+          console.log(data);
+          this.loading = false;
+        });
+    }
+  }
   removeFromCalendar() {
     this.loading = true;
     this.apiService

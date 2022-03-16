@@ -43,6 +43,12 @@ export class ApiService {
       `models/meetings/${meetingId}/add-to-calendar`
     );
   }
+  addMeetingToWaitingList(meetingId: number) {
+    return this.genericPut(
+      { status: 'request' },
+      `models/meetings/${meetingId}/add-to-waiting-list`
+    );
+  }
   removeMeetingFromCalendar(meetingId: number) {
     return this.genericPut(
       { status: 'request' },
@@ -69,6 +75,10 @@ export class ApiService {
 
   getMeetingInvitations() {
     return this.genericGet('models/meetings/invitation');
+  }
+
+  getMeetingWaitingList() {
+    return this.genericGet('models/meetings/waiting-list');
   }
 
   updateUser(body: any) {

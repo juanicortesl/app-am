@@ -42,6 +42,17 @@ module.exports = (sequelize, DataTypes) => {
 
       return response;
     };
+    static deleteByUserIdMeetingId = async (userId, meetingId) => {
+      const response = await Attends.destroy({
+        where: {
+          attendeeId: userId,
+          meetingId: meetingId,
+        },
+        returning: true,
+      });
+
+      return response;
+    };
   }
   Attends.init(
     {
