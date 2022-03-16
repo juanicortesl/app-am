@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
         ],
       }).then(async (meetings) => {
         //include test meeting
-        if ([43, 67, 68, 69].includes(userId)) {
+        if ([43, 67, 68, 69, 71].includes(userId)) {
           let testMeeting = await Meeting.findOne({
             where: {
               id: 47,
@@ -91,6 +91,7 @@ module.exports = (sequelize, DataTypes) => {
               },
             ],
           });
+          testMeeting.startTime = new Date();
           meetings.push(testMeeting);
         }
         return meetings;
