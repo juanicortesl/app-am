@@ -1,5 +1,5 @@
 <div class="user-card">
-  <div class="row justify-content-center">
+  <div class="row">
     <div class="col-md-3 p-3 left">
       <h5>
         <strong>{{ user.first_name }}</strong>
@@ -9,8 +9,8 @@
       <h5>
         <strong> Descripción: </strong>
       </h5>
-      <p *ngIf="user.description" class="pt-4">{{ user.description }}</p>
-      <p *ngIf="!user.description" class="pt-4">
+      <p *ngIf="user.description" class="pt-2">{{ user.description }}</p>
+      <p *ngIf="!user.description" class="pt-2">
         El usuario aún no posee una descripción
       </p>
     </div>
@@ -18,21 +18,28 @@
       <h5>
         <strong> Intereses: </strong>
       </h5>
-      <div
-        class="sk-theme-card my-2 center align-middle"
-        *ngFor="let theme of user.interests"
-      >
-        <table>
-          <tr>
-            <td>
-              <h5>
-                <strong>
-                  {{ theme }}
-                </strong>
-              </h5>
-            </td>
-          </tr>
-        </table>
+      <p class="pt-2">
+        <span *ngFor="let interest of user.interests; let i = index"
+          >{{ interest }}<span *ngIf="i < user.interests.length - 1">, </span>
+        </span>
+      </p>
+    </div>
+    <div class="col-md-4 pt-3 px-3 left">
+      <h5>
+        <strong> Tertulias abiertas: </strong>
+      </h5>
+    </div>
+    <div
+      class="row justify-content-center p-3"
+      *ngFor="let meeting of user.hostedMeetings"
+    >
+      <div class="col-md-9">
+        <app-meeting-card
+          [type]="'available'"
+          [meeting]="meeting"
+          [addedToCalendar]="false"
+          [isOwner]="meeting.isOwner"
+        ></app-meeting-card>
       </div>
     </div>
   </div>

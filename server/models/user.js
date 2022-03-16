@@ -1,5 +1,7 @@
 "use strict";
 const { Model, DATEONLY } = require("sequelize");
+const { Op } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -39,6 +41,17 @@ module.exports = (sequelize, DataTypes) => {
     static getAllWithFull = async () => {
       const response = await User.findAll({
         attributes: ["first_name", "interests", "description", "id"],
+        include: [
+          {
+            association: "hostedMeetings",
+            where: {
+              status: {
+                [Op.or]: ["available", "full"],
+              },
+              type: "open",
+            },
+          },
+        ],
       });
 
       return response;
