@@ -34,7 +34,13 @@
       </div>
     </div>
     <h4 *ngIf="todayMeetings.length === 0 && !loadingTodayMeetings">
-      No tienes tertulias prontas a comenzar
+      No te has inscrito en tertulias o charlas para hoy. Para otros días revisa
+      tu
+      <span
+        style="text-decoration: underline"
+        [routerLink]="'/dashboard/calendar'"
+        >calendario</span
+      >
     </h4>
     <div class="pt-4">
       <h3><strong>Eventos recomendados</strong></h3>
