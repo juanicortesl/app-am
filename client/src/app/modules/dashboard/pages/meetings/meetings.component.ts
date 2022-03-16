@@ -72,6 +72,8 @@ export class MeetingsComponent implements OnInit {
   filteredOptions: Observable<any[]> | undefined;
   selectedUsers: any[] = [];
   @ViewChild('userInput') userInput: ElementRef<HTMLInputElement> | undefined;
+
+  popupDisplayStyle = 'none';
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
@@ -153,7 +155,7 @@ export class MeetingsComponent implements OnInit {
                   });
               });
             }
-            this.router.navigate(['dashboard/home']);
+            this.popupDisplayStyle = 'block';
           }
         },
         error: (error: any) => {
@@ -162,7 +164,10 @@ export class MeetingsComponent implements OnInit {
       });
     } catch {}
   }
-
+  closePopup() {
+    this.popupDisplayStyle = 'none';
+    this.router.navigate(['dashboard/home']);
+  }
   nextStep() {
     this.step++;
     if (this.step === 1) {
