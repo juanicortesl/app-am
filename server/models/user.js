@@ -44,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         include: [
           {
             association: "hostedMeetings",
+            required: false,
             where: {
               status: {
                 [Op.or]: ["available", "full"],

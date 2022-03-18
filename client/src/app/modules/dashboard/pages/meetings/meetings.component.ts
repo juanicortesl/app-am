@@ -172,7 +172,7 @@ export class MeetingsComponent implements OnInit {
     this.step++;
     if (this.step === 1) {
       this.apiService.getUsers().subscribe((data: any) => {
-        console.log(data);
+        console.log(data, 'USERS');
         if (data.result) {
           this.users = data.data.model;
         }
