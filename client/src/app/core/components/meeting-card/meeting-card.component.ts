@@ -17,9 +17,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./meeting-card.component.scss'],
 })
 export class MeetingCardComponent implements OnInit {
-  displayStyle = 'none';
+  popupDisplayStyle = 'none';
   popupTitle = '';
   popupMessage = '';
+  popupAction: any;
   public widthThreshold = environment.widthThreshold;
   public innerWidth: any;
   public remainingTime: any = {};
@@ -83,7 +84,8 @@ export class MeetingCardComponent implements OnInit {
         .subscribe((data) => {
           this.openPopup(
             'Esta tertulia ha sido agregada a tu calendario',
-            'Si no puedes asistir, puedes cancelar tu asistencia desde el calendario'
+            'Si no puedes asistir, puedes cancelar tu asistencia desde el calendario',
+            ''
           );
           console.log(data);
           this.loading = false;
@@ -98,7 +100,8 @@ export class MeetingCardComponent implements OnInit {
         .subscribe((data) => {
           this.openPopup(
             'Esta tertulia ha sido agregada a tu lista de espera',
-            'Te avisaremos cuando haya un cupo para esta tertulia'
+            'Te avisaremos cuando haya un cupo para esta tertulia',
+            ''
           );
           console.log(data);
           this.loading = false;
@@ -140,13 +143,20 @@ export class MeetingCardComponent implements OnInit {
       },
     });
   }
-  openPopup(title: string, message: string) {
+  openCancelMeetingPopup() {
+    this.openPopup(
+      'Cancelar tertulia',
+      'Si Cancela la tertulia se borrará de este calendario y de todos quienes se hayan sumado ¿Esta seguro de cancelar esta tertulia?',
+      this.cancelMeeting
+    );
+  }
+  openPopup(title: string, message: string, popupAction: any) {
     this.popupTitle = title;
     this.popupMessage = message;
-    this.displayStyle = 'block';
+    this.popupDisplayStyle = 'block';
+    this.popupAction = popupAction;
   }
   closePopup() {
-    this.displayStyle = 'none';
-    this.changedMeeting.emit(true);
+    this.popupDisplayStyle = 'none';
   }
 }

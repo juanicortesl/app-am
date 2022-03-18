@@ -171,7 +171,7 @@
               <button
                 class="sk-button secondary no-border-underline"
                 *ngIf="type === 'available' && addedToCalendar && isOwner"
-                (click)="cancelMeeting()"
+                (click)="openCancelMeetingPopup()"
               >
                 Cancelar tertulia
               </button>
@@ -373,7 +373,7 @@
               <button
                 class="sk-button secondary no-border-underline"
                 *ngIf="type === 'available' && addedToCalendar && isOwner"
-                (click)="cancelMeeting()"
+                (click)="openCancelMeetingPopup()"
               >
                 Cancelar tertulia
               </button>
@@ -407,7 +407,7 @@
   class="modal"
   tabindex="-1"
   role="dialog"
-  [ngStyle]="{ display: displayStyle }"
+  [ngStyle]="{ display: popupDisplayStyle }"
 >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -418,8 +418,16 @@
         <p>{{ popupMessage }}</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="closePopup()">
-          Cerrar
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="popupAction()"
+          *ngIf="popupAction"
+        >
+          Cancelar tertulia
+        </button>
+        <button type="button" class="btn btn-success" (click)="closePopup()">
+          Volver
         </button>
       </div>
     </div>
