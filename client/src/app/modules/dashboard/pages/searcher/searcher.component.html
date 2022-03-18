@@ -29,7 +29,47 @@
         >Solo personas</span
       >
     </p>
-    <section *ngIf="selectedType === 'activities' || selectedType === 'all'">
+    <div
+      class="row justify-content-center pt-2"
+      *ngIf="
+        !loading &&
+        !loadingUsers &&
+        (usersData | usersFilter: { searchInput: searchInput }).length === 0 &&
+        filteredMeetingsData.length === 0 &&
+        selectedType === 'all' &&
+        searchInput.length > 0
+      "
+    >
+      <h4>No hay resultados para la busqueda de {{ searchInput }}</h4>
+    </div>
+    <div
+      class="row justify-content-center pt-2"
+      *ngIf="
+        !loading &&
+        filteredMeetingsData.length === 0 &&
+        selectedType === 'activities' &&
+        searchInput.length > 0
+      "
+    >
+      <h4>No hay resultados para la busqueda de {{ searchInput }}</h4>
+    </div>
+    <div
+      class="row justify-content-center pt-2"
+      *ngIf="
+        !loadingUsers &&
+        (usersData | usersFilter: { searchInput: searchInput }).length === 0 &&
+        selectedType === 'people' &&
+        searchInput.length > 0
+      "
+    >
+      <h4>No hay resultados para la busqueda de {{ searchInput }}</h4>
+    </div>
+    <section
+      *ngIf="
+        (selectedType === 'activities' || selectedType === 'all') &&
+        searchInput.length > 0
+      "
+    >
       <div class="row justify-content-center" *ngIf="currentTheme">
         <div class="col-md-4 py-2 px-3">
           <div class="sk-theme-card">
@@ -79,14 +119,13 @@
           </div>
         </div>
       </div>
-      <div
-        class="row justify-content-center pt-4"
-        *ngIf="!loading && filteredMeetingsData.length === 0"
-      >
-        <h4>Aun no hay eventos</h4>
-      </div>
     </section>
-    <section *ngIf="selectedType === 'people' || selectedType === 'all'">
+    <section
+      *ngIf="
+        (selectedType === 'people' || selectedType === 'all') &&
+        searchInput.length > 0
+      "
+    >
       <div class="row justify-content-center pt-4" *ngIf="loadingUsers">
         <div class="spinner-border sk-spinner-border" role="status">
           <span class="sr-only">Loading...</span>

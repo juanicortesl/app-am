@@ -27,10 +27,12 @@ export class SearcherComponent implements OnInit {
   ) {
     let state = this.router.getCurrentNavigation()?.extras.state;
     this.currentTheme = state ? state['theme'] : undefined;
-    if (this.currentTheme)
+    if (this.currentTheme) {
       this.filter.theme = this.currentTheme.value
         ? this.currentTheme.value
         : undefined;
+      this.searchInput = this.currentTheme.value;
+    }
 
     console.log(this.currentTheme, 'CURRENT');
   }

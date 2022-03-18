@@ -9,12 +9,16 @@ export class MeetingsFilterPipe implements PipeTransform {
       let isThemeFilterOK = options.theme
         ? meeting.theme === options.theme
         : true;
-      let meetingString = `${meeting.theme} ${meeting.description} ${new Date(
-        meeting.startTime
-      ).toLocaleDateString()} ${meeting.Host.first_name}`;
+      let meetingString = `${meeting.theme} ${meeting.name} ${
+        meeting.description
+      } ${new Date(meeting.startTime).toLocaleDateString()} ${
+        meeting.Host.first_name
+      }`;
 
       let isSearchInputOk = options.searchInput
-        ? meetingString.includes(options.searchInput)
+        ? meetingString
+            .toLowerCase()
+            .includes(options.searchInput.toLowerCase())
         : true;
       return isThemeFilterOK && isSearchInputOk;
     });
