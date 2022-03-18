@@ -106,3 +106,33 @@
     </div>
   </div>
 </div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{ display: createdMeetingPopupDisplayStyle }"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header left">
+        <h4 class="modal-title">!Tu tertulia ya está publicada!</h4>
+      </div>
+      <div class="modal-body left">
+        <p>
+          Si quieres revisarla búscala en tu
+          <span
+            style="text-decoration: underline"
+            [routerLink]="'/dashboard/calendar'"
+            >calendario</span
+          >
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closePopup()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

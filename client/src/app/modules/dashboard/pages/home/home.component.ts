@@ -35,7 +35,14 @@ export class HomeComponent implements OnInit {
   suggestedMeetings: any[] = [];
   meetingInvitations: any[] = [];
   meetingWaitingList: any[] = [];
-  constructor(private apiService: ApiService, private router: Router) {}
+
+  createdMeetingPopupDisplayStyle = 'none';
+  constructor(private apiService: ApiService, private router: Router) {
+    let state = this.router.getCurrentNavigation()?.extras.state;
+    console.log(state);
+    this.createdMeetingPopupDisplayStyle =
+      state && state['createdMeeting'] ? 'block' : 'none';
+  }
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
@@ -138,5 +145,8 @@ export class HomeComponent implements OnInit {
   }
   removeAlertFromWaitingList(index: number) {
     this.meetingWaitingList.splice(index, 1);
+  }
+  closePopup() {
+    this.createdMeetingPopupDisplayStyle = 'none';
   }
 }

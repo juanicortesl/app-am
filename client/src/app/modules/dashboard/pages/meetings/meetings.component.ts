@@ -139,6 +139,9 @@ export class MeetingsComponent implements OnInit {
 
   createNewMeeting() {
     console.log(this.meeting);
+    this.router.navigate(['dashboard/home'], {
+      state: { createdMeeting: true },
+    }); // TODO:DELETE
     try {
       this.apiService.addAvailableMeeting(this.meeting).subscribe({
         next: (data: any) => {
@@ -155,7 +158,9 @@ export class MeetingsComponent implements OnInit {
                   });
               });
             }
-            this.popupDisplayStyle = 'block';
+            this.router.navigate(['dashboard/home'], {
+              state: { createdMeeting: true },
+            });
           }
         },
         error: (error: any) => {
@@ -166,7 +171,6 @@ export class MeetingsComponent implements OnInit {
   }
   closePopup() {
     this.popupDisplayStyle = 'none';
-    this.router.navigate(['dashboard/home']);
   }
   nextStep() {
     this.step++;
