@@ -31,7 +31,7 @@ export class SearcherComponent implements OnInit {
       this.filter.theme = this.currentTheme.value
         ? this.currentTheme.value
         : undefined;
-      this.searchInput = this.currentTheme.value;
+      this.searchInput = this.currentTheme.value || '';
     }
 
     console.log(this.currentTheme, 'CURRENT');
