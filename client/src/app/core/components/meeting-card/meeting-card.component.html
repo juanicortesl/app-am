@@ -94,13 +94,27 @@
         <table>
           <tr>
             <td>
-              <p class="pt-2 center" *ngIf="meeting.availableSlots > 0">
+              <p
+                class="pt-2 center"
+                *ngIf="meeting.availableSlots > 0 && meeting.type == 'open'"
+              >
                 <i class="bi bi-ticket-perforated-fill"></i>
                 <strong> Quedan {{ meeting.availableSlots }} cupos</strong>
               </p>
-              <p class="pt-2 center" *ngIf="meeting.availableSlots <= 0">
+              <p
+                class="pt-2 center"
+                *ngIf="meeting.availableSlots <= 0 && meeting.type == 'open'"
+              >
                 <i class="bi bi-slash-circle"></i>
                 <strong> Cupos completos</strong>
+              </p>
+            </td>
+          </tr>
+          <tr *ngIf="addedToCalendar">
+            <td class="sk-button secondary no-border-underline">
+              <p class="pt-2" [routerLink]="'/dashboard/calendar'">
+                <i class="bi bi-calendar-check-fill"></i>
+                Ya está en mi calendario
               </p>
             </td>
           </tr>
@@ -131,7 +145,7 @@
                 Avísenme si hay cupos
               </button>
               <button
-                class="sk-button secondary"
+                class="sk-button secondary no-border-underline"
                 *ngIf="
                   type === 'available' &&
                   addedToCalendar &&
@@ -155,7 +169,7 @@
                 Aceptar invitacion
               </button>
               <button
-                class="sk-button secondary"
+                class="sk-button secondary no-border-underline"
                 *ngIf="type === 'available' && addedToCalendar && isOwner"
                 (click)="cancelMeeting()"
               >
@@ -276,15 +290,33 @@
       </td>
     </tr>
     <tr>
+      <td class="sk-button secondary no-border-underline">
+        <p
+          *ngIf="addedToCalendar"
+          class="pt-2"
+          [routerLink]="'/dashboard/calendar'"
+        >
+          <i class="bi bi-calendar-check-fill"></i>
+          Ya está en mi calendario
+        </p>
+      </td>
+    </tr>
+    <tr>
       <td>
         <table>
           <tr>
             <td>
-              <p class="pt-2 center" *ngIf="meeting.availableSlots > 0">
+              <p
+                class="pt-2 center"
+                *ngIf="meeting.availableSlots > 0 && meeting.type == 'open'"
+              >
                 <i class="bi bi-ticket-perforated-fill"></i>
                 <strong> Quedan {{ meeting.availableSlots }} cupos</strong>
               </p>
-              <p class="pt-2 center" *ngIf="meeting.availableSlots <= 0">
+              <p
+                class="pt-2 center"
+                *ngIf="meeting.availableSlots <= 0 && meeting.type == 'open'"
+              >
                 <i class="bi bi-slash-circle"></i>
                 <strong> Cupos completos</strong>
               </p>
@@ -315,7 +347,7 @@
                 Avísenme si hay cupos
               </button>
               <button
-                class="sk-button secondary"
+                class="sk-button secondary no-border-underline"
                 *ngIf="
                   type === 'available' &&
                   addedToCalendar &&
@@ -339,7 +371,7 @@
                 Aceptar invitacion
               </button>
               <button
-                class="sk-button secondary"
+                class="sk-button secondary no-border-underline"
                 *ngIf="type === 'available' && addedToCalendar && isOwner"
                 (click)="cancelMeeting()"
               >

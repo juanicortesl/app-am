@@ -226,6 +226,10 @@ body {
     color: var(--main-color);
     font-size: 1rem;
   }
+  &.no-border-underline {
+    border: none !important;
+    text-decoration: underline;
+  }
 }
 .sk-button :disabled,
 .sk-button[disabled] {

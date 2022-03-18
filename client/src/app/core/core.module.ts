@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -27,6 +28,7 @@ import { UsersFilterPipe } from './pipes/users-filter.pipe';
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
+    RouterModule,
   ],
   exports: [
     MeetingCardComponent,
