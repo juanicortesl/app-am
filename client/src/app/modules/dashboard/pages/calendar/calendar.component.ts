@@ -7,8 +7,10 @@ import { ApiService } from 'src/app/core/http/api.service';
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
+  selectedType = 'future';
   offeredMeetings: any[] = [];
   meetingsByDate: any = {};
+  pastMeetingsByDate: any = {};
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
@@ -17,6 +19,16 @@ export class CalendarComponent implements OnInit {
 
   get dates() {
     let dates = Object.keys(this.meetingsByDate);
+    dates = dates.sort((a: any, b: any) => {
+      let aDate = new Date(a);
+      let bDate = new Date(b);
+      return aDate.getTime() - bDate.getTime();
+    });
+    return dates;
+  }
+
+  get pastDates() {
+    let dates = Object.keys(this.pastMeetingsByDate);
     dates = dates.sort((a: any, b: any) => {
       let aDate = new Date(a);
       let bDate = new Date(b);
@@ -51,6 +63,15 @@ export class CalendarComponent implements OnInit {
         });
       }
     });
+    this.apiService.getPastMeetings().subscribe((data: any) => {
+      console.log(data, 'past');
+      if (data.result) {
+        data.data.model.forEach((meeting: any) => {
+          this.pushToPastMeetingsByDate(meeting);
+        });
+        console.log(this.pastMeetingsByDate, 'PASTBYDATE');
+      }
+    });
   }
 
   pushToMeetingsByDate(
@@ -71,6 +92,23 @@ export class CalendarComponent implements OnInit {
       ] = [meeting];
     } else {
       this.meetingsByDate[
+        `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      ].push(meeting);
+    }
+  }
+
+  pushToPastMeetingsByDate(meeting: any) {
+    let date = new Date(meeting.startTime);
+    if (
+      !this.pastMeetingsByDate[
+        `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      ]
+    ) {
+      this.pastMeetingsByDate[
+        `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+      ] = [meeting];
+    } else {
+      this.pastMeetingsByDate[
         `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
       ].push(meeting);
     }

@@ -16,6 +16,7 @@ import { MeetingsFilterPipe } from './pipes/meetings-filter.pipe';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { UsersFilterPipe } from './pipes/users-filter.pipe';
+import { PastMeetingCardComponent } from './components/past-meeting-card/past-meeting-card.component';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { UsersFilterPipe } from './pipes/users-filter.pipe';
     MatAutocompleteModule,
     UserCardComponent,
     UsersFilterPipe,
+    PastMeetingCardComponent,
   ],
   providers: [HttpClient, MeetingsFilterPipe],
   declarations: [
@@ -50,6 +52,7 @@ import { UsersFilterPipe } from './pipes/users-filter.pipe';
     MeetingsFilterPipe,
     UserCardComponent,
     UsersFilterPipe,
+    PastMeetingCardComponent,
   ],
 })
 export class CoreModule {}

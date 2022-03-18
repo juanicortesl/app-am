@@ -3,25 +3,61 @@
     <div class="pt-2">
       <h3><strong>Calendario</strong></h3>
     </div>
-    <div class="row justify-content-center p-3" *ngFor="let date of dates">
-      <h3>{{ date | date: "dd" }} de {{ date | date: "MMMM" }}</h3>
-      <div class="col-md-12">
-        <div
-          class="row justify-content-center p-3"
-          *ngFor="let meeting of meetingsByDate[date]"
-        >
-          <div class="col-md-9">
-            <app-meeting-card
-              [type]="'available'"
-              [meeting]="meeting"
-              [addedToCalendar]="true"
-              [isOwner]="meeting.isOwner"
-              [isInvitation]="meeting.isInvitation"
-              (changedMeeting)="getMeetings()"
-            ></app-meeting-card>
+    <p>
+      <span
+        class="sk-type-selector px-2"
+        [ngClass]="{ selected: selectedType === 'future' }"
+        (click)="selectedType = 'future'"
+        >Próximos
+      </span>
+      <span
+        class="sk-type-selector px-2"
+        [ngClass]="{ selected: selectedType === 'past' }"
+        (click)="selectedType = 'past'"
+        >Pasados
+      </span>
+    </p>
+    <section *ngIf="selectedType === 'future'">
+      <div class="row justify-content-center p-3" *ngFor="let date of dates">
+        <h3>{{ date | date: "dd" }} de {{ date | date: "MMMM" }}</h3>
+        <div class="col-md-12">
+          <div
+            class="row justify-content-center p-3"
+            *ngFor="let meeting of meetingsByDate[date]"
+          >
+            <div class="col-md-9">
+              <app-meeting-card
+                [type]="'available'"
+                [meeting]="meeting"
+                [addedToCalendar]="true"
+                [isOwner]="meeting.isOwner"
+                [isInvitation]="meeting.isInvitation"
+                (changedMeeting)="getMeetings()"
+              ></app-meeting-card>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+    <section *ngIf="selectedType === 'past'">
+      <div
+        class="row justify-content-center p-3"
+        *ngFor="let date of pastDates"
+      >
+        <h3>{{ date | date: "dd" }} de {{ date | date: "MMMM" }}</h3>
+        <div class="col-md-12">
+          <div
+            class="row justify-content-center p-3"
+            *ngFor="let meeting of pastMeetingsByDate[date]"
+          >
+            <div class="col-md-9">
+              <app-past-meeting-card
+                [meeting]="meeting"
+              ></app-past-meeting-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

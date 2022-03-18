@@ -113,18 +113,40 @@ module.exports = (sequelize, DataTypes) => {
           },
           {
             association: "Attendees",
+            attributes: ["interests", "first_name"],
           },
         ],
       }).then((meetings) => {
-        // get other user besides currentUser that will attend meeting
-        meetings.forEach((meeting) => {
-          if (meeting.dataValues.offererId == userId) {
-            meeting.dataValues.other = meeting.dataValues.Searcher;
-          } else {
-            meeting.dataValues.other = meeting.dataValues.Offerer;
-          }
-          meeting.dataValues.offererId = null;
-        });
+        return meetings;
+      });
+
+      return response;
+    };
+
+    static getAllParticipatedByUserWithFull = async (status, userId) => {
+      const response = await Meeting.findAll({
+        where: {
+          status: status,
+          [Op.or]: [
+            { hostId: userId },
+            {
+              "$Attendees.id$": userId,
+              "$Attendees->Attends.status$": { [Op.ne]: "invited" },
+            },
+          ],
+        },
+        include: [
+          {
+            association: "Host",
+            attributes: ["interests", "first_name"],
+          },
+          {
+            association: "Attendees",
+            attributes: ["interests", "first_name"],
+            required: false,
+          },
+        ],
+      }).then((meetings) => {
         return meetings;
       });
 

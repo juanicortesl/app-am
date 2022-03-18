@@ -50,10 +50,9 @@ class ModelsController {
           );
         }
         if (status === "past") {
-          queryResult = await this.models[model].model.getAllFromUserWithFull(
-            "finished",
-            req.user.id
-          );
+          queryResult = await this.models[
+            model
+          ].model.getAllParticipatedByUserWithFull("finished", req.user.id);
         }
         if (status === "available") {
           queryResult = await this.models[model].model.getAllAvailableWithFull(

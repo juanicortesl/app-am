@@ -43,7 +43,6 @@ export class MeetingCardComponent implements OnInit {
     this.pictureColor =
       (this.meeting.startTime.getDate() + this.meeting.description.length) % 3;
     this.pictureFont = this.meeting.description?.length % 3;
-    console.log(this.pictureColor, this.pictureFont);
     this.start().subscribe((_) => {});
   }
   @HostListener('window:resize', ['$event'])
