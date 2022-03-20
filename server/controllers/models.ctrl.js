@@ -10,6 +10,10 @@ class ModelsController {
   models = {
     meetings: { model: Models.Meeting, name: "Meeting" },
     users: { model: Models.User, name: "User" },
+    suggestions: {
+      model: Models.Suggestion,
+      name: "Suggestion",
+    },
   };
 
   constructor() {
@@ -165,6 +169,10 @@ class ModelsController {
         attributesToCreate.availableSlots = 10;
         attributesToCreate.meetingLink =
           "skolton_" + Math.floor(Math.random() * 10000);
+      }
+
+      if (model === "suggestions") {
+        attributesToCreate.userId = req.user.id;
       }
 
       const queryResult = await this.models[model].model.add(

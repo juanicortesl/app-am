@@ -142,13 +142,13 @@ body {
 }
 // footer
 .sk-footer {
-  height: 80px;
+  height: 60px;
   padding: 10px;
   background-color: var(--main-color);
   color: white;
   position: fixed;
   z-index: 100;
-  bottom: 0;
+  bottom: 1.2rem;
   table {
     height: 100%;
     width: 100%;
@@ -167,14 +167,14 @@ body {
   .sk-tab {
     text-align: center;
     font-size: 0.7rem;
-    line-height: 1.8rem;
+    line-height: 1.2rem;
     font-weight: 300;
     text-align: center;
     min-width: 90px;
     overflow: hidden;
 
     i {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
     }
     table {
       tr td:first-child {
@@ -489,7 +489,15 @@ body {
     }
   }
   .sk-main {
-    padding: 100px 0 80px 0 !important;
+    padding: 100px 0 calc(100px) 0 !important;
+  }
+  .sk-suggestion-link {
+    position: absolute;
+    bottom: 0;
+    height: 1.2rem;
+    background-color: white;
+    text-decoration: underline;
+    color: blue;
   }
 }
 

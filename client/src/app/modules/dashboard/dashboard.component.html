@@ -2,7 +2,7 @@
   <section class="sk-main">
     <div class="container-fluid sk-header">
       <div class="row justify-content-between">
-        <div class="col-sm-2">
+        <div class="col-sm-6">
           <table>
             <tr>
               <td>
@@ -13,7 +13,13 @@
                 />
               </td>
               <td>
-                <div class="title">Skolton</div>
+                <div class="title">Skolton (versión beta)</div>
+              </td>
+              <td
+                class="sk-type-selector selected"
+                (click)="popupDisplayStyle = 'block'"
+              >
+                <p>Enviar sugerencias</p>
               </td>
             </tr>
           </table>
@@ -148,7 +154,10 @@
                 />
               </td>
               <td>
-                <h2>SKOLTON</h2>
+                <h2>Skolton</h2>
+              </td>
+              <td>
+                <h3>(Versión Beta)</h3>
               </td>
             </tr>
           </table>
@@ -166,8 +175,8 @@
     <div class="container-fluid">
       <router-outlet *ngIf="innerWidth < 800"></router-outlet>
     </div>
-    <div class="container-fluid sk-footer">
-      <div class="row justify-content-center h-100">
+    <div class="container-fluid sk-footer py-0 pt-2">
+      <div class="row justify-content-center h-80">
         <div
           [ngClass]="
             isSelected('home') ? 'col-3 sk-tab selected' : 'col-3 sk-tab'
@@ -255,5 +264,55 @@
         </div>
       </div>
     </div>
+    <div class="row justify-content-center sk-suggestion-link center w-100">
+      <div class="col" (click)="popupDisplayStyle = 'block'">
+        Enviar sugerencias
+      </div>
+    </div>
   </section>
 </section>
+
+<!-- suggestion popup -->
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{ display: popupDisplayStyle }"
+  [formGroup]="suggestionForm"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header left">
+        <h4 class="modal-title">Enviar sugerencia</h4>
+      </div>
+      <div class="modal-body left">
+        <div class="pt-2">
+          <div class="sk-comment-container">
+            <textarea
+              name="text"
+              formControlName="text"
+              maxlength="250"
+              placeholder="Escribe una sugerencia:"
+            ></textarea>
+            <div class="remaining-characters p-1 right">
+              <p>{{ suggestionForm.get("text")?.value.length }} / 250</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-success"
+          [disabled]="suggestionForm.invalid"
+          (click)="sendSuggestion()"
+        >
+          Enviar sugerencia
+        </button>
+        <button type="button" class="btn btn-danger" (click)="closePopup()">
+          Volver
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

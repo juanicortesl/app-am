@@ -37,6 +37,10 @@ export class ApiService {
       `models/meetings/${meetingId}/accept-invitation`
     );
   }
+
+  addSuggestion(body: any) {
+    return this.genericPost(body, `models/suggestions/`);
+  }
   addMeetingToCalendar(meetingId: number) {
     return this.genericPut(
       { status: 'request' },

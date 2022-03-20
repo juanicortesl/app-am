@@ -1,5 +1,7 @@
+import { ApiService } from 'src/app/core/http/api.service';
 import { Router } from '@angular/router';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +11,11 @@ import { Component, HostListener, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
   page = 'home';
   public innerWidth: any;
-  constructor(private router: Router) {}
+  popupDisplayStyle = 'none';
+  public suggestionForm = new FormGroup({
+    text: new FormControl('', [Validators.required, Validators.minLength(1)]),
+  });
+  constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit(): void {
     if (this.router.url.includes('profile')) this.page = 'profile';
@@ -29,5 +35,20 @@ export class DashboardComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.innerWidth = window.innerWidth;
+  }
+
+  closePopup() {
+    this.popupDisplayStyle = 'none';
+  }
+  get suggestionText() {
+    return this.suggestionForm.get('text')?.value;
+  }
+  sendSuggestion() {
+    this.closePopup();
+    this.apiService
+      .addSuggestion({ text: this.suggestionText })
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }
