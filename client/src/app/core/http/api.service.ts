@@ -69,7 +69,10 @@ export class ApiService {
     );
   }
   cancelMeeting(meetingId: number) {
-    return this.genericDelete(`models/meetings/${meetingId}`);
+    return this.genericPut(
+      { status: 'canceled' },
+      `models/meetings/${meetingId}/cancel`
+    );
   }
   getNextMeetings() {
     return this.genericGet('models/meetings/next');
@@ -78,7 +81,9 @@ export class ApiService {
   getOfferedMeetings() {
     return this.genericGet('models/meetings/offered');
   }
-
+  getCanceledMeetings() {
+    return this.genericGet('models/meetings/canceled');
+  }
   getPastMeetings() {
     return this.genericGet('models/meetings/past');
   }

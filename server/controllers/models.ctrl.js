@@ -58,6 +58,11 @@ class ModelsController {
             model
           ].model.getAllParticipatedByUserWithFull("finished", req.user.id);
         }
+        if (status === "canceled") {
+          queryResult = await this.models[
+            model
+          ].model.getAllParticipatedByUserWithFull("canceled", req.user.id);
+        }
         if (status === "available") {
           queryResult = await this.models[model].model.getAllAvailableWithFull(
             req.user.id
@@ -454,6 +459,18 @@ class ModelsController {
           }
           // update meeting status
           newMeetingAttributes = { status: "finished" };
+        }
+
+        if (mode === "cancel") {
+          // check that user is host
+          if (meeting.hostId !== req.user.id) {
+            return res.status(404).send({
+              result: false,
+              message: "User is not the host of the meeting",
+            });
+          }
+          // update meeting status
+          newMeetingAttributes = { status: "canceled" };
         }
 
         [updatedRows, queryResults] = await this.models[model].model.updateById(

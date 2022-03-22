@@ -27,6 +27,7 @@
           >
             <div class="col-md-9">
               <app-meeting-card
+                *ngIf="!meeting.canceled"
                 [type]="'available'"
                 [meeting]="meeting"
                 [addedToCalendar]="meeting.addedToCalendar"
@@ -34,6 +35,10 @@
                 [isInvitation]="meeting.isInvitation"
                 (changedMeeting)="getMeetings()"
               ></app-meeting-card>
+              <app-canceled-meeting-card
+                *ngIf="meeting.canceled"
+                [meeting]="meeting"
+              ></app-canceled-meeting-card>
             </div>
           </div>
         </div>

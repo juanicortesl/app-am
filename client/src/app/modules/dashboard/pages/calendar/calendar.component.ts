@@ -72,17 +72,27 @@ export class CalendarComponent implements OnInit {
         console.log(this.pastMeetingsByDate, 'PASTBYDATE');
       }
     });
+    this.apiService.getCanceledMeetings().subscribe((data: any) => {
+      console.log(data, 'canceled');
+      if (data.result) {
+        data.data.model.forEach((meeting: any) => {
+          this.pushToMeetingsByDate(meeting, false, true, false, true);
+        });
+      }
+    });
   }
 
   pushToMeetingsByDate(
     meeting: any,
     isOwner: boolean,
     isInvitation: boolean = false,
-    addedToCalendar: boolean = true
+    addedToCalendar: boolean = true,
+    canceled: boolean = false
   ) {
     meeting.isOwner = isOwner;
     meeting.isInvitation = isInvitation;
     meeting.addedToCalendar = addedToCalendar;
+    meeting.canceled = canceled;
     let date = new Date(meeting.startTime);
     if (
       !this.meetingsByDate[
