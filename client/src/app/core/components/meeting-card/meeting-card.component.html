@@ -125,6 +125,7 @@
                 *ngIf="
                   type === 'available' &&
                   !addedToCalendar &&
+                  !isInvitation &&
                   meeting.availableSlots > 0
                 "
                 (click)="addToCalendar()"
@@ -160,7 +161,7 @@
                 class="sk-button secondary"
                 *ngIf="
                   type === 'available' &&
-                  addedToCalendar &&
+                  !addedToCalendar &&
                   !isOwner &&
                   isInvitation
                 "
@@ -327,6 +328,7 @@
                 *ngIf="
                   type === 'available' &&
                   !addedToCalendar &&
+                  !isInvitation &&
                   meeting.availableSlots > 0
                 "
                 (click)="addToCalendar()"
@@ -362,7 +364,7 @@
                 class="sk-button secondary"
                 *ngIf="
                   type === 'available' &&
-                  addedToCalendar &&
+                  !addedToCalendar &&
                   !isOwner &&
                   isInvitation
                 "

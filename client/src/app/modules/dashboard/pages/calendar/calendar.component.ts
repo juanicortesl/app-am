@@ -59,7 +59,7 @@ export class CalendarComponent implements OnInit {
       console.log(data, 'invitations');
       if (data.result) {
         data.data.model.forEach((meeting: any) => {
-          this.pushToMeetingsByDate(meeting, false, true);
+          this.pushToMeetingsByDate(meeting, false, true, false);
         });
       }
     });
@@ -77,10 +77,12 @@ export class CalendarComponent implements OnInit {
   pushToMeetingsByDate(
     meeting: any,
     isOwner: boolean,
-    isInvitation: boolean = false
+    isInvitation: boolean = false,
+    addedToCalendar: boolean = true
   ) {
     meeting.isOwner = isOwner;
     meeting.isInvitation = isInvitation;
+    meeting.addedToCalendar = addedToCalendar;
     let date = new Date(meeting.startTime);
     if (
       !this.meetingsByDate[

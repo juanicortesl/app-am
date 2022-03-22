@@ -29,7 +29,7 @@
               <app-meeting-card
                 [type]="'available'"
                 [meeting]="meeting"
-                [addedToCalendar]="true"
+                [addedToCalendar]="meeting.addedToCalendar"
                 [isOwner]="meeting.isOwner"
                 [isInvitation]="meeting.isInvitation"
                 (changedMeeting)="getMeetings()"

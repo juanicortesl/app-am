@@ -303,6 +303,9 @@
           [type]="'available'"
           [meeting]="meeting"
           [disableActions]="true"
+          [isOwner]="false"
+          [addedToCalendar]="false"
+          [isInvitation]="meeting.type === 'private'"
         ></app-meeting-card>
       </div>
       <section *ngIf="meeting.type === 'private'">
