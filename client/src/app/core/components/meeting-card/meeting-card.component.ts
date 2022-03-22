@@ -21,6 +21,7 @@ export class MeetingCardComponent implements OnInit {
   popupTitle = '';
   popupMessage = '';
   popupAction: any;
+  canJoin: boolean = false;
   public widthThreshold = environment.widthThreshold;
   public innerWidth: any;
   public remainingTime: any = {};
@@ -53,6 +54,7 @@ export class MeetingCardComponent implements OnInit {
   updateTime() {
     const now = new Date();
     const diff = this.meeting.startTime.getTime() - now.getTime();
+    if (diff <= 15 * 1000 * 60) this.canJoin = true;
     // Cálculos para sacar lo que resta hasta ese tiempo objetivo / final
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor(diff / (1000 * 60 * 60));

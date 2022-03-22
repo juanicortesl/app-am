@@ -195,7 +195,7 @@
       <td>
         <button
           class="sk-button secondary"
-          *ngIf="type === 'ready'"
+          *ngIf="type === 'ready' && canJoin"
           (click)="goToMeeting()"
         >
           Ingresar

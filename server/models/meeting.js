@@ -92,6 +92,9 @@ module.exports = (sequelize, DataTypes) => {
             ],
           });
           testMeeting.startTime = new Date();
+          testMeeting.startTime.setMinutes(
+            testMeeting.startTime.getMinutes() + 16
+          );
           meetings.push(testMeeting);
         }
         return meetings;
