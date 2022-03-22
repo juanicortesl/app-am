@@ -444,6 +444,17 @@ class ModelsController {
           // update meeting status
           newMeetingAttributes = { status: "available" };
         }
+        if (mode === "finish") {
+          // check that user is host
+          if (meeting.hostId !== req.user.id) {
+            return res.status(404).send({
+              result: false,
+              message: "User is not the host of the meeting",
+            });
+          }
+          // update meeting status
+          newMeetingAttributes = { status: "finished" };
+        }
 
         [updatedRows, queryResults] = await this.models[model].model.updateById(
           id,

@@ -19,6 +19,7 @@ export class MeetingComponent implements OnInit {
   reviewGiven = false;
   meetingFinished = false;
   isHost = false;
+  endMeetingPopupStyle = 'none';
 
   // For Custom Controls
   isAudioMuted = true;
@@ -84,10 +85,7 @@ export class MeetingComponent implements OnInit {
   }
 
   handleClose = () => {
-    this.meetingFinished = true;
-    if (this.isHost) {
-      this.reviewGiven = true;
-    }
+    this.endMeeting();
     if (this.fullScreenMode) {
       this.executeCommand('resize-large-video');
     }
@@ -173,10 +171,7 @@ export class MeetingComponent implements OnInit {
       this.fullScreenMode = !this.fullScreenMode;
     }
     if (command == 'hangup') {
-      this.meetingFinished = true;
-      if (this.isHost) {
-        this.reviewGiven = true;
-      }
+      this.endMeeting();
       this.api.executeCommand(command);
       // this.router.navigate(['/thank-you']);
       return;
@@ -231,5 +226,26 @@ export class MeetingComponent implements OnInit {
           this.reviewGiven = true;
         }
       });
+  }
+
+  endMeeting() {
+    if (this.isHost) {
+      this.endMeetingPopupStyle = 'block';
+    } else {
+      this.meetingFinished = true;
+      this.api.executeCommand('hangup');
+    }
+  }
+  confirmEndMeeting() {
+    this.apiService.endMeeting(this.meeting.id).subscribe((data: any) => {
+      console.log(data);
+      this.meetingFinished = true;
+      this.reviewGiven = true;
+      this.endMeetingPopupStyle = 'none';
+    });
+  }
+  closePopup() {
+    console.log('CLOSING');
+    this.endMeetingPopupStyle = 'none';
   }
 }

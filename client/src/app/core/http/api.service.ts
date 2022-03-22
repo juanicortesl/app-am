@@ -62,6 +62,12 @@ export class ApiService {
   addMeetingReview(meetingId: number, body: any) {
     return this.genericPut(body, `models/meetings/${meetingId}/add-review`);
   }
+  endMeeting(meetingId: number) {
+    return this.genericPut(
+      { status: 'finished' },
+      `models/meetings/${meetingId}/finish`
+    );
+  }
   cancelMeeting(meetingId: number) {
     return this.genericDelete(`models/meetings/${meetingId}`);
   }
