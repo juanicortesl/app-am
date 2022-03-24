@@ -2,7 +2,7 @@
 
 const express = require("express");
 const Models = require("../models");
-
+const utils = require("../utils/utils");
 class ModelsController {
   path = "/models";
   router = express.Router();
@@ -346,6 +346,11 @@ class ModelsController {
             attendeeId: attributesToUpdate.inviteeId,
             meetingId: meeting.dataValues.id,
           });
+          const attendee = await Models.User.getById(
+            attributesToUpdate.inviteeId
+          );
+          const host = await Models.User.getById(req.user.id);
+          utils.sendInvitationEmail(attendee, host, meeting);
           newMeetingAttributes = { status: "available" };
         }
         if (mode === "accept-invitation") {
