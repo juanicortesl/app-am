@@ -30,6 +30,15 @@ class AuthenticationController {
     attributesToCreate.password = hashPassword(attributesToCreate.password);
 
     try {
+      const existingUser = await this.users[type].model.getByEmail(
+        attributesToCreate.email
+      );
+      if (existingUser) {
+        return res.status(409).send({
+          result: false,
+          message: "Email is already used",
+        });
+      }
       const user = await this.users[type].model.add(attributesToCreate);
       const token = jwt.sign({ user: { id: user.id } }, process.env.SEED, {
         expiresIn: process.env.TIME_TOKEN,

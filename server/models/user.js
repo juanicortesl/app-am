@@ -126,7 +126,10 @@ module.exports = (sequelize, DataTypes) => {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       type: DataTypes.STRING,
       last_name: DataTypes.STRING,
-      email: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+      },
       password: DataTypes.STRING,
       address: DataTypes.STRING,
       birth_date: DataTypes.DATE,

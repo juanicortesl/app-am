@@ -29,6 +29,9 @@
           placeholder="Ingresa tu correo"
           formControlName="email"
         />
+        <p class="pt-2 left error" *ngIf="emailUsed">
+          Este correo ya está siendo utilizado.
+        </p>
         <p id="emailHelp" class="pt-2 left">
           Te servirá para entrar a tu cuenta y para recuperar tu contraseña si
           la olvidas

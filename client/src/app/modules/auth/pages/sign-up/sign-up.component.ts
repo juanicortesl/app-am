@@ -36,6 +36,7 @@ export class SignUpComponent implements OnInit {
   errorPopup = 'none';
   errorTitle = '';
   errorMessage = '';
+  emailUsed = false;
   interests = [
     {
       name: 'actualidad',
@@ -116,6 +117,7 @@ export class SignUpComponent implements OnInit {
         },
         error: (error: any) => {
           this.loading = false;
+          this.emailUsed = true;
           this.openErrorPopup(
             'Error creando la cuenta',
             'Verifica que los campos estén correctos'
