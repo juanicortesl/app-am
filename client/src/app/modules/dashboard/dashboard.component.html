@@ -301,6 +301,9 @@
         </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closePopup()">
+          Volver
+        </button>
         <button
           type="button"
           class="btn btn-success"
@@ -308,9 +311,6 @@
           (click)="sendSuggestion()"
         >
           Enviar sugerencia
-        </button>
-        <button type="button" class="btn btn-danger" (click)="closePopup()">
-          Volver
         </button>
       </div>
     </div>
