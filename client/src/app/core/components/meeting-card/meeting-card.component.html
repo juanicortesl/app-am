@@ -94,6 +94,10 @@
         <table>
           <tr>
             <td>
+              <p class="pt-2 center" *ngIf="meeting.type == 'private'">
+                <i class="bi bi-person-circle"></i>
+                <strong> {{ meeting.Attendees.length }} invitados</strong>
+              </p>
               <p
                 class="pt-2 center"
                 *ngIf="meeting.availableSlots > 0 && meeting.type == 'open'"
@@ -314,6 +318,10 @@
         <table>
           <tr>
             <td>
+              <p class="pt-2 center" *ngIf="meeting.type == 'private'">
+                <i class="bi bi-person-circle"></i>
+                <strong> {{ meeting.Attendees.length }} invitados</strong>
+              </p>
               <p
                 class="pt-2 center"
                 *ngIf="meeting.availableSlots > 0 && meeting.type == 'open'"
