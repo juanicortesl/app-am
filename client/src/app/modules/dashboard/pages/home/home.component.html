@@ -86,21 +86,25 @@
     <div class="pt-4">
       <h3><strong>Buscar eventos por tema</strong></h3>
     </div>
-    <div class="row justify-content-center pt-2">
-      <div class="col-md-4 py-2 px-3" *ngFor="let theme of themes">
-        <div class="sk-theme-card" (click)="goToSearcher(theme)">
-          <table>
-            <tr>
-              <td class="p-2">
-                <i [class]="theme.icon"></i>
-              </td>
-              <td class="left">
-                <h4>
-                  <strong>{{ theme.title }}</strong>
-                </h4>
-              </td>
-            </tr>
-          </table>
+    <div class="row justify-content-center p-0">
+      <div class="col-6 p-0">
+        <div class="row justify-content-center pt-2">
+          <div class="col-md-6 py-2 px-3" *ngFor="let theme of themes">
+            <div class="sk-theme-card" (click)="goToSearcher(theme)">
+              <table>
+                <tr>
+                  <td class="p-2">
+                    <i [class]="theme.icon"></i>
+                  </td>
+                  <td class="left">
+                    <h4>
+                      <strong>{{ theme.title }}</strong>
+                    </h4>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
