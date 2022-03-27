@@ -175,8 +175,8 @@
     <div class="container-fluid">
       <router-outlet *ngIf="innerWidth < 800"></router-outlet>
     </div>
-    <div class="container-fluid sk-footer py-0 pt-2">
-      <div class="row justify-content-center h-80">
+    <div class="container-fluid sk-footer pt-1 py-0">
+      <div class="row justify-content-center h-80 py-0">
         <div
           [ngClass]="
             isSelected('home') ? 'col-3 sk-tab selected' : 'col-3 sk-tab'

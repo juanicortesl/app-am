@@ -143,9 +143,8 @@ body {
 // footer
 .sk-footer {
   height: 60px;
-  padding: 10px;
-  background-color: var(--main-color);
-  color: white;
+  background-color: white;
+  color: var(--main-color);
   position: fixed;
   z-index: 100;
   bottom: 1.2rem;
@@ -183,7 +182,9 @@ body {
     }
     &.selected {
       background-color: var(--main-color);
-      color: white;
+      color: white !important;
+      border-right: 2px solid white;
+      border-left: 2px solid white;
     }
   }
 }
