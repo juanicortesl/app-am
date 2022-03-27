@@ -401,6 +401,10 @@ class ModelsController {
             meetingId: meeting.dataValues.id,
             status: "accepted",
           });
+          // send email
+          const attendee = await Models.User.getById(req.user.id);
+          const host = await Models.User.getById(meeting.dataValues.hostId);
+          await utils.sendConfirmationEmailAttendee(attendee, host, meeting);
           // update meeting status
           let newAvailableSlots = meeting.dataValues.availableSlots - 1;
           let newStatus = newAvailableSlots <= 0 ? "full" : "available";

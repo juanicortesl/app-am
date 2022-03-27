@@ -30,10 +30,7 @@ function getIcalObjectInstance(
     description: description, // 'More description'
     location: location, // 'Delhi'
     url: url, // 'event url'
-    organizer: {
-      // 'organizer details'
-      name: name,
-    },
+    method: "REQUEST",
   });
   return cal;
 }
@@ -197,6 +194,62 @@ module.exports = {
     //       contentType: "text/calendar",
     //       method: "request",
     //       content: new Buffer.from(calendarObj.toString()),
+    //     },
+    //   ];
+    //   mailOptions["alternatives"] = alternatives;
+    // }
+
+    return new Promise((resolve, reject) => {
+      transport.sendMail(mailOptions, function (err, result) {
+        if (err) {
+          console.log(err);
+          reject("Couldn't send email");
+        } else {
+          try {
+            resolve("Email sent");
+          } catch (err) {
+            reject(err);
+          }
+        }
+      });
+    });
+  },
+  async sendConfirmationEmailAttendee(attendee, host, meeting) {
+    let date = new Date(meeting.startTime);
+    const calendarObj = await getIcalObjectInstance(
+      meeting.startTime,
+      meeting.startTime,
+      meeting.name,
+      meeting.description,
+      "",
+      "https://skolton-338519.rj.r.appspot.com",
+      host.first_name,
+      ""
+    );
+    console.log(date, "DATE");
+    let mailOptions = {
+      from: `Skolton <${process.env.MAIL_USER}>`, // sender
+      to: attendee.email, // receiver
+      subject: "Tertulia en tu calendario", // Subject
+      html: `<h2>Hola ${attendee.first_name},</h2>
+      <p>Has aceptado participar de la tertulia ${meeting.name} de ${
+        host.first_name
+      } el ${dateFormatter.format(
+        date
+      )} (Hora de Chile). Puedes desistir desde tu <a href="https://skolton-338519.rj.r.appspot.com/#/dashboard/calendar">calendario</a></p>`, // html body
+      icalEvent: {
+        filename: "invitation.ics",
+        method: "request",
+        content: calendarObj.toString(),
+      },
+    };
+    // console.log(calendarObj.toString(), "CALENDAR");
+    // if (calendarObj) {
+    //   let alternatives = [
+    //     {
+    //       contentType: "text/calendar",
+    //       method: "request",
+    //       content: calendarObj.toString(),
     //     },
     //   ];
     //   mailOptions["alternatives"] = alternatives;
