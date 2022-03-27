@@ -38,12 +38,21 @@ export class CalendarComponent implements OnInit {
   }
 
   getMeetings() {
+    const now = new Date();
     this.meetingsByDate = {};
     this.apiService.getOfferedMeetings().subscribe((data: any) => {
       console.log(data);
       if (data.result) {
         data.data.model.forEach((meeting: any) => {
-          this.pushToMeetingsByDate(meeting, true);
+          let isToday = false;
+          let meetingDate = new Date(meeting.startTime);
+          if (
+            meetingDate.getDate() === now.getDate() &&
+            meetingDate.getMonth() === now.getMonth()
+          ) {
+            isToday = true;
+          }
+          this.pushToMeetingsByDate(meeting, true, false, true, false, isToday);
         });
       }
     });
@@ -51,7 +60,22 @@ export class CalendarComponent implements OnInit {
       console.log(data, 'WILLATTEND');
       if (data.result) {
         data.data.model.forEach((meeting: any) => {
-          this.pushToMeetingsByDate(meeting, false);
+          let isToday = false;
+          let meetingDate = new Date(meeting.startTime);
+          if (
+            meetingDate.getDate() === now.getDate() &&
+            meetingDate.getMonth() === now.getMonth()
+          ) {
+            isToday = true;
+          }
+          this.pushToMeetingsByDate(
+            meeting,
+            false,
+            false,
+            true,
+            false,
+            isToday
+          );
         });
       }
     });
@@ -87,12 +111,14 @@ export class CalendarComponent implements OnInit {
     isOwner: boolean,
     isInvitation: boolean = false,
     addedToCalendar: boolean = true,
-    canceled: boolean = false
+    canceled: boolean = false,
+    isToday: boolean = false
   ) {
     meeting.isOwner = isOwner;
     meeting.isInvitation = isInvitation;
     meeting.addedToCalendar = addedToCalendar;
     meeting.canceled = canceled;
+    meeting.isToday = isToday;
     let date = new Date(meeting.startTime);
     if (
       !this.meetingsByDate[
