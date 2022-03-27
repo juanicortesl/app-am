@@ -110,6 +110,14 @@
               </p>
             </td>
           </tr>
+          <tr *ngIf="type === 'ready'">
+            <td class="pt-2 center">
+              <p *ngIf="remainingTime.hours >= 0">
+                faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m
+              </p>
+              <p *ngIf="remainingTime.hours < 0">Ya comenzó</p>
+            </td>
+          </tr>
           <tr *ngIf="addedToCalendar">
             <td class="">
               <p class="pt-2" [routerLink]="'/dashboard/calendar'">
@@ -184,14 +192,6 @@
   </table>
   <table>
     <tr *ngIf="type === 'ready'">
-      <td class="pt-2">
-        <p *ngIf="remainingTime.hours >= 0">
-          faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m
-        </p>
-        <p *ngIf="remainingTime.hours < 0">Ya comenzó</p>
-      </td>
-    </tr>
-    <tr *ngIf="type === 'ready'">
       <td>
         <button
           class="sk-button secondary"
@@ -200,6 +200,13 @@
         >
           Ingresar
         </button>
+        <p
+          class="pt-2"
+          *ngIf="type === 'ready' && !canJoin"
+          (click)="goToMeeting()"
+        >
+          Ingresa cuando queden menos de 15 minutos
+        </p>
       </td>
     </tr>
   </table>
@@ -401,6 +408,13 @@
         >
           Ingresar
         </button>
+        <p
+          class="pt-2"
+          *ngIf="type === 'ready' && !canJoin"
+          (click)="goToMeeting()"
+        >
+          Ingresa cuando queden menos de 15 minutos
+        </p>
       </td>
     </tr>
   </table>
