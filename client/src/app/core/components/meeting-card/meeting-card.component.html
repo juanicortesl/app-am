@@ -113,7 +113,7 @@
           <tr *ngIf="type === 'ready'">
             <td class="pt-2 center">
               <p *ngIf="remainingTime.hours >= 0">
-                faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m
+                Faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m
               </p>
               <p *ngIf="remainingTime.hours < 0">Ya comenzó</p>
             </td>
@@ -394,7 +394,7 @@
     <tr *ngIf="type === 'ready'">
       <td class="pt-2">
         <p *ngIf="remainingTime.hours <= 1">
-          faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m
+          Faltan {{ remainingTime.hours }}h:{{ remainingTime.minutes }}m
         </p>
         <p *ngIf="remainingTime.hours > 1">Ya comenzó</p>
       </td>
