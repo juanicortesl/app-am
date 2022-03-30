@@ -7,6 +7,11 @@
   class="sk-meeting-card p-3"
   *ngIf="innerWidth >= widthThreshold && !loading"
 >
+  <div class="row host-indicator" *ngIf="isOwner">
+    <div class="col-12">
+      <p><strong>Organizador</strong></p>
+    </div>
+  </div>
   <table>
     <tr>
       <td class="left" style="width: 30%" *ngIf="type === 'available'">
@@ -219,6 +224,11 @@
   class="sk-meeting-card p-3"
   *ngIf="innerWidth < widthThreshold && !loading"
 >
+  <div class="row host-indicator" *ngIf="isOwner">
+    <div class="col-12">
+      <p><strong>Organizador</strong></p>
+    </div>
+  </div>
   <table>
     <tr>
       <td class="left" *ngIf="type === 'available'">
