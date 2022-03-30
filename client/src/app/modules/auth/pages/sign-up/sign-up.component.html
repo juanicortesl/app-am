@@ -187,9 +187,11 @@
       </div>
       <div class="row p-2" *ngFor="let interest of interests">
         <div
-          class="interest-card"
+          class="sk-interest-card"
           [ngClass]="
-            !interest.selected ? 'interest-card' : 'interest-card selected'
+            !interest.selected
+              ? 'sk-interest-card'
+              : 'sk-interest-card selected'
           "
         >
           <table>

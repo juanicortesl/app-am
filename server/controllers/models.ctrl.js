@@ -107,19 +107,14 @@ class ModelsController {
 
   getById = async (req, res) => {
     const model = req.params.model;
-    const id = req.params.id;
+    let id = req.params.id;
     const mode = req.params.mode;
 
     try {
       let queryResult;
       // users logic
       if (model === "users") {
-        res.status(200).send({
-          result: false,
-          message: "Something went wrong, please check the error section",
-          errors: [{ msg: "Endpoint not available", location: "url" }],
-        });
-        return;
+        id = req.user.id;
       }
       if (mode === "simple") {
         queryResult = await this.models[model].model.getById(id);

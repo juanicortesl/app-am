@@ -1,100 +1,100 @@
-<div class="row">
-  <div class="col">
-    <div class="row pb-5 justify-between">
-      <div class="col-md-10">
-        <div class="sk-page-title">Perfil</div>
-      </div>
-      <div class="col-md-2">
-        <button class="btn-logout" (click)="logOut()">Cerrar sesión</button>
+<div class="row justify-content-center px-2">
+  <div class="col-md-8 center" [formGroup]="profileForm">
+    <div class="pt-2">
+      <h3><strong>Yo</strong></h3>
+    </div>
+    <div class="row justify-content-center pt-4">
+      <button class="sk-button sign-up" (click)="logOut()">
+        Cerrar sesion
+      </button>
+    </div>
+    <h4 class="left py-1">
+      <strong>Nombre:</strong>
+    </h4>
+    <div class="p-2">
+      <input
+        type="text"
+        class="form-control"
+        id="inputName"
+        aria-describedby="nameHelp"
+        placeholder="Ingresa tu nombre"
+        formControlName="firstName"
+      />
+      <p id="nameHelp" class="pt-2 left">Así aparecerá en Skolton</p>
+    </div>
+    <div class="pt-4">
+      <h3><strong>¿Cuáles con tus intereses?</strong></h3>
+    </div>
+    <div class="py-3 left">
+      <h5>
+        Elige todos los que quieras y te mantendremos actualizado sobre tus
+        intereses a través de las notificaciones
+      </h5>
+    </div>
+    <div class="row p-2" *ngFor="let interest of interests">
+      <div
+        class="sk-interest-card"
+        [ngClass]="
+          !interest.selected ? 'sk-interest-card' : 'sk-interest-card selected'
+        "
+      >
+        <table>
+          <tr>
+            <td (click)="interest.selected = !interest.selected">
+              <i [class]="interest.icon"></i>
+            </td>
+            <td
+              *ngIf="!interest.other || !interest.selected"
+              (click)="interest.selected = !interest.selected"
+            >
+              <h4 class="left">{{ interest.name }}</h4>
+            </td>
+            <td *ngIf="interest.other && interest.selected">
+              <mat-form-field>
+                <mat-label>Ingresa un tema</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="interest.value"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </mat-form-field>
+            </td>
+            <td (click)="interest.selected = !interest.selected">
+              <i class="bi bi-check-circle-fill" *ngIf="interest.selected"></i>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
-    <div class="row px-5 sk-scroll-height profile-container">
-      <div class="col-md profile-info">
-        <div class="row">
-          <div>Nombre:</div>
+    <div class="pt-4">
+      <h3>
+        <strong>Descríbete para que la comunidad pueda conocerte</strong>
+      </h3>
+    </div>
+    <div class="pt-4">
+      <div class="sk-comment-container">
+        <textarea
+          name="comment"
+          formControlName="description"
+          placeholder="Descripción: "
+          maxlength="250"
+        ></textarea>
+        <div class="remaining-characters p-1 left">
+          <p>
+            {{ profileForm.get("description")?.value.length }} / 250 caracteres
+          </p>
         </div>
-        <div class="row p-2">
-          <input type="text" placeholder="Nombre" />
-        </div>
-        <div class="row pt-3">
-          <div>Intereses:</div>
-        </div>
-        <div class="row pt-2">
-          <div class="col">
-            <mat-chip-list>
-              <mat-chip
-                *ngFor="let item of interests"
-                [ngClass]="
-                  !item.selected
-                    ? 'sk-regular-chip'
-                    : 'sk-regular-chip selected'
-                "
-                (click)="item.selected = !item.selected"
-              >
-                {{ item.name }} </mat-chip
-              ><input
-                type="text"
-                placeholder="OTROS"
-                [ngModel]="newInterest"
-                (keyup.enter)="addInterest()"
-                (change)="changeInterest($event)"
-              />
-            </mat-chip-list>
-          </div>
-        </div>
-        <div class="row pt-3">
-          <div>Horarios:</div>
-        </div>
-        <div class="row">
-          <div class="col pt-4">
-            <div class="input-group">
-              <input
-                class="form-control"
-                placeholder="yyyy-mm-dd"
-                name="dp"
-                [(ngModel)]="newDate"
-                ngbDatepicker
-                #d="ngbDatepicker"
-              />
-              <div class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary calendar"
-                  (click)="d.toggle()"
-                  type="button"
-                >
-                  <i class="bi bi-calendar-date"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <ngb-timepicker [(ngModel)]="newTime"></ngb-timepicker>
-          </div>
-          <div class="col add-icon" (click)="addTime()">
-            <i class="bi bi-plus-circle-fill"></i>
-          </div>
-
-          <div class="row">
-            <div class="col sk-interests-subtitle">
-              <p>Horarios agregados:</p>
-            </div>
-          </div>
-          <div class="row" *ngFor="let item of timeList; let i = index">
-            <div class="col-md-3">
-              <div class="date">
-                {{ item | date: "dd/MM/yyyy hh:mm" }}
-              </div>
-            </div>
-            <div
-              class="col-md-1 remove-icon align-middle"
-              (click)="timeList.splice(i, 1)"
-            >
-              <i class="bi bi-x-circle-fill"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-md"></div>
       </div>
+    </div>
+    <div class="row justify-content-center pt-4">
+      <button
+        class="sk-button sign-up"
+        [disabled]="profileForm.invalid || loading"
+        (click)="updateUser()"
+      >
+        Guardar
+      </button>
     </div>
   </div>
 </div>

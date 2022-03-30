@@ -103,7 +103,13 @@ export class ApiService {
   }
 
   getUsers() {
-    return this.genericGet('models/users/all');
+    return this.genericGet(`models/users`);
+  }
+
+  getCurrentUser() {
+    const id = localStorage.getItem('userId');
+    console.log(id, 'ID');
+    return this.genericGet(`models/users/${id}/simple`);
   }
 
   genericPost(body: any = {}, endpoint: string) {
