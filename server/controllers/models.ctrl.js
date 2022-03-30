@@ -184,6 +184,14 @@ class ModelsController {
         attributesToCreate
       );
 
+      // send confirmation email
+      console.log("CREATED MEETING");
+      if (model === "meetings") {
+        const host = await Models.User.getById(req.user.id);
+        const email = await utils.sendConfirmationEmailHost(host, queryResult);
+        console.log(email, "EMAIL OBJECT");
+      }
+
       res.status(200).send({
         result: true,
         message: this.models[model].name + " successfully created",

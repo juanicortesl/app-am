@@ -214,6 +214,50 @@ module.exports = {
       });
     });
   },
+  async sendConfirmationEmailHost(host, meeting) {
+    console.log(host, "HOST");
+    let date = new Date(meeting.startTime);
+    const calendarObj = await getIcalObjectInstance(
+      meeting.startTime,
+      meeting.startTime,
+      meeting.name,
+      meeting.description,
+      "",
+      "https://skolton-338519.rj.r.appspot.com",
+      host.first_name,
+      ""
+    );
+    console.log(date, "DATE");
+    let mailOptions = {
+      from: `Skolton <${process.env.MAIL_USER}>`, // sender
+      to: host.email, // receiver
+      subject: "Tertulia creada", // Subject
+      html: `<h2>Hola ${host.first_name},</h2>
+      <p>Has creado la tertulia ${meeting.name} para el ${dateFormatter.format(
+        date
+      )} (Hora de Chile). Puedes verla en <a href="https://skolton-338519.rj.r.appspot.com/#/dashboard/calendar">calendario Skolton</a></p>`, // html body
+      icalEvent: {
+        filename: "invitation.ics",
+        method: "request",
+        content: calendarObj.toString(),
+      },
+    };
+    console.log(mailOptions, "MAILOPTIONS");
+    return new Promise((resolve, reject) => {
+      transport.sendMail(mailOptions, function (err, result) {
+        if (err) {
+          console.log(err);
+          reject("Couldn't send email");
+        } else {
+          try {
+            resolve("Email sent");
+          } catch (err) {
+            reject(err);
+          }
+        }
+      });
+    });
+  },
   async sendConfirmationEmailAttendee(attendee, host, meeting) {
     let date = new Date(meeting.startTime);
     const calendarObj = await getIcalObjectInstance(
@@ -243,17 +287,6 @@ module.exports = {
         content: calendarObj.toString(),
       },
     };
-    // console.log(calendarObj.toString(), "CALENDAR");
-    // if (calendarObj) {
-    //   let alternatives = [
-    //     {
-    //       contentType: "text/calendar",
-    //       method: "request",
-    //       content: calendarObj.toString(),
-    //     },
-    //   ];
-    //   mailOptions["alternatives"] = alternatives;
-    // }
 
     return new Promise((resolve, reject) => {
       transport.sendMail(mailOptions, function (err, result) {
