@@ -103,7 +103,7 @@ export class ApiService {
   }
 
   getUsers() {
-    return this.genericGet(`models/users`);
+    return this.genericGet(`models/users/full`);
   }
 
   getCurrentUser() {
