@@ -233,7 +233,7 @@ module.exports = {
       to: host.email, // receiver
       subject: "Tertulia creada", // Subject
       html: `<h2>Hola ${host.first_name},</h2>
-      <p>Has creado la tertulia ${meeting.name} para el ${dateFormatter.format(
+      <p>has creado la tertulia ${meeting.name} para el ${dateFormatter.format(
         date
       )} (Hora de Chile). Puedes verla en <a href="https://skolton-338519.rj.r.appspot.com/#/dashboard/calendar">calendario Skolton</a></p>`, // html body
       icalEvent: {
@@ -288,6 +288,37 @@ module.exports = {
       },
     };
 
+    return new Promise((resolve, reject) => {
+      transport.sendMail(mailOptions, function (err, result) {
+        if (err) {
+          console.log(err);
+          reject("Couldn't send email");
+        } else {
+          try {
+            resolve("Email sent");
+          } catch (err) {
+            reject(err);
+          }
+        }
+      });
+    });
+  },
+  async sendAcceptedInvitationEmailHost(host, attendee, meeting) {
+    console.log(host, "HOST");
+    let date = new Date(meeting.startTime);
+    console.log(date, "DATE");
+    let mailOptions = {
+      from: `Skolton <${process.env.MAIL_USER}>`, // sender
+      to: host.email, // receiver
+      subject: "Invitación a tertulia aceptada", // Subject
+      html: `<h2>Hola ${host.first_name},</h2>
+      <p>${attendee.first_name} aceptó tu invitación a la tertulia ${
+        meeting.name
+      } para el ${dateFormatter.format(
+        date
+      )} (Hora de Chile). Puedes verla en <a href="https://skolton-338519.rj.r.appspot.com/#/dashboard/calendar">calendario Skolton</a></p>`, // html body
+    };
+    console.log(mailOptions, "MAILOPTIONS");
     return new Promise((resolve, reject) => {
       transport.sendMail(mailOptions, function (err, result) {
         if (err) {

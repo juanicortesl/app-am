@@ -371,6 +371,9 @@ class ModelsController {
             status: newStatus,
             availableSlots: newAvailableSlots,
           };
+          const attendee = await Models.User.getById(req.user.id);
+          const host = await Models.User.getById(meeting.dataValues.hostId);
+          await utils.sendAcceptedInvitationEmailHost(host, attendee, meeting);
         }
         if (mode === "add-to-calendar") {
           // check if meeting exists and is available
