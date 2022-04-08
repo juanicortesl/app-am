@@ -44,6 +44,12 @@ module.exports = {
       availableSlots: {
         type: Sequelize.INTEGER,
       },
+      review_comment: {
+        type: Sequelize.STRING,
+      },
+      review_rate: {
+        type: Sequelize.FLOAT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -215,17 +215,31 @@ export class MeetingComponent implements OnInit {
     return this.reviewForm.get('comment')?.value;
   }
   addReview() {
-    this.apiService
-      .addMeetingReview(this.meeting.id, {
-        review_rate: this.review_rate,
-        review_comment: this.review_comment,
-      })
-      .subscribe((data: any) => {
-        console.log(data);
-        if (data.result) {
-          this.reviewGiven = true;
-        }
-      });
+    if (!this.isHost) {
+      this.apiService
+        .addMeetingReview(this.meeting.id, {
+          review_rate: this.review_rate,
+          review_comment: this.review_comment,
+        })
+        .subscribe((data: any) => {
+          console.log(data);
+          if (data.result) {
+            this.reviewGiven = true;
+          }
+        });
+    } else {
+      this.apiService
+        .addMeetingReviewHost(this.meeting.id, {
+          review_rate: this.review_rate,
+          review_comment: this.review_comment,
+        })
+        .subscribe((data: any) => {
+          console.log(data);
+          if (data.result) {
+            this.reviewGiven = true;
+          }
+        });
+    }
   }
 
   endMeeting() {
@@ -240,7 +254,7 @@ export class MeetingComponent implements OnInit {
     this.apiService.endMeeting(this.meeting.id).subscribe((data: any) => {
       console.log(data);
       this.meetingFinished = true;
-      this.reviewGiven = true;
+      this.reviewGiven = false;
       this.endMeetingPopupStyle = 'none';
     });
   }

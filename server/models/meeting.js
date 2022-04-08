@@ -344,6 +344,8 @@ module.exports = (sequelize, DataTypes) => {
       availableSlots: DataTypes.INTEGER,
       meetingLink: DataTypes.STRING,
       name: DataTypes.STRING,
+      review_comment: DataTypes.STRING,
+      review_rate: DataTypes.FLOAT,
     },
     {
       sequelize,

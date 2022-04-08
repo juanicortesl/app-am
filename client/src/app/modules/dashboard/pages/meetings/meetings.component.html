@@ -1,5 +1,5 @@
 <div class="row justify-content-center px-4 pb-4">
-  <div class="col-md-8 center">
+  <div class="col-md-6 center">
     <div class="pt-2">
       <h3><strong>Crear tertulia</strong></h3>
     </div>
@@ -33,46 +33,43 @@
     <!-- step 1 begins -->
     <section class="pt-2" *ngIf="step === 1" [formGroup]="firstStepForm">
       <h4 class="left"><strong>Tipo de tertulia:</strong></h4>
-      <div class="row pt-3 justify-content-center">
-        <div class="col-md-10">
-          <table class="radio-table">
-            <tr>
-              <td style="width: 10%">
-                <input type="radio" value="open" formControlName="type" />
-              </td>
-              <td>
-                <h4>
-                  Abierta
-                  <span
-                    ngbTooltip="Cualquier integrante puede anotarse para asistir"
-                    triggers="click:blur"
-                    class="info"
-                  >
-                    ¿Qué es?</span
-                  >
-                </h4>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="radio" value="private" formControlName="type" />
-              </td>
-              <td>
-                <h4>
-                  Privada
-                  <span
-                    class="info"
-                    ngbTooltip="Tú decides a quién y a cuántas personas invitar"
-                    triggers="click:blur"
-                  >
-                    ¿Qué es?</span
-                  >
-                </h4>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+
+      <table class="radio-table">
+        <tr>
+          <td>
+            <input type="radio" value="open" formControlName="type" />
+          </td>
+          <td>
+            <h4>
+              Abierta
+              <span
+                ngbTooltip="Cualquier integrante puede anotarse para asistir"
+                triggers="click:blur"
+                class="info"
+              >
+                ¿Qué es?</span
+              >
+            </h4>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="radio" value="private" formControlName="type" />
+          </td>
+          <td>
+            <h4>
+              Privada
+              <span
+                class="info"
+                ngbTooltip="Tú decides a quién y a cuántas personas invitar"
+                triggers="click:blur"
+              >
+                ¿Qué es?</span
+              >
+            </h4>
+          </td>
+        </tr>
+      </table>
 
       <form class="example-form" *ngIf="type === 'private'">
         <h4 class="left">

@@ -62,6 +62,12 @@ export class ApiService {
   addMeetingReview(meetingId: number, body: any) {
     return this.genericPut(body, `models/meetings/${meetingId}/add-review`);
   }
+  addMeetingReviewHost(meetingId: number, body: any) {
+    return this.genericPut(
+      body,
+      `models/meetings/${meetingId}/add-review-host`
+    );
+  }
   endMeeting(meetingId: number) {
     return this.genericPut(
       { status: 'finished' },
