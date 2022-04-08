@@ -145,6 +145,7 @@ export class MeetingsComponent implements OnInit {
     try {
       this.apiService.addAvailableMeeting(this.meeting).subscribe({
         next: (data: any) => {
+          console.log(data);
           if (data.result) {
             this.step = 0;
             if (this.meeting.type === 'private') {
@@ -208,7 +209,6 @@ export class MeetingsComponent implements OnInit {
   get startTime() {
     return this.thirdStepForm.get('startTime')?.value;
   }
-
   get meeting() {
     let startTime = new Date(this.date);
     let endTime = new Date(this.date);
@@ -223,5 +223,14 @@ export class MeetingsComponent implements OnInit {
       availableSlots: 10,
       description: this.description,
     };
+  }
+
+  isStartTimeOK() {
+    let now = new Date();
+    let startTime = new Date(this.date);
+    let endTime = new Date(this.date);
+    startTime.setHours(this.startTime.hour);
+    startTime.setMinutes(this.startTime.minute);
+    return startTime.getTime() > now.getTime();
   }
 }
