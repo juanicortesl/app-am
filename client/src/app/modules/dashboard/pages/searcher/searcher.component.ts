@@ -16,7 +16,7 @@ export class SearcherComponent implements OnInit {
   filter: any = {};
   loading = false;
   searchInput = '';
-  selectedType = 'activities';
+  selectedType = 'all';
   usersData: any[] = [];
   loadingUsers = false;
   userFilterOptions = { searchInput: 'erte' };
