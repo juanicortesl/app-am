@@ -9,7 +9,7 @@
         <input matInput placeholder="" [(ngModel)]="searchInput" />
       </mat-form-field>
     </div>
-    <p>
+    <p *ngIf="!loading && !loadingUsers && searchInput.length > 0">
       <span
         class="sk-type-selector px-2"
         [ngClass]="{ selected: selectedType === 'all' }"
