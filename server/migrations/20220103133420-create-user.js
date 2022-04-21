@@ -36,6 +36,9 @@ module.exports = {
       gender: {
         type: Sequelize.STRING,
       },
+      description: {
+        type: Sequelize.STRING,
+      },
       interests: {
         type: Sequelize.ARRAY(Sequelize.STRING),
       },

@@ -54,6 +54,7 @@ class AuthenticationController {
         },
       });
     } catch (error) {
+      console.log(error);
       if (error.name === "SequelizeUniqueConstraintError") {
         const value = error.errors[0].value;
         const param = error.errors[0].path;
